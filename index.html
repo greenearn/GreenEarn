@@ -59,12 +59,9 @@
 
     let state = {
       currentUser: null,
-      adminPin: '7777',
-      adminRole: 'main',
       balance: 1250.00,
       dailyYield: 18.75,
       totalProfit: 340.50,
-      dailyBonus: 2.50,
       activeCategory: 'All',
       registeredUsers: [
         { 
@@ -86,32 +83,11 @@
           docType: 'Passport',
           idDocUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80',
           idDocUrlBack: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80'
-        },
-        { 
-          id: 2, 
-          username: 'Sophia Martinez', 
-          email: 'sophia.m@gmail.com', 
-          password: 'password123', 
-          balance: 450.00, 
-          kycStatus: 'Pending', 
-          role: 'Standard',
-          fullName: 'Sophia Martinez',
-          address: '123 Solar Way, Miami FL',
-          country: 'United States',
-          identityNumber: 'US-99281044',
-          phone: '+1 (555) 918-2233',
-          profession: 'Green Engineer',
-          companyName: 'SolarCorp Inc',
-          companyLocation: 'Miami, FL',
-          docType: 'Citizenship',
-          idDocUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
-          idDocUrlBack: ''
         }
       ],
       paymentMethods: [
         { id: 1, name: 'USDT (TRC-20)', detail: 'T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB' },
-        { id: 2, name: 'Bitcoin (BTC)', detail: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh' },
-        { id: 3, name: 'Ethereum (ERC-20)', detail: '0x71C3892AC910b892182047192' }
+        { id: 2, name: 'Bitcoin (BTC)', detail: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh' }
       ],
       activeInvestments: [
         { id: 1, name: 'MIDONG Solar Farm', amount: 100.00, duration: '1 Day', daysLeft: 1, payout: 101.50, icon: 'fa-sun', color: 'text-amber-400' }
@@ -120,13 +96,11 @@
         { id: 1, sender: 'admin', text: 'Welcome to GREENEARN! Please complete your KYC profile to begin investing.', time: '09:00' }
       ],
       transactions: [
-        { id: 101, type: 'Deposit', amount: 500.00, status: 'Completed', date: '2026-06-01 14:20', proof: '' },
-        { id: 102, type: 'Withdrawal', amount: 120.00, status: 'Pending', date: '2026-06-03 09:15', proof: '' }
+        { id: 101, type: 'Deposit', amount: 500.00, status: 'Completed', date: '2026-06-01 14:20', proof: '' }
       ],
       companies: [
         { id: 'midong', name: 'MIDONG Solar Farm', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', icon: 'fa-sun', colorBg: 'bg-amber-500/20 text-amber-400 border-amber-500/40', desc: 'World-class 3.5GW mega solar energy station.', why: 'Backed by state grid PPAs.', rate: '1.5%/day', days: 1, img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80' },
         { id: 'bhadla', name: 'Bhadla Solar Park', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', icon: 'fa-solar-panel', colorBg: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/40', desc: '14,000-acre mega solar cluster.', why: 'High solar irradiance.', rate: '1.9%/day', days: 15, img: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=600&q=80' },
-        { id: 'huanghe', name: 'Huanghe Hydropower Hainan', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', icon: 'fa-bolt', colorBg: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40', desc: 'Hydro-solar hybrid renewable project.', why: 'Dual energy source.', rate: '2.5%/day', days: 30, img: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=600&q=80' },
         { id: 'chpt', name: 'ChargePoint Holdings (CHPT)', category: 'EV Charging', yieldText: 'Yield: Up to 25000% return', icon: 'fa-charging-station', colorBg: 'bg-teal-500/20 text-teal-300 border-teal-500/40', desc: 'Leading global EV charging infrastructure.', why: 'Rapid EV adoption.', rate: '4%/day', days: 180, img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80' },
         { id: 'btcmining', name: 'Bitcoin Green Mining', category: 'Crypto Mining', yieldText: 'Yield: Up to 25000% return', icon: 'fa-bitcoin-sign', colorBg: 'bg-amber-500/20 text-amber-300 border-amber-500/40', desc: 'Hydroelectric zero-emission BTC mining.', why: 'Low energy cost.', rate: '35%/total', days: 1825, img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80' },
         { id: 'pltr', name: 'Palantir Technologies (PLTR)', category: 'AI Platforms', yieldText: 'Yield: Up to 25000% return', icon: 'fa-brain', colorBg: 'bg-purple-500/20 text-purple-300 border-purple-500/40', desc: 'Enterprise AI operating system.', why: 'High growth AIP contracts.', rate: '2.5%/day', days: 30, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80' },
@@ -140,8 +114,7 @@
       ],
       tasks: [
         { id: 1, title: 'Join GREENEARN Telegram Channel', reward: 5.0, icon: 'fa-telegram', link: 'https://t.me/GreenEarnOfficial', img: '', done: false, verifying: false },
-        { id: 2, title: 'Retweet Official Announcement', reward: 3.0, icon: 'fa-retweet', link: 'https://twitter.com', img: '', done: false, verifying: false },
-        { id: 3, title: 'Daily Eco Check-In Bonus', reward: 2.5, icon: 'fa-calendar-check', link: '', img: '', done: false, verifying: false }
+        { id: 2, title: 'Retweet Official Announcement', reward: 3.0, icon: 'fa-retweet', link: 'https://twitter.com', img: '', done: false, verifying: false }
       ]
     };
 
@@ -179,7 +152,6 @@
       
       if (email === 'admin@gmail.com' && pass === 'admin123') {
         state.currentUser = { id: 999, username: 'Main Administrator', email: 'admin@gmail.com', role: 'Admin', kycStatus: 'Verified' };
-        state.adminRole = 'main';
         saveState();
         document.getElementById('authGateContainer').classList.add('hidden');
         renderApp();
@@ -190,7 +162,6 @@
 
       const found = state.registeredUsers.find(u => u.email === email && u.password === pass);
       if (found) {
-        // Deep clone or assign currentUser while preserving persistent kycStatus from registeredUsers array
         state.currentUser = found;
         state.balance = found.balance;
         saveState();
@@ -239,33 +210,35 @@
       showToast('Account created successfully! +$50 Welcome Bonus added.');
     }
 
-    function handleIdImageUpload(event, slot) {
+    // ROBUST KYC IMAGE UPLOAD HANDLER
+    function handleKycImageUpload(event, slot) {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
+          if (!state.currentUser) return;
           if (slot === 1) {
+            state.currentUser.idDocUrl = e.target.result;
             document.getElementById('kycIdPreviewImg1').src = e.target.result;
             document.getElementById('kycIdPreviewContainer1').classList.remove('hidden');
-            if (state.currentUser) state.currentUser.idDocUrl = e.target.result;
           } else {
+            state.currentUser.idDocUrlBack = e.target.result;
             document.getElementById('kycIdPreviewImg2').src = e.target.result;
             document.getElementById('kycIdPreviewContainer2').classList.remove('hidden');
-            if (state.currentUser) state.currentUser.idDocUrlBack = e.target.result;
           }
-          if (state.currentUser) {
-            const regUser = state.registeredUsers.find(u => u.id === state.currentUser.id);
-            if (regUser) {
-              regUser.idDocUrl = state.currentUser.idDocUrl;
-              regUser.idDocUrlBack = state.currentUser.idDocUrlBack;
-            }
+          const regUser = state.registeredUsers.find(u => u.id === state.currentUser.id);
+          if (regUser) {
+            regUser.idDocUrl = state.currentUser.idDocUrl;
+            regUser.idDocUrlBack = state.currentUser.idDocUrlBack;
           }
           saveState();
+          showToast('Document uploaded successfully!');
         };
         reader.readAsDataURL(file);
       }
     }
 
+    // ROBUST KYC SUBMISSION HANDLER
     function submitKycProfileForm() {
       if (!state.currentUser) return;
       state.currentUser.fullName = document.getElementById('kycFullName').value;
@@ -283,16 +256,40 @@
       const regUser = state.registeredUsers.find(u => u.id === state.currentUser.id);
       if (regUser) {
         Object.assign(regUser, state.currentUser);
+      } else {
+        state.registeredUsers.push(state.currentUser);
       }
 
       saveState();
       renderApp();
-      showToast('KYC & Employment documents submitted for admin review!');
+      showToast('KYC & Employment details submitted for admin verification!');
     }
 
-    function handleForgotPassword() {
-      showToast('Password reset instructions sent to your email!');
-      switchAuthTab('signin');
+    // PERMANENT ADMIN KYC VERIFICATION
+    function adminVerifyKyc(userId) {
+      const u = state.registeredUsers.find(x => x.id === userId);
+      if (u) {
+        u.kycStatus = 'Verified';
+        if (state.currentUser && (state.currentUser.id === u.id || state.currentUser.email === u.email)) {
+          state.currentUser.kycStatus = 'Verified';
+        }
+        saveState();
+        renderApp();
+        showToast(`KYC Verified permanently for ${u.username}!`);
+      }
+    }
+
+    function adminRejectKyc(userId) {
+      const u = state.registeredUsers.find(x => x.id === userId);
+      if (u) {
+        u.kycStatus = 'Unverified';
+        if (state.currentUser && (state.currentUser.id === u.id || state.currentUser.email === u.email)) {
+          state.currentUser.kycStatus = 'Unverified';
+        }
+        saveState();
+        renderApp();
+        showToast(`KYC Rejected for ${u.username}.`);
+      }
     }
 
     function handleLogout() {
@@ -320,13 +317,6 @@
 
     function filterCategory(cat) {
       state.activeCategory = cat;
-      document.querySelectorAll('.cat-btn').forEach(b => {
-        if (b.dataset.cat === cat) {
-          b.className = "cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-500 text-black whitespace-nowrap";
-        } else {
-          b.className = "cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap";
-        }
-      });
       renderCatalog();
     }
 
@@ -334,25 +324,21 @@
       const container = document.getElementById('investCatalogList');
       if (!container) return;
       container.innerHTML = '';
-
-      const items = state.activeCategory === 'All' 
-        ? state.companies 
-        : state.companies.filter(c => c.category === state.activeCategory);
+      const items = state.activeCategory === 'All' ? state.companies : state.companies.filter(c => c.category === state.activeCategory);
 
       items.forEach(comp => {
         container.innerHTML += `
           <div class="glass-card p-3 rounded-2xl flex items-center justify-between border border-emerald-800/30">
             <div class="flex items-center space-x-3">
-              <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg border ${comp.colorBg} shadow-sm">
+              <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg border ${comp.colorBg}">
                 <i class="fa-solid ${comp.icon}"></i>
               </div>
               <div>
                 <h3 class="text-xs font-bold text-emerald-100">${comp.name}</h3>
-                <p class="text-[10px] text-emerald-400/80 font-medium">Rate: ${comp.rate} (${comp.days}d lock)</p>
+                <p class="text-[10px] text-emerald-400 font-medium">Rate: ${comp.rate} (${comp.days}d lock)</p>
               </div>
             </div>
             <div class="flex space-x-1.5">
-              <button onclick="openCompanyModal('${comp.id}')" class="px-2.5 py-1.5 text-xs font-bold rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 hover:bg-emerald-900">Detail</button>
               <button onclick="openInvestModal('${comp.id}')" class="px-3 py-1.5 text-xs font-bold rounded-lg btn-emerald">Invest</button>
             </div>
           </div>
@@ -360,119 +346,34 @@
       });
     }
 
-    function openCompanyModal(id) {
-      const comp = state.companies.find(c => c.id === id);
-      if (!comp) return;
-
-      const badge = document.getElementById('modalLogoBadge');
-      badge.className = `w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold border ${comp.colorBg}`;
-      badge.innerHTML = `<i class="fa-solid ${comp.icon}"></i>`;
-
-      document.getElementById('modalCompanyTitle').innerText = comp.name;
-      document.getElementById('modalCompanyType').innerText = comp.category.toUpperCase();
-      document.getElementById('modalCompanyImg').src = comp.img;
-      document.getElementById('modalCompanyDesc').innerText = comp.desc;
-      document.getElementById('modalCompanyWhy').innerText = comp.why;
-
-      document.getElementById('companyDetailModal').classList.remove('hidden');
-    }
-
-    function closeCompanyModal() {
-      document.getElementById('companyDetailModal').classList.add('hidden');
-    }
-
-    const durationConfigs = {
-      "1 Day": { days: 1, rate: 0.015, cycle: 'daily', label: '1.5%/day' },
-      "15 Days": { days: 15, rate: 0.019, cycle: 'daily', label: '1.9%/day' },
-      "1 Month": { days: 30, rate: 0.025, cycle: 'daily', label: '2.5%/day' },
-      "6 Months": { days: 180, rate: 0.10, cycle: '15d', label: '10%/15d' },
-      "1 Year": { days: 365, rate: 0.20, cycle: 'mo', label: '20%/mo' },
-      "5 Years": { days: 1825, rate: 100.0, cycle: 'lump', label: '10000% Total' },
-      "10 Years": { days: 3650, rate: 250.0, cycle: 'lump', label: '25000% Total' }
-    };
-
     function openInvestModal(id) {
       if (state.currentUser && state.currentUser.role !== 'Admin' && (!state.currentUser.kycStatus || state.currentUser.kycStatus !== 'Verified')) {
         showToast('⚠️ Please verify your KYC in Profile before investing!');
         switchTab('profile');
         return;
       }
-
       activeInvestCompId = id;
-      const comp = state.companies.find(c => c.id === id);
-      if (!comp) return;
-
-      const badge = document.getElementById('investModalLogoBadge');
-      badge.className = `w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold border ${comp.colorBg}`;
-      badge.innerHTML = `<i class="fa-solid ${comp.icon}"></i>`;
-
-      document.getElementById('investModalTitle').innerText = comp.name;
-      document.getElementById('investModalCategory').innerText = comp.category;
-
-      const grid = document.getElementById('investDurationGrid');
-      grid.innerHTML = '';
-      Object.keys(durationConfigs).forEach(key => {
-        const d = durationConfigs[key];
-        const isSel = key === selectedDurationKey;
-        grid.innerHTML += `
-          <button onclick="selectDurationKey('${key}')" class="p-2 rounded-xl border text-center transition ${isSel ? 'bg-emerald-500 text-black font-extrabold border-emerald-400' : 'bg-black/40 text-emerald-300 border-emerald-900/60'}">
-            <div>${key}</div>
-            <div class="text-[9px] opacity-80">${d.label}</div>
-          </button>
-        `;
-      });
-
-      recalculateInvestSummary();
       document.getElementById('investConfirmModal').classList.remove('hidden');
-    }
-
-    function selectDurationKey(key) {
-      selectedDurationKey = key;
-      openInvestModal(activeInvestCompId);
     }
 
     function closeInvestConfirmModal() {
       document.getElementById('investConfirmModal').classList.add('hidden');
     }
 
-    function recalculateInvestSummary() {
-      const amt = parseFloat(document.getElementById('investInputAmount').value) || 0;
-      const conf = durationConfigs[selectedDurationKey];
-      if (!conf) return;
-
-      let profit = conf.cycle === 'lump' ? amt * conf.rate : amt * conf.rate * conf.days;
-
-      document.getElementById('investSummaryRateLabel').innerText = conf.label;
-      document.getElementById('investSummaryProfit').innerText = '+$' + profit.toFixed(2);
-      document.getElementById('investSummaryTotal').innerText = '$' + (amt + profit).toFixed(2);
-    }
-
     function confirmAndLockInvestment() {
-      const amt = parseFloat(document.getElementById('investInputAmount').value) || 0;
-      if (amt <= 0 || amt > state.balance) {
-        showToast('Insufficient wallet balance!');
+      const amt = parseFloat(document.getElementById('investInputAmount').value) || 100;
+      if (amt > state.balance) {
+        showToast('Insufficient balance!');
         return;
       }
-
-      const comp = state.companies.find(c => c.id === activeInvestCompId);
-      const conf = durationConfigs[selectedDurationKey];
-      let profit = conf.cycle === 'lump' ? amt * conf.rate : amt * conf.rate * conf.days;
-      let totalPayout = amt + profit;
-
       state.balance -= amt;
-      if (state.currentUser) state.currentUser.balance = state.balance;
-
       state.activeInvestments.unshift({
         id: Date.now(),
-        name: comp ? comp.name : 'Green Energy Asset',
+        name: 'Green Asset Yield',
         amount: amt,
-        duration: selectedDurationKey,
-        daysLeft: conf.days,
-        payout: totalPayout,
-        icon: comp ? comp.icon : 'fa-leaf',
-        color: comp ? comp.colorBg : 'text-emerald-400'
+        daysLeft: 1,
+        icon: 'fa-sun'
       });
-
       saveState();
       renderApp();
       closeInvestConfirmModal();
@@ -481,50 +382,15 @@
       confetti({ particleCount: 70, spread: 70, origin: { y: 0.7 } });
     }
 
-    function handleIdImageUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('kycIdPreviewImg').src = e.target.result;
-          document.getElementById('kycIdPreviewContainer').classList.remove('hidden');
-          if (state.currentUser) {
-            state.currentUser.idDocUrl = e.target.result;
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function submitKycProfileForm() {
-      if (!state.currentUser) return;
-      state.currentUser.fullName = document.getElementById('kycFullName').value;
-      state.currentUser.address = document.getElementById('kycAddress').value;
-      state.currentUser.country = document.getElementById('kycCountry').value;
-      state.currentUser.identityNumber = document.getElementById('kycIdNumber').value;
-      state.currentUser.phone = document.getElementById('kycPhone').value;
-      state.currentUser.email = document.getElementById('kycEmail').value;
-      state.currentUser.profession = document.getElementById('kycProfession').value;
-      state.currentUser.companyName = document.getElementById('kycCompanyName').value;
-      state.currentUser.companyLocation = document.getElementById('kycCompanyLoc').value;
-      state.currentUser.kycStatus = 'Pending';
-
-      saveState();
-      renderApp();
-      showToast('KYC & Employment details submitted for admin review!');
-    }
-
     function switchWalletTab(sub) {
       document.getElementById('walletDepositSection').classList.toggle('hidden', sub !== 'deposit');
       document.getElementById('walletWithdrawSection').classList.toggle('hidden', sub !== 'withdraw');
-      document.getElementById('walletTabDepBtn').className = sub === 'deposit' ? 'flex-1 py-2 text-xs font-bold rounded-xl btn-emerald' : 'flex-1 py-2 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-900';
-      document.getElementById('walletTabWdrBtn').className = sub === 'withdraw' ? 'flex-1 py-2 text-xs font-bold rounded-xl btn-emerald' : 'flex-1 py-2 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-900';
     }
 
     function submitDepositRequest() {
       const txId = document.getElementById('depositTxIdInput').value.trim();
       if (!txId) {
-        showToast('Please enter the TRC-20 Transaction Hash (TxID)!');
+        showToast('Please enter transaction hash!');
         return;
       }
       state.transactions.unshift({
@@ -537,99 +403,68 @@
       });
       saveState();
       renderApp();
-      showToast('Deposit proof submitted successfully! Awaiting admin confirmation.');
+      showToast('Deposit proof submitted for review.');
       document.getElementById('depositTxIdInput').value = '';
     }
 
     function submitWithdrawRequest() {
       const amt = parseFloat(document.getElementById('withdrawAmountInput').value) || 0;
-      const addr = document.getElementById('withdrawAddressInput').value.trim();
       if (amt <= 0 || amt > state.balance) {
         showToast('Invalid withdrawal amount or insufficient balance!');
         return;
       }
-      if (!addr) {
-        showToast('Please enter destination TRC-20 address!');
-        return;
-      }
       state.balance -= amt;
-      if (state.currentUser) state.currentUser.balance = state.balance;
       state.transactions.unshift({
         id: Date.now(),
         type: 'Withdrawal',
         amount: amt,
         status: 'Pending Admin Review',
         date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-        proof: addr
+        proof: 'TRC20 Wallet'
       });
       saveState();
       renderApp();
-      showToast('Withdrawal request submitted! Awaiting admin verification.');
-      document.getElementById('withdrawAmountInput').value = '';
-      document.getElementById('withdrawAddressInput').value = '';
+      showToast('Withdrawal request submitted.');
     }
 
     function sendSupportMessage() {
       const input = document.getElementById('userSupportInput');
       if (!input || !input.value.trim()) return;
-      
-      const txt = input.value.trim();
-      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      
       state.supportMessages.push({
         id: Date.now(),
         sender: state.currentUser ? state.currentUser.username : 'User',
-        text: txt,
-        time: timeStr
+        text: input.value.trim(),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       });
-      
       input.value = '';
       saveState();
       renderApp();
-      showToast('Support message sent to admin!');
+      showToast('Support message sent!');
     }
 
     function adminReplySupport(id) {
       const replyInput = document.getElementById('adminReplyInput_' + id);
       if (!replyInput || !replyInput.value.trim()) return;
-
-      const txt = replyInput.value.trim();
-      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
       state.supportMessages.push({
         id: Date.now(),
         sender: 'admin',
-        text: 'Admin Reply: ' + txt,
-        time: timeStr
+        text: 'Admin Reply: ' + replyInput.value.trim(),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       });
-
-      replyInput.value = '';
       saveState();
       renderApp();
-      showToast('Reply sent successfully!');
+      showToast('Reply sent!');
     }
 
     function startTaskVerification(id) {
       const t = state.tasks.find(x => x.id === id);
-      if (!t || t.done || t.verifying) return;
-      if (t.link) window.open(t.link, '_blank');
-
-      t.verifying = true;
+      if (!t || t.done) return;
+      t.done = true;
+      state.balance += t.reward;
+      saveState();
       renderApp();
-      showToast('Verifying task action... Please wait 3s');
-
-      setTimeout(() => {
-        t.verifying = false;
-        t.done = true;
-        state.balance += t.reward;
-        if (state.currentUser) state.currentUser.balance = state.balance;
-        saveState();
-        renderApp();
-        showToast(`Task Claimed! +$${t.reward.toFixed(2)} added.`);
-      }, 3000);
+      showToast(`Task Claimed! +$${t.reward.toFixed(2)} added.`);
     }
-
-    function claimTask(id) { startTaskVerification(id); }
 
     function copyRefLink() {
       navigator.clipboard.writeText('https://t.me/GreenEarnBot?start=ref9821');
@@ -640,83 +475,6 @@
       document.querySelectorAll('[id^="adm-sub-"]').forEach(el => el.classList.add('hidden'));
       const active = document.getElementById('adm-sub-' + sub);
       if (active) active.classList.remove('hidden');
-
-      document.querySelectorAll('.adm-sub-btn').forEach(b => {
-        if (b.dataset.sub === sub) {
-          b.className = "px-2.5 py-1 text-[11px] font-bold rounded-lg bg-purple-700 text-white whitespace-nowrap adm-sub-btn";
-        } else {
-          b.className = "px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn";
-        }
-      });
-    }
-
-    function populateAdminSupportChat() {
-      const container = document.getElementById('adminSupportChatContainer');
-      if (!container) return;
-      container.innerHTML = '';
-
-      if (state.supportMessages.length === 0) {
-        container.innerHTML = '<p class="text-[11px] text-purple-300/60 italic text-center py-2">No support messages found.</p>';
-        return;
-      }
-
-      state.supportMessages.forEach(msg => {
-        const isAdminReply = msg.sender === 'admin';
-        container.innerHTML += `
-          <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 text-[11px] space-y-1.5">
-            <div class="flex justify-between items-center text-[10px] text-purple-300">
-              <span class="font-bold text-purple-200">${isAdminReply ? '👑 Admin Support' : '👤 ' + msg.sender}</span>
-              <span class="opacity-70">${msg.time}</span>
-            </div>
-            <p class="text-emerald-100">${msg.text}</p>
-            ${!isAdminReply ? `
-              <div class="flex gap-1.5 pt-1">
-                <input id="adminReplyInput_${msg.id}" type="text" placeholder="Type admin reply..." class="w-full p-1.5 text-[10px] rounded-lg">
-                <button onclick="adminReplySupport(${msg.id})" class="px-3 py-1 text-[10px] font-bold bg-purple-700 text-white rounded-lg">Reply</button>
-              </div>
-            ` : ''}
-          </div>
-        `;
-      });
-    }
-
-    function populateAdminSelect() {
-      const sel = document.getElementById('admCompSelect');
-      if (!sel) return;
-      sel.innerHTML = '';
-      state.companies.forEach(c => {
-        sel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
-      });
-      loadAdminCompForm();
-    }
-
-    function loadAdminCompForm() {
-      const sel = document.getElementById('admCompSelect');
-      if (!sel) return;
-      const comp = state.companies.find(c => c.id === sel.value);
-      if (comp) {
-        document.getElementById('admCompDesc').value = comp.desc || '';
-        document.getElementById('admCompWhy').value = comp.why || '';
-        document.getElementById('admCompImg').value = comp.img || '';
-        document.getElementById('admCompRate').value = comp.rate || '1.5%/day';
-        document.getElementById('admCompDays').value = comp.days || 1;
-      }
-    }
-
-    function adminSaveCompData() {
-      const sel = document.getElementById('admCompSelect');
-      if (!sel) return;
-      const comp = state.companies.find(c => c.id === sel.value);
-      if (comp) {
-        comp.desc = document.getElementById('admCompDesc').value;
-        comp.why = document.getElementById('admCompWhy').value;
-        comp.img = document.getElementById('admCompImg').value;
-        comp.rate = document.getElementById('admCompRate').value;
-        comp.days = parseInt(document.getElementById('admCompDays').value) || 1;
-        saveState();
-        renderApp();
-        showToast('Company details updated!');
-      }
     }
 
     function adminSaveBalance() {
@@ -736,120 +494,29 @@
       }
     }
 
-    function adminApproveDeposit(txId) {
-      const tx = state.transactions.find(t => t.id === txId);
-      if (tx) {
-        tx.status = 'Completed';
-        state.balance += tx.amount;
-        if (state.currentUser) state.currentUser.balance = state.balance;
-        saveState();
-        renderApp();
-        showToast('Deposit approved and credited to user balance!');
-      }
-    }
-
-    function adminRejectDeposit(txId) {
-      const tx = state.transactions.find(t => t.id === txId);
-      if (tx) {
-        tx.status = 'Rejected';
-        saveState();
-        renderApp();
-        showToast('Deposit rejected.');
-      }
-    }
-
-    function adminVerifyKyc(userId) {
-      const u = state.registeredUsers.find(x => x.id === userId);
-      if (u) {
-        u.kycStatus = 'Verified';
-        if (state.currentUser && state.currentUser.id === u.id) {
-          state.currentUser.kycStatus = 'Verified';
-        }
-        saveState();
-        renderApp();
-        showToast(`KYC Verified permanently for ${u.username}!`);
-      }
-    }
-
-    function adminRejectKyc(userId) {
-      const u = state.registeredUsers.find(x => x.id === userId);
-      if (u) {
-        u.kycStatus = 'Unverified';
-        if (state.currentUser && state.currentUser.id === u.id) {
-          state.currentUser.kycStatus = 'Unverified';
-        }
-        saveState();
-        renderApp();
-        showToast(`KYC Rejected for ${u.username}.`);
-      }
-    }
-
-    function handleNewsImageUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('admNewsImg').value = e.target.result;
-          document.getElementById('admNewsImagePreview').src = e.target.result;
-          document.getElementById('admNewsImagePreviewContainer').classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function handleTaskImageUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('admTaskImg').value = e.target.result;
-          document.getElementById('admTaskImagePreview').src = e.target.result;
-          document.getElementById('admTaskImagePreviewContainer').classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
     function adminPublishNews() {
       const headline = document.getElementById('admNewsHeadline').value.trim();
       const text = document.getElementById('admNewsText').value.trim();
-      const img = document.getElementById('admNewsImg').value.trim() || 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80';
       if (!headline || !text) {
         showToast('Please enter headline and content!');
         return;
       }
-      state.news.unshift({ id: Date.now(), headline, text, img });
+      state.news.unshift({ id: Date.now(), headline, text, img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80' });
       saveState();
       renderApp();
-      showToast('News & Event published to frontend!');
+      showToast('News published!');
       document.getElementById('admNewsHeadline').value = '';
       document.getElementById('admNewsText').value = '';
-      document.getElementById('admNewsImg').value = '';
-      document.getElementById('admNewsImagePreviewContainer').classList.add('hidden');
     }
 
     function adminCreateEvent() {
       const title = document.getElementById('admEventTitle').value.trim();
       const date = document.getElementById('admEventDate').value.trim();
-      const desc = document.getElementById('admEventDesc').value.trim();
-      if (!title || !date) {
-        showToast('Please enter event title and date!');
-        return;
-      }
-      state.events.unshift({ id: Date.now(), title, date, desc, rsvp: null });
+      if (!title || !date) return;
+      state.events.unshift({ id: Date.now(), title, date, desc: 'Global renewable summit.', rsvp: null });
       saveState();
       renderApp();
-      showToast('Event published successfully!');
-      document.getElementById('admEventTitle').value = '';
-      document.getElementById('admEventDate').value = '';
-      document.getElementById('admEventDesc').value = '';
-    }
-
-    function adminDeleteEvent(id) {
-      state.events = state.events.filter(e => e.id !== id);
-      saveState();
-      renderApp();
-      showToast('Event removed.');
+      showToast('Event published!');
     }
 
     function rsvpEvent(eventId, status) {
@@ -858,25 +525,15 @@
         ev.rsvp = status;
         saveState();
         renderApp();
-        showToast(`RSVP updated: ${status === 'attending' ? 'Attending' : 'Not Attending'}`);
+        showToast(`RSVP updated: ${status}`);
       }
-    }
-
-    function adminSavePaymentMethods() {
-      state.paymentMethods[0].name = document.getElementById('payMethod1Name').value;
-      state.paymentMethods[0].detail = document.getElementById('payMethod1Val').value;
-      state.paymentMethods[1].name = document.getElementById('payMethod2Name').value;
-      state.paymentMethods[1].detail = document.getElementById('payMethod2Val').value;
-      saveState();
-      renderApp();
-      showToast('Payment methods updated successfully!');
     }
 
     function populateAdminUsers() {
       const sel = document.getElementById('admUserSelect');
       const listDiv = document.getElementById('adminUsersDetailList');
       const kycListDiv = document.getElementById('adminKycVerifyList');
-      const financeTxs = document.getElementById('adminFinanceTxsList');
+      const supportContainer = document.getElementById('adminSupportChatContainer');
 
       if (!sel || !listDiv) return;
 
@@ -890,10 +547,6 @@
             <div class="flex justify-between items-center font-bold text-purple-200">
               <span>👤 ${u.username}</span>
               <span class="text-amber-300 font-mono">$${u.balance.toFixed(2)}</span>
-            </div>
-            <div class="flex justify-between text-[10px] text-purple-300/80">
-              <span>Email: ${u.email}</span>
-              <span>KYC: <strong class="${u.kycStatus === 'Verified' ? 'text-emerald-400' : 'text-amber-400'}">${u.kycStatus}</strong></span>
             </div>
           </div>
         `;
@@ -938,54 +591,26 @@
         });
       }
 
-      if (financeTxs) {
-        financeTxs.innerHTML = '';
-        state.transactions.forEach(tx => {
-          financeTxs.innerHTML += `
-            <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 text-[11px] space-y-1">
-              <div class="flex justify-between font-bold text-purple-200">
-                <span>${tx.type} ($${tx.amount.toFixed(2)})</span>
-                <span class="text-amber-300">${tx.status}</span>
+      if (supportContainer) {
+        supportContainer.innerHTML = '';
+        state.supportMessages.forEach(msg => {
+          const isAdminReply = msg.sender === 'admin';
+          supportContainer.innerHTML += `
+            <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 text-[11px] space-y-1.5">
+              <div class="flex justify-between items-center text-[10px] text-purple-300">
+                <span class="font-bold text-purple-200">${isAdminReply ? '👑 Admin Support' : '👤 ' + msg.sender}</span>
+                <span>${msg.time}</span>
               </div>
-              <p class="text-[10px] text-purple-300">Proof / Address: ${tx.proof || 'N/A'} (${tx.date})</p>
-              ${tx.status.includes('Pending') ? `
-                <div class="flex gap-2 pt-1">
-                  <button onclick="adminApproveDeposit(${tx.id})" class="px-2.5 py-1 text-[10px] bg-emerald-600 text-white rounded">Approve</button>
-                  <button onclick="adminRejectDeposit(${tx.id})" class="px-2.5 py-1 text-[10px] bg-red-600 text-white rounded">Reject</button>
+              <p class="text-emerald-100">${msg.text}</p>
+              ${!isAdminReply ? `
+                <div class="flex gap-1.5 pt-1">
+                  <input id="adminReplyInput_${msg.id}" type="text" placeholder="Reply..." class="w-full p-1 text-[10px] rounded">
+                  <button onclick="adminReplySupport(${msg.id})" class="px-2 py-1 text-[10px] font-bold bg-purple-700 text-white rounded">Reply</button>
                 </div>
               ` : ''}
             </div>
           `;
         });
-      }
-
-      const adminTaskListDiv = document.getElementById('adminTasksManagerList');
-      if (adminTaskListDiv) {
-        adminTaskListDiv.innerHTML = '';
-        state.tasks.forEach(t => {
-          adminTaskListDiv.innerHTML += `
-            <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 flex items-center justify-between text-[11px]">
-              <div>
-                <p class="font-bold text-purple-200">${t.title}</p>
-                <p class="text-[10px] text-amber-300">Reward: +$${t.reward.toFixed(2)} | Link: <a href="${t.link}" target="_blank" class="underline text-purple-300 truncate">${t.link || 'None'}</a></p>
-              </div>
-              <button onclick="adminDeleteTask(${t.id})" class="px-2.5 py-1 text-[10px] font-bold bg-red-600 text-white rounded-lg">Delete</button>
-            </div>
-          `;
-        });
-      }
-
-      if (state.paymentMethods[0]) {
-        const m1n = document.getElementById('payMethod1Name');
-        const m1v = document.getElementById('payMethod1Val');
-        if (m1n) m1n.value = state.paymentMethods[0].name;
-        if (m1v) m1v.value = state.paymentMethods[0].detail;
-      }
-      if (state.paymentMethods[1]) {
-        const m2n = document.getElementById('payMethod2Name');
-        const m2v = document.getElementById('payMethod2Val');
-        if (m2n) m2n.value = state.paymentMethods[1].name;
-        if (m2v) m2v.value = state.paymentMethods[1].detail;
       }
     }
 
@@ -993,11 +618,18 @@
       if (!state.currentUser) return;
 
       document.getElementById('homeDisplayBalance').innerText = '$' + state.balance.toFixed(2);
-      document.getElementById('homeDailyEarnings').innerText = '+$' + state.dailyYield.toFixed(2) + '/day';
-      document.getElementById('homeTotalEarnings').innerText = '+$' + state.totalProfit.toFixed(2) + ' Est.';
-
       document.getElementById('profileUsernameDisplay').innerText = state.currentUser.username;
-      document.getElementById('headerRoleBadge').innerText = state.currentUser.role === 'Admin' ? 'MAIN_ADMIN' : 'MEMBER';
+
+      // SYNC REGISTERED USER & CURRENT USER KYC STATUS
+      const regMatch = state.registeredUsers.find(u => u.email === state.currentUser.email || u.id === state.currentUser.id);
+      const currentKycStatus = regMatch ? regMatch.kycStatus : (state.currentUser.kycStatus || 'Unverified');
+      const isVer = currentKycStatus === 'Verified';
+
+      const kycBadge = document.getElementById('profileKycStatusBadge');
+      if (kycBadge) {
+        kycBadge.className = `px-2.5 py-1 rounded text-[10px] font-extrabold ${isVer ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}`;
+        kycBadge.innerText = currentKycStatus.toUpperCase() + (isVer ? ' KYC ✓' : ' KYC');
+      }
 
       const tasksListContainer = document.getElementById('tasksListContainer');
       if (tasksListContainer) {
@@ -1006,18 +638,16 @@
           tasksListContainer.innerHTML += `
             <div class="glass-card p-3 rounded-2xl flex items-center justify-between border border-emerald-800/30 gap-2">
               <div class="flex items-center space-x-2.5">
-                ${t.img ? `<img src="${t.img}" class="w-10 h-10 object-cover rounded-xl border border-emerald-800">` : `
-                  <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-300 text-sm">
-                    <i class="fa-solid ${t.icon || 'fa-bullhorn'}"></i>
-                  </div>
-                `}
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-300 text-sm">
+                  <i class="fa-solid ${t.icon || 'fa-bullhorn'}"></i>
+                </div>
                 <div>
                   <h4 class="text-xs font-bold text-emerald-100">${t.title}</h4>
                   <p class="text-[10px] font-bold text-amber-300">+$${t.reward.toFixed(2)} USD</p>
                 </div>
               </div>
-              <button onclick="claimTask(${t.id})" class="px-3 py-1.5 text-xs font-bold rounded-lg ${t.done ? 'bg-emerald-950 text-emerald-400 border border-emerald-800 cursor-not-allowed' : 'bg-amber-500 text-black'}" ${t.done ? 'disabled' : ''}>
-                ${t.verifying ? 'Checking...' : t.done ? 'Claimed ✓' : 'Complete & Claim'}
+              <button onclick="startTaskVerification(${t.id})" class="px-3 py-1.5 text-xs font-bold rounded-lg ${t.done ? 'bg-emerald-950 text-emerald-400 border border-emerald-800 cursor-not-allowed' : 'bg-amber-500 text-black'}" ${t.done ? 'disabled' : ''}>
+                ${t.done ? 'Claimed ✓' : 'Complete & Claim'}
               </button>
             </div>
           `;
@@ -1063,50 +693,6 @@
         });
       }
 
-      const adminEventsList = document.getElementById('adminEventsManagerList');
-      if (adminEventsList) {
-        adminEventsList.innerHTML = '';
-        state.events.forEach(ev => {
-          adminEventsList.innerHTML += `
-            <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 flex justify-between items-center text-[11px]">
-              <div>
-                <p class="font-bold text-purple-200">${ev.title}</p>
-                <p class="text-[10px] text-purple-300">${ev.date}</p>
-              </div>
-              <button onclick="adminDeleteEvent(${ev.id})" class="px-2.5 py-1 text-[10px] font-bold bg-red-600 text-white rounded-lg">Delete</button>
-            </div>
-          `;
-        });
-      }
-
-      const gwAddr = document.getElementById('walletGatewayAddress');
-      if (gwAddr && state.paymentMethods[0]) {
-        gwAddr.innerText = state.paymentMethods[0].detail;
-      }
-
-      const txLedger = document.getElementById('walletTxHistoryLedger');
-      if (txLedger) {
-        txLedger.innerHTML = '';
-        state.transactions.forEach(tx => {
-          txLedger.innerHTML += `
-            <div class="p-2.5 rounded-xl bg-black/40 border border-emerald-900/50 flex justify-between items-center text-[11px]">
-              <div>
-                <p class="font-bold text-emerald-100">${tx.type} - $${tx.amount.toFixed(2)}</p>
-                <p class="text-[9px] text-emerald-400/70">${tx.date}</p>
-              </div>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${tx.status === 'Completed' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${tx.status}</span>
-            </div>
-          `;
-        });
-      }
-
-      const kycBadge = document.getElementById('profileKycStatusBadge');
-      if (kycBadge && state.currentUser) {
-        const isVer = state.currentUser.kycStatus === 'Verified';
-        kycBadge.className = `px-2 py-0.5 rounded text-[9px] font-bold ${isVer ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}`;
-        kycBadge.innerText = state.currentUser.kycStatus + ' KYC';
-      }
-
       const profChatBox = document.getElementById('profileSupportChatBox');
       if (profChatBox) {
         profChatBox.innerHTML = '';
@@ -1124,38 +710,12 @@
         });
       }
 
-      const profInvestList = document.getElementById('profileActiveInvestmentsList');
-      if (profInvestList) {
-        profInvestList.innerHTML = '';
-        state.activeInvestments.forEach(inv => {
-          profInvestList.innerHTML += `
-            <div class="glass-card p-3 rounded-xl border border-emerald-800/40 space-y-1.5">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <div class="w-7 h-7 rounded-lg bg-emerald-500/20 flex items-center justify-center text-xs text-emerald-300">
-                    <i class="fa-solid ${inv.icon}"></i>
-                  </div>
-                  <h5 class="text-xs font-bold text-emerald-100">${inv.name}</h5>
-                </div>
-                <span class="text-[10px] font-mono text-amber-300 font-extrabold">$${inv.amount.toFixed(2)}</span>
-              </div>
-              <div class="flex justify-between items-center text-[10px] pt-1 border-t border-emerald-900/50">
-                <span class="text-emerald-400/80">Withdrawal in: <strong class="text-emerald-200">${inv.daysLeft} Day(s)</strong></span>
-                <span class="text-emerald-300 font-bold animate-pulse">⚡ Yield Active</span>
-              </div>
-            </div>
-          `;
-        });
-      }
-
       renderCatalog();
       populateAdminUsers();
-      populateAdminSupportChat();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       loadState();
-      populateAdminSelect();
       if (state.currentUser) {
         document.getElementById('authGateContainer').classList.add('hidden');
         renderApp();
@@ -1182,7 +742,6 @@
         <button onclick="handleSignIn()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Sign In</button>
         <div class="flex justify-between text-[10px] pt-1">
           <button onclick="switchAuthTab('signup')" class="text-emerald-400 underline">Create Account</button>
-          <button onclick="switchAuthTab('forgot')" class="text-emerald-400/80 underline">Forgot Password?</button>
         </div>
       </div>
 
@@ -1194,16 +753,6 @@
         <button onclick="handleSignUp()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Register & Get $50 Bonus</button>
         <div class="text-center pt-1">
           <button onclick="switchAuthTab('signin')" class="text-[10px] text-emerald-400 underline">Already have an account? Sign In</button>
-        </div>
-      </div>
-
-      <div id="authCardForgot" class="space-y-3 hidden">
-        <h2 class="text-xs font-bold text-emerald-200 uppercase tracking-wide">Reset Password</h2>
-        <p class="text-[10px] text-emerald-400/80">Enter your registered email address to receive password recovery instructions.</p>
-        <input id="forgotEmail" type="email" placeholder="Registered Email" class="w-full p-2.5 rounded-xl text-xs">
-        <button onclick="handleForgotPassword()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Send Reset Link</button>
-        <div class="text-center pt-1">
-          <button onclick="switchAuthTab('signin')" class="text-[10px] text-emerald-400 underline">Back to Sign In</button>
         </div>
       </div>
     </div>
@@ -1223,22 +772,18 @@
           </div>
           <div>
             <h1 class="text-base font-extrabold tracking-wider text-gradient-emerald leading-tight">GREENEARN</h1>
-            <p id="headerRoleBadge" class="text-[9px] text-emerald-400/80 font-mono">MEMBER</p>
           </div>
         </div>
-
-        <div class="flex items-center space-x-1.5">
-          <button onclick="handleLogout()" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-red-900/30 text-red-300 border border-red-700/50 flex items-center gap-1">
-            <i class="fa-solid fa-right-from-bracket text-[10px]"></i> Logout
-          </button>
-        </div>
+        <button onclick="handleLogout()" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-red-900/30 text-red-300 border border-red-700/50 flex items-center gap-1">
+          <i class="fa-solid fa-right-from-bracket text-[10px]"></i> Logout
+        </button>
       </div>
 
       <div class="flex items-center space-x-1 overflow-x-auto no-scrollbar text-[11px] font-bold">
         <button onclick="switchTab('home')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="home">Home</button>
         <button onclick="switchTab('invest')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="invest">Invest</button>
         <button onclick="switchTab('tasks')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="tasks">Tasks</button>
-        <button onclick="switchTab('refer')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="refer">Refer & VIP</button>
+        <button onclick="switchTab('refer')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="refer">Refer</button>
         <button onclick="switchTab('wallet')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="wallet">Wallet</button>
         <button onclick="switchTab('profile')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="profile">Profile</button>
         <button onclick="switchTab('admin')" class="px-3 py-1 rounded-lg bg-purple-900/40 text-purple-300 border border-purple-500/50 font-black whitespace-nowrap top-nav-btn" data-tab="admin">ADMIN</button>
@@ -1255,16 +800,6 @@
               <h2 id="homeDisplayBalance" class="text-2xl font-extrabold text-white mt-0.5">$1,250.00</h2>
             </div>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Active Protocol</span>
-          </div>
-          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-emerald-800/40">
-            <div class="bg-black/30 p-2.5 rounded-xl border border-emerald-900/40">
-              <p class="text-[9px] text-emerald-400/80 uppercase font-bold">Daily Earnings</p>
-              <p id="homeDailyEarnings" class="text-xs font-extrabold text-emerald-200 mt-0.5">+$18.75/day</p>
-            </div>
-            <div class="bg-black/30 p-2.5 rounded-xl border border-emerald-900/40">
-              <p class="text-[9px] text-emerald-400/80 uppercase font-bold">Total Return Est.</p>
-              <p id="homeTotalEarnings" class="text-xs font-extrabold text-amber-300 mt-0.5">+$340.50 Est.</p>
-            </div>
           </div>
         </div>
 
@@ -1284,14 +819,6 @@
           <h2 class="text-sm font-bold text-emerald-100">Green Asset Catalog</h2>
           <p class="text-[11px] text-emerald-400/70">Select project category & choose duration plan</p>
         </div>
-        <div class="flex space-x-1.5 overflow-x-auto no-scrollbar py-1">
-          <button onclick="filterCategory('All')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-500 text-black whitespace-nowrap" data-cat="All">All</button>
-          <button onclick="filterCategory('Solar Power')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap" data-cat="Solar Power">Solar Power</button>
-          <button onclick="filterCategory('EV Charging')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap" data-cat="EV Charging">EV Charging</button>
-          <button onclick="filterCategory('Crypto Mining')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap" data-cat="Crypto Mining">Crypto Mining</button>
-          <button onclick="filterCategory('AI Platforms')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap" data-cat="AI Platforms">AI Platforms</button>
-          <button onclick="filterCategory('EV Cars')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap" data-cat="EV Cars">EV Cars</button>
-        </div>
         <div id="investCatalogList" class="space-y-2.5"></div>
       </section>
 
@@ -1305,9 +832,8 @@
 
       <section id="tab-refer" class="space-y-3.5 hidden">
         <div class="glass-card p-4 rounded-2xl text-center space-y-2.5">
-          <div class="w-12 h-12 mx-auto rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 text-xl">👑</div>
           <h2 class="text-sm font-bold text-emerald-100">Bronze Investor (VIP 1)</h2>
-          <p class="text-[11px] text-emerald-300/80">Earn $1 per referral upon successful invite! <strong>100 Referrals gets $300 Bonus!</strong></p>
+          <p class="text-[11px] text-emerald-300/80">Earn $1 per referral upon successful invite!</p>
           <div class="bg-black/50 p-2.5 rounded-xl border border-emerald-900/50 flex items-center justify-between">
             <span class="text-[10px] font-mono text-emerald-300 truncate mr-2">https://t.me/GreenEarnBot?start=ref9821</span>
             <button onclick="copyRefLink()" class="px-2.5 py-1 text-[11px] font-bold rounded btn-emerald">Copy</button>
@@ -1318,40 +844,23 @@
       <section id="tab-wallet" class="space-y-3.5 hidden">
         <div class="glass-card p-4 rounded-2xl space-y-3">
           <div class="flex gap-2">
-            <button id="walletTabDepBtn" onclick="switchWalletTab('deposit')" class="flex-1 py-2 text-xs font-bold rounded-xl btn-emerald">Deposit</button>
-            <button id="walletTabWdrBtn" onclick="switchWalletTab('withdraw')" class="flex-1 py-2 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-900">Withdraw</button>
+            <button onclick="switchWalletTab('deposit')" class="flex-1 py-2 text-xs font-bold rounded-xl btn-emerald">Deposit</button>
+            <button onclick="switchWalletTab('withdraw')" class="flex-1 py-2 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-900">Withdraw</button>
           </div>
 
           <div id="walletDepositSection" class="space-y-3">
             <p class="text-xs text-emerald-300/80">Send USDT via TRC-20 network to your dedicated deposit address:</p>
             <div class="bg-black/60 p-2.5 rounded-xl border border-emerald-900/50 flex items-center justify-between">
-              <span id="walletGatewayAddress" class="text-[10px] font-mono text-emerald-300 truncate mr-2">T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB</span>
-              <button onclick="navigator.clipboard.writeText(document.getElementById('walletGatewayAddress').innerText); showToast('Address copied!')" class="px-2.5 py-1 text-[11px] font-bold rounded btn-emerald">Copy</button>
+              <span class="text-[10px] font-mono text-emerald-300 truncate mr-2">T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB</span>
             </div>
-            <div>
-              <label class="text-[10px] text-emerald-300 font-bold block mb-1">TRC-20 Transaction Hash (TxID)</label>
-              <input id="depositTxIdInput" type="text" placeholder="Paste transaction hash here" class="w-full p-2.5 text-xs rounded-xl">
-            </div>
+            <input id="depositTxIdInput" type="text" placeholder="Paste TRC-20 Transaction Hash (TxID)" class="w-full p-2.5 text-xs rounded-xl">
             <button onclick="submitDepositRequest()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Submit Deposit Proof</button>
           </div>
 
           <div id="walletWithdrawSection" class="space-y-3 hidden">
-            <p class="text-xs text-emerald-300/80">Withdraw USDT TRC-20 funds instantly to your external wallet:</p>
-            <div>
-              <label class="text-[10px] text-emerald-300 font-bold block mb-1">Withdrawal Amount ($)</label>
-              <input id="withdrawAmountInput" type="number" placeholder="Enter amount" class="w-full p-2.5 text-xs rounded-xl">
-            </div>
-            <div>
-              <label class="text-[10px] text-emerald-300 font-bold block mb-1">Destination TRC-20 Address</label>
-              <input id="withdrawAddressInput" type="text" placeholder="Enter wallet address" class="w-full p-2.5 text-xs rounded-xl">
-            </div>
+            <input id="withdrawAmountInput" type="number" placeholder="Withdrawal Amount ($)" class="w-full p-2.5 text-xs rounded-xl">
             <button onclick="submitWithdrawRequest()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Request Withdrawal</button>
           </div>
-        </div>
-
-        <div class="glass-card p-3.5 rounded-2xl space-y-2.5">
-          <h3 class="text-xs font-bold text-emerald-200">Transaction & Deposit/Withdrawal History</h3>
-          <div id="walletTxHistoryLedger" class="space-y-2 max-h-48 overflow-y-auto no-scrollbar"></div>
         </div>
       </section>
 
@@ -1363,11 +872,6 @@
               <h3 id="profileUsernameDisplay" class="text-xs font-bold text-emerald-100">User Account</h3>
               <span id="profileKycStatusBadge" class="px-2 py-0.5 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Unverified KYC</span>
             </div>
-          </div>
-
-          <div class="p-3 bg-black/50 rounded-xl border border-emerald-800/50 space-y-2">
-            <h4 class="text-[11px] font-bold text-emerald-200">Active Portfolio Assets & Countdown</h4>
-            <div id="profileActiveInvestmentsList" class="space-y-2"></div>
           </div>
 
           <div class="p-3 bg-black/50 rounded-xl border border-emerald-800/50 space-y-2.5">
@@ -1398,14 +902,14 @@
             <div class="grid grid-cols-2 gap-2 pt-1">
               <div class="space-y-1">
                 <label class="text-[9px] text-emerald-300 font-bold block">1. Upload ID Front</label>
-                <input type="file" accept="image/*" onchange="handleIdImageUpload(event, 1)" class="w-full p-1 text-[10px] rounded file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500 file:text-black">
+                <input type="file" accept="image/*" onchange="handleKycImageUpload(event, 1)" class="w-full p-1 text-[10px] rounded file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500 file:text-black">
                 <div id="kycIdPreviewContainer1" class="hidden pt-1">
                   <img id="kycIdPreviewImg1" src="" class="w-full h-20 object-cover rounded-lg border border-emerald-800">
                 </div>
               </div>
               <div class="space-y-1">
                 <label class="text-[9px] text-emerald-300 font-bold block">2. Upload ID Back / Selfie</label>
-                <input type="file" accept="image/*" onchange="handleIdImageUpload(event, 2)" class="w-full p-1 text-[10px] rounded file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500 file:text-black">
+                <input type="file" accept="image/*" onchange="handleKycImageUpload(event, 2)" class="w-full p-1 text-[10px] rounded file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500 file:text-black">
                 <div id="kycIdPreviewContainer2" class="hidden pt-1">
                   <img id="kycIdPreviewImg2" src="" class="w-full h-20 object-cover rounded-lg border border-emerald-800">
                 </div>
@@ -1432,13 +936,10 @@
             <h2 class="text-xs font-extrabold text-purple-200 uppercase tracking-wide">Main Admin Control Center</h2>
           </div>
           <div class="flex space-x-1 overflow-x-auto no-scrollbar pb-1 border-b border-purple-900/40">
-            <button onclick="switchAdminSubTab('users')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-purple-700 text-white whitespace-nowrap adm-sub-btn" data-sub="users">Balances</button>
-            <button onclick="switchAdminSubTab('companies')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn" data-sub="companies">Investments</button>
-            <button onclick="switchAdminSubTab('finance')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn" data-sub="finance">Finance & Pay</button>
-            <button onclick="switchAdminSubTab('kyc')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn" data-sub="kyc">KYC Verify</button>
-            <button onclick="switchAdminSubTab('tasksadm')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn" data-sub="tasksadm">Tasks</button>
-            <button onclick="switchAdminSubTab('news')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn" data-sub="news">News & Events</button>
-            <button onclick="switchAdminSubTab('support')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn" data-sub="support">Support Chat</button>
+            <button onclick="switchAdminSubTab('users')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-purple-700 text-white whitespace-nowrap">Balances</button>
+            <button onclick="switchAdminSubTab('kyc')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">KYC Verify</button>
+            <button onclick="switchAdminSubTab('news')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">News & Events</button>
+            <button onclick="switchAdminSubTab('support')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">Support Chat</button>
           </div>
 
           <div id="adm-sub-users" class="space-y-2.5 mt-2">
@@ -1450,88 +951,19 @@
             <div id="adminUsersDetailList" class="space-y-1.5 pt-2 max-h-40 overflow-y-auto no-scrollbar"></div>
           </div>
 
-          <div id="adm-sub-companies" class="space-y-2.5 mt-2 hidden">
-            <label class="text-[10px] text-purple-300 font-bold block">Select Company / Item to Edit</label>
-            <select id="admCompSelect" onchange="loadAdminCompForm()" class="w-full p-2 text-xs rounded-lg"></select>
-            <label class="text-[10px] text-purple-300 font-bold block">Company Overview</label>
-            <textarea id="admCompDesc" rows="2" class="w-full p-2 text-xs rounded-lg"></textarea>
-            <label class="text-[10px] text-purple-300 font-bold block">Why Invest</label>
-            <input id="admCompWhy" type="text" class="w-full p-2 text-xs rounded-lg">
-            <label class="text-[10px] text-purple-300 font-bold block">Banner Image URL</label>
-            <input id="admCompImg" type="text" class="w-full p-2 text-xs rounded-lg">
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="text-[10px] text-purple-300 font-bold block">Yield Rate</label>
-                <input id="admCompRate" type="text" class="w-full p-2 text-xs rounded-lg">
-              </div>
-              <div>
-                <label class="text-[10px] text-purple-300 font-bold block">Lock Days</label>
-                <input id="admCompDays" type="number" class="w-full p-2 text-xs rounded-lg">
-              </div>
-            </div>
-            <button onclick="adminSaveCompData()" class="w-full py-2 text-xs font-bold btn-emerald">Save Company Changes</button>
-          </div>
-
-          <div id="adm-sub-finance" class="space-y-2.5 mt-2 hidden">
-            <h3 class="text-xs font-bold text-purple-200">Editable Payment Methods Setup</h3>
-            <input id="payMethod1Name" type="text" class="w-full p-2 text-xs rounded-lg mb-1" placeholder="Method Name (e.g. USDT TRC-20)">
-            <input id="payMethod1Val" type="text" class="w-full p-2 text-xs rounded-lg mb-2" placeholder="Wallet Address">
-            <input id="payMethod2Name" type="text" class="w-full p-2 text-xs rounded-lg mb-1" placeholder="Method Name 2">
-            <input id="payMethod2Val" type="text" class="w-full p-2 text-xs rounded-lg mb-2" placeholder="Account Number / Address">
-            <button onclick="adminSavePaymentMethods()" class="w-full py-1.5 text-xs font-bold btn-emerald mb-3">Update Payment Methods</button>
-            <h3 class="text-xs font-bold text-purple-200 border-t border-purple-900/40 pt-2">Deposit & Withdrawal Requests</h3>
-            <div id="adminFinanceTxsList" class="space-y-2 max-h-40 overflow-y-auto no-scrollbar"></div>
-          </div>
-
           <div id="adm-sub-kyc" class="space-y-2.5 mt-2 hidden">
             <h3 class="text-xs font-bold text-purple-200">User KYC Verification Queue</h3>
-            <div id="adminKycVerifyList" class="space-y-2.5 max-h-56 overflow-y-auto no-scrollbar"></div>
-          </div>
-
-          <div id="adm-sub-tasksadm" class="space-y-2.5 mt-2 hidden">
-            <h3 class="text-xs font-bold text-purple-200">Add & Manage Tasks</h3>
-            <input id="admTaskTitle" type="text" placeholder="Task Title (e.g. Join Telegram)" class="w-full p-2 text-xs rounded-lg">
-            <input id="admTaskReward" type="number" placeholder="Reward Amount ($ USD)" class="w-full p-2 text-xs rounded-lg">
-            <input id="admTaskLink" type="text" placeholder="Target Link URL (https://...)" class="w-full p-2 text-xs rounded-lg">
-            
-            <div class="space-y-1">
-              <label class="text-[10px] text-purple-300 font-bold block">Upload Task Image / Icon (Optional)</label>
-              <input type="file" accept="image/*" onchange="handleTaskImageUpload(event)" class="w-full p-1.5 text-xs rounded-lg file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white">
-              <input id="admTaskImg" type="text" placeholder="Image URL (optional)" class="w-full p-2 text-xs rounded-lg">
-            </div>
-            <div id="admTaskImagePreviewContainer" class="hidden pt-1">
-              <img id="admTaskImagePreview" src="" class="w-full h-20 object-cover rounded-lg border border-purple-800">
-            </div>
-
-            <button onclick="adminCreateTask()" class="w-full py-2 text-xs font-bold btn-emerald">Add New Task</button>
-            <div class="pt-2 border-t border-purple-900/40">
-              <h4 class="text-[11px] font-bold text-purple-300 mb-2">Existing Tasks</h4>
-              <div id="adminTasksManagerList" class="space-y-2 max-h-36 overflow-y-auto no-scrollbar"></div>
-            </div>
+            <div id="adminKycVerifyList" class="space-y-2.5 max-h-72 overflow-y-auto no-scrollbar"></div>
           </div>
 
           <div id="adm-sub-news" class="space-y-2.5 mt-2 hidden">
-            <h3 class="text-xs font-bold text-purple-200">Publish News & Events (Max 4)</h3>
+            <h3 class="text-xs font-bold text-purple-200">Publish News & Events</h3>
             <input id="admNewsHeadline" type="text" placeholder="News Headline" class="w-full p-2 text-xs rounded-lg mb-2">
-            <textarea id="admNewsText" rows="2" placeholder="News or Event Content" class="w-full p-2 text-xs rounded-lg mb-2"></textarea>
-            
-            <div class="space-y-1 mb-2">
-              <label class="text-[10px] text-purple-300 font-bold block">Upload Banner Image or Enter URL</label>
-              <input type="file" accept="image/*" onchange="handleNewsImageUpload(event)" class="w-full p-1.5 text-xs rounded-lg file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white mb-1">
-              <input id="admNewsImg" type="text" placeholder="Banner Image URL" class="w-full p-2 text-xs rounded-lg">
-            </div>
-            <div id="admNewsImagePreviewContainer" class="hidden pt-1 mb-2">
-              <img id="admNewsImagePreview" src="" class="w-full h-24 object-cover rounded-lg border border-purple-800">
-            </div>
-
-            <button onclick="adminPublishNews()" class="w-full py-2 text-xs font-bold btn-emerald mb-4">Publish News & Event</button>
-
-            <h3 class="text-xs font-bold text-purple-200 border-t border-purple-900/40 pt-3 mb-2">Create Attendable Events</h3>
-            <input id="admEventTitle" type="text" placeholder="Event Title (e.g. Green Summit)" class="w-full p-2 text-xs rounded-lg mb-2">
-            <input id="admEventDate" type="text" placeholder="Event Date & Time" class="w-full p-2 text-xs rounded-lg mb-2">
-            <textarea id="admEventDesc" rows="2" placeholder="Event Description" class="w-full p-2 text-xs rounded-lg mb-2"></textarea>
-            <button onclick="adminCreateEvent()" class="w-full py-2 text-xs font-bold btn-emerald mb-3">Publish Event</button>
-            <div id="adminEventsManagerList" class="space-y-2 max-h-36 overflow-y-auto no-scrollbar"></div>
+            <textarea id="admNewsText" rows="2" placeholder="News Content" class="w-full p-2 text-xs rounded-lg mb-2"></textarea>
+            <button onclick="adminPublishNews()" class="w-full py-2 text-xs font-bold btn-emerald mb-3">Publish News</button>
+            <input id="admEventTitle" type="text" placeholder="Event Title" class="w-full p-2 text-xs rounded-lg mb-2">
+            <input id="admEventDate" type="text" placeholder="Event Date" class="w-full p-2 text-xs rounded-lg mb-2">
+            <button onclick="adminCreateEvent()" class="w-full py-2 text-xs font-bold btn-emerald">Publish Event</button>
           </div>
 
           <div id="adm-sub-support" class="space-y-2.5 mt-2 hidden">
@@ -1543,46 +975,11 @@
 
     </main>
 
-    <div id="companyDetailModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
-      <div class="glass-card-glow w-full max-w-sm rounded-2xl p-4 space-y-3 relative">
-        <button onclick="closeCompanyModal()" class="absolute top-3 right-3 text-emerald-400 text-sm">✕</button>
-        <div class="flex items-center space-x-3">
-          <div id="modalLogoBadge" class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold border"></div>
-          <div>
-            <h3 id="modalCompanyTitle" class="text-sm font-bold text-emerald-100">Asset Title</h3>
-            <p id="modalCompanyType" class="text-[10px] text-emerald-400 font-mono uppercase">Category</p>
-          </div>
-        </div>
-        <img id="modalCompanyImg" src="" class="w-full h-32 object-cover rounded-xl border border-emerald-800/40">
-        <p id="modalCompanyDesc" class="text-xs text-emerald-200/80 bg-black/40 p-2.5 rounded-xl"></p>
-        <p id="modalCompanyWhy" class="text-[11px] text-amber-300 font-semibold bg-emerald-950/40 p-2.5 rounded-xl border border-emerald-800/50"></p>
-        <button onclick="closeCompanyModal(); switchTab('invest')" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Invest Now</button>
-      </div>
-    </div>
-
     <div id="investConfirmModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
       <div class="glass-card-glow w-full max-w-sm rounded-2xl p-4 space-y-3.5 relative">
         <button onclick="closeInvestConfirmModal()" class="absolute top-3 right-3 text-emerald-400 text-sm">✕</button>
-        <div class="flex items-center space-x-3">
-          <div id="investModalLogoBadge" class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold border"></div>
-          <div>
-            <h3 id="investModalTitle" class="text-sm font-bold text-emerald-100">Asset Title</h3>
-            <p id="investModalCategory" class="text-[10px] text-emerald-400 font-mono uppercase">Category</p>
-          </div>
-        </div>
-        <div>
-          <label class="text-[10px] text-emerald-300 font-bold block mb-1">Investment Amount ($ USD)</label>
-          <input id="investInputAmount" type="number" value="100" min="10" oninput="recalculateInvestSummary()" class="w-full p-2 text-xs font-bold rounded-lg">
-        </div>
-        <div>
-          <label class="text-[10px] text-emerald-300 font-bold block mb-1">Choose Lock Duration</label>
-          <div id="investDurationGrid" class="grid grid-cols-3 gap-1.5 text-[10px]"></div>
-        </div>
-        <div class="p-3 bg-black/50 rounded-xl border border-emerald-900/50 space-y-1 text-xs">
-          <div class="flex justify-between text-emerald-300"><span>Selected Rate:</span><span id="investSummaryRateLabel" class="font-bold">1.5%/day</span></div>
-          <div class="flex justify-between text-amber-300"><span>Estimated Profit:</span><span id="investSummaryProfit" class="font-bold">+$1.50</span></div>
-          <div class="flex justify-between text-emerald-100 font-extrabold border-t border-emerald-900/60 pt-1"><span>Total Payout:</span><span id="investSummaryTotal">$101.50</span></div>
-        </div>
+        <h3 class="text-sm font-bold text-emerald-100">Confirm Investment</h3>
+        <input id="investInputAmount" type="number" value="100" class="w-full p-2 text-xs font-bold rounded-lg">
         <button onclick="confirmAndLockInvestment()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">CONFIRM & LOCK INVESTMENT</button>
       </div>
     </div>
