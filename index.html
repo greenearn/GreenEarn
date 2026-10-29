@@ -1,130 +1,883 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GREENEARN - Eco-Luxury Investment & Mining Platform</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-    * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: #040d08; color: #e2f1e8; margin: 0; padding: 0; min-height: 100vh; }
-    .glass-card { background: rgba(12, 31, 20, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(34, 197, 94, 0.2); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
-    .glass-card-glow { background: rgba(12, 35, 22, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(52, 211, 153, 0.35); box-shadow: 0 0 25px rgba(16, 185, 129, 0.2); }
-    .btn-emerald { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-weight: 700; transition: all 0.25s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .btn-emerald:hover { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45); }
-    .text-gradient-emerald { background: linear-gradient(135deg, #6ee7b7 0%, #10b981 50%, #059669 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    input, select, textarea { background: rgba(6, 22, 14, 0.9) !important; border: 1px solid rgba(34, 197, 94, 0.3) !important; color: #ecfdf5 !important; outline: none !important; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREENEARN - Eco-Luxury Investment Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#040d08',
+                            card: '#0a1d12',
+                            border: '#153e26',
+                            primary: '#10b981',
+                            accent: '#34d399',
+                            gold: '#fbbf24'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #040d08; color: #e2f1e8; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+        .glass-panel { background: rgba(10, 29, 18, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(21, 62, 38, 0.8); }
+        .glass-panel-glow { background: rgba(12, 35, 22, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(52, 211, 153, 0.35); box-shadow: 0 0 25px rgba(16, 185, 129, 0.15); }
+        .btn-emerald { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-weight: 700; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25); }
+        .btn-emerald:hover { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); transform: translateY(-1px); }
+        .text-gradient-emerald { background: linear-gradient(135deg, #6ee7b7 0%, #10b981 50%, #059669 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        input, select, textarea { background: rgba(4, 13, 8, 0.85) !important; border: 1px solid rgba(21, 62, 38, 0.9) !important; color: #ecfdf5 !important; outline: none !important; }
+        input:focus, select:focus, textarea:focus { border-color: #10b981 !important; box-shadow: 0 0 10px rgba(16, 185, 129, 0.25) !important; }
+    </style>
 </head>
 <body class="flex justify-center bg-black min-h-screen">
 
-  <div class="w-full max-w-md bg-[#040d08] min-h-screen flex flex-col justify-between relative pb-20 shadow-2xl border-x border-emerald-900/30">
+    <!-- Mobile Mini App Container -->
+    <div class="w-full max-w-md bg-brand-bg min-h-screen flex flex-col justify-between relative pb-20 shadow-2xl border-x border-brand-border">
 
-    <!-- Top Header -->
-    <header class="sticky top-0 z-40 bg-[#040d08]/90 backdrop-blur-md px-4 py-3 border-b border-emerald-900/30 flex items-center justify-between">
-      <div class="flex items-center space-x-2">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-900/50">
-          <i class="fa-solid fa-leaf text-black text-lg"></i>
-        </div>
-        <div>
-          <h1 class="text-lg font-extrabold tracking-wider text-gradient-emerald leading-tight">GREENEARN</h1>
-          <p class="text-[10px] text-emerald-400/70 font-medium">Eco-Luxury Protocol</p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-2">
-        <button id="adminToggleBtn" onclick="toggleAdminPanel()" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40">
-          <i class="fa-solid fa-shield-halved mr-1"></i> Admin
-        </button>
-        <div id="userInfoHeader" class="flex items-center space-x-2">
-          <button onclick="openAuthModal()" class="px-3 py-1.5 text-xs font-bold rounded-lg btn-emerald">Sign In</button>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-4 space-y-5 overflow-y-auto">
-      <!-- HOME TAB -->
-      <section id="tab-home" class="space-y-4">
-        <div class="glass-card-glow rounded-2xl p-5 relative overflow-hidden">
-          <p class="text-xs uppercase tracking-wider text-emerald-400/80 font-semibold">Total Portfolio Balance</p>
-          <h2 id="userDisplayBalance" class="text-3xl font-extrabold text-white mt-1">$1,250.00</h2>
-          <div class="grid grid-cols-2 gap-3 mt-5 pt-4 border-t border-emerald-800/40">
-            <div>
-              <p class="text-[11px] text-emerald-400/70">Daily Earnings</p>
-              <p id="userDailyYield" class="text-sm font-bold text-emerald-300">+$18.75 / day</p>
+        <!-- Top Header & Role Indicator -->
+        <header class="sticky top-0 z-40 bg-brand-bg/90 backdrop-blur-md px-4 py-3 border-b border-brand-border flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-accent to-brand-primary flex items-center justify-center text-slate-950 font-black shadow-md shadow-brand-accent/20">
+                    <i class="fa-solid fa-leaf text-base"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-sm tracking-tight text-gradient-emerald leading-none">GREENEARN</h1>
+                    <span id="userRoleBadgeHeader" class="text-[9px] text-brand-primary font-semibold flex items-center gap-1 mt-0.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-primary animate-pulse"></span>
+                        <span id="userRoleText">User Account</span>
+                    </span>
+                </div>
             </div>
-            <div>
-              <p class="text-[11px] text-emerald-400/70">Total Profit Earned</p>
-              <p id="userTotalProfit" class="text-sm font-bold text-amber-300">+$340.50</p>
+
+            <!-- Header Action Controls -->
+            <div class="flex items-center space-x-2">
+                <div id="authHeaderContainer">
+                    <!-- Dynamic Auth Buttons -->
+                </div>
+                <button id="adminTriggerBtn" onclick="toggleAdminPanelModal()" class="hidden px-2.5 py-1.5 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 font-extrabold text-xs hover:bg-amber-500/30 transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Admin</span>
+                </button>
             </div>
-          </div>
+        </header>
+
+        <!-- Main View Router Container -->
+        <main class="flex-1 p-4 space-y-4 overflow-y-auto">
+
+            <!-- ==================== 1. HOME TAB ==================== -->
+            <section id="tab-home" class="space-y-4">
+                <!-- Total Balance Portfolio Card -->
+                <div class="glass-panel-glow rounded-3xl p-5 relative overflow-hidden">
+                    <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-brand-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-[11px] uppercase tracking-wider text-slate-400 font-bold">Total Portfolio Balance</p>
+                            <h2 id="homeDisplayBalance" class="text-3xl font-black text-white mt-1">$1,000.00</h2>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-brand-primary/20 text-brand-primary border border-brand-primary/30 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-primary animate-ping"></span> Active Protocol
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-brand-border">
+                        <div>
+                            <p class="text-[10px] text-slate-400 font-medium">Daily Active Earnings</p>
+                            <p id="homeDailyEarnings" class="text-xs font-bold text-brand-primary">+$15.00 / day</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-400 font-medium">Total Profit Claimed</p>
+                            <p id="homeTotalProfit" class="text-xs font-bold text-amber-400">+$250.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Login Reward Banner Card -->
+                <div class="glass-panel p-4 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-950/30 via-brand-card to-emerald-950/40 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-11 h-11 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-xl font-bold shadow-lg">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-xs text-white">Daily Login Bonus</h3>
+                            <p class="text-[10px] text-amber-300/80 font-medium">Claim free daily cash reward</p>
+                        </div>
+                    </div>
+                    <button id="dailyClaimBtn" onclick="claimDailyLoginBonus()" class="px-3.5 py-2 rounded-xl text-xs font-black bg-amber-500 text-slate-950 hover:bg-amber-400 shadow-lg shadow-amber-500/20 transition">
+                        Claim +$<span id="dailyBonusVal">5.00</span>
+                    </button>
+                </div>
+
+                <!-- Quick Gateway Buttons -->
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="switchTab('wallet')" class="glass-panel p-3 rounded-2xl flex flex-col items-center justify-center hover:bg-brand-card transition">
+                        <i class="fa-solid fa-wallet text-brand-primary text-base mb-1"></i>
+                        <span class="text-[11px] font-bold text-slate-200">Deposit</span>
+                    </button>
+                    <button onclick="switchTab('invest')" class="glass-panel p-3 rounded-2xl flex flex-col items-center justify-center hover:bg-brand-card transition">
+                        <i class="fa-solid fa-chart-line text-brand-primary text-base mb-1"></i>
+                        <span class="text-[11px] font-bold text-slate-200">Invest</span>
+                    </button>
+                    <button onclick="switchTab('tasks')" class="glass-panel p-3 rounded-2xl flex flex-col items-center justify-center hover:bg-brand-card transition">
+                        <i class="fa-solid fa-gift text-amber-400 text-base mb-1"></i>
+                        <span class="text-[11px] font-bold text-amber-200">Gifts</span>
+                    </button>
+                </div>
+
+                <!-- Daily Events & Announcements Feed -->
+                <div class="space-y-2">
+                    <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-bullhorn text-brand-primary"></i> Protocol News & Events
+                    </h3>
+                    <div id="homeNewsFeed" class="space-y-3">
+                        <!-- Dynamic News Cards -->
+                    </div>
+                </div>
+
+                <!-- New Coming Soon Investment Releases -->
+                <div class="space-y-2">
+                    <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-rocket text-amber-400"></i> Upcoming Stock Releases
+                    </h3>
+                    <div class="glass-panel p-3.5 rounded-2xl border border-brand-border flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-base font-bold">
+                                ⚡
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs text-white">Solid-State Battery Tech</h4>
+                                <p class="text-[10px] text-slate-400">Target Entry Price: $500.00</p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-extrabold text-[10px] border border-amber-500/30">
+                            Coming Soon
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== 2. INVEST TAB ==================== -->
+            <section id="tab-invest" class="space-y-4 hidden">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="font-black text-sm text-white">Eco Asset Catalog</h2>
+                        <p class="text-[10px] text-slate-400">Select project category & lock investment duration</p>
+                    </div>
+                </div>
+
+                <!-- Category Tabs -->
+                <div class="flex space-x-1.5 overflow-x-auto hide-scrollbar pb-1 text-xs">
+                    <button onclick="filterInvestCategory('all')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-primary text-slate-950 whitespace-nowrap" data-cat="all">All</button>
+                    <button onclick="filterInvestCategory('Solar Power')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-cat="Solar Power">Solar Power</button>
+                    <button onclick="filterInvestCategory('EV Charging')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-cat="EV Charging">EV Charging</button>
+                    <button onclick="filterInvestCategory('Crypto Mining')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-cat="Crypto Mining">Crypto Mining</button>
+                    <button onclick="filterInvestCategory('AI Platforms')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-cat="AI Platforms">AI Platforms</button>
+                    <button onclick="filterInvestCategory('EV Cars')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-cat="EV Cars">EV Cars</button>
+                </div>
+
+                <!-- Investment Items List -->
+                <div id="investCatalogContainer" class="space-y-3">
+                    <!-- Dynamic Assets Rendered Here -->
+                </div>
+            </section>
+
+            <!-- ==================== 3. TASKS & GIFTS TAB ==================== -->
+            <section id="tab-tasks" class="space-y-4 hidden">
+                <div class="glass-panel p-4 rounded-3xl border border-amber-500/40 bg-gradient-to-r from-amber-950/40 to-emerald-950/60 relative overflow-hidden">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 text-2xl shadow-lg">
+                            🎁
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-black text-amber-200">Daily Task & Gift Center</h2>
+                            <p class="text-[10px] text-amber-300/80 font-medium">Complete daily micro-tasks for instant wallet bonus rewards.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tasksListContainer" class="space-y-3">
+                    <!-- Dynamic Task List -->
+                </div>
+            </section>
+
+            <!-- ==================== 4. REFERRAL & VIP TAB ==================== -->
+            <section id="tab-refer" class="space-y-4 hidden">
+                <!-- Referral Banner -->
+                <div class="glass-panel p-5 rounded-3xl text-center space-y-3">
+                    <div class="w-14 h-14 mx-auto rounded-2xl bg-brand-primary/20 border border-brand-primary/40 flex items-center justify-center text-brand-primary text-2xl shadow-lg">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-black text-white">Invite Friends & Earn 10%</h2>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Receive an instant 10% cash deposit bonus for every user who registers with your link.</p>
+                    </div>
+
+                    <div class="p-3 bg-brand-bg rounded-xl border border-brand-border flex items-center justify-between">
+                        <span id="referralLinkText" class="text-xs font-mono text-brand-primary truncate mr-2">https://t.me/GreenEarnBot?start=ref102</span>
+                        <button onclick="copyReferralLink()" class="px-3 py-1.5 rounded-lg text-xs font-bold btn-emerald whitespace-nowrap">Copy Link</button>
+                    </div>
+                </div>
+
+                <!-- VIP Level Progress -->
+                <div class="glass-panel p-4 rounded-2xl space-y-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 id="currentVipTierTitle" class="font-bold text-xs text-amber-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-crown"></i> VIP Level 1 Investor
+                            </h3>
+                            <p class="text-[10px] text-slate-400">Higher VIP tiers unlock increased daily referral bonuses.</p>
+                        </div>
+                        <span class="text-xs font-black text-white">Tier 1 / 5</span>
+                    </div>
+
+                    <div class="w-full h-2 rounded-full bg-brand-bg overflow-hidden border border-brand-border">
+                        <div class="h-full bg-gradient-to-r from-amber-500 to-brand-primary rounded-full w-1/5"></div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 text-center text-[10px] pt-1">
+                        <div class="p-2 bg-brand-bg rounded-xl border border-brand-border">
+                            <span class="text-slate-400 block">VIP 1</span>
+                            <span class="font-bold text-brand-primary">10% Cash</span>
+                        </div>
+                        <div class="p-2 bg-brand-bg rounded-xl border border-brand-border">
+                            <span class="text-slate-400 block">VIP 2</span>
+                            <span class="font-bold text-amber-400">12% Cash</span>
+                        </div>
+                        <div class="p-2 bg-brand-bg rounded-xl border border-brand-border">
+                            <span class="text-slate-400 block">VIP 3</span>
+                            <span class="font-bold text-amber-300">15% Cash</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== 5. WALLET & HISTORY TAB ==================== -->
+            <section id="tab-wallet" class="space-y-4 hidden">
+                <div class="glass-panel p-5 rounded-3xl space-y-4">
+                    <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-wallet text-brand-primary"></i> Wallet & Transaction Center
+                    </h2>
+
+                    <div class="grid grid-cols-2 gap-2 p-1 bg-brand-bg rounded-xl border border-brand-border">
+                        <button id="tabWalletDeposit" onclick="switchWalletSubTab('deposit')" class="py-2 text-xs font-bold rounded-lg bg-brand-primary text-slate-950">Deposit</button>
+                        <button id="tabWalletWithdraw" onclick="switchWalletSubTab('withdraw')" class="py-2 text-xs font-bold rounded-lg text-slate-400">Withdraw</button>
+                    </div>
+
+                    <!-- Deposit Section -->
+                    <div id="walletSecDeposit" class="space-y-3">
+                        <p class="text-[11px] text-slate-400">Send USDT via TRC-20 network to your platform deposit address below:</p>
+                        <div class="p-3 bg-brand-bg rounded-xl border border-brand-border flex items-center justify-between">
+                            <span class="text-xs font-mono text-brand-primary truncate mr-2">T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB</span>
+                            <button onclick="navigator.clipboard.writeText('T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB'); alert('Address Copied!')" class="px-2 py-1 text-[10px] font-bold bg-brand-card text-slate-200 border border-brand-border rounded">Copy</button>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Deposit Amount ($)</label>
+                            <input type="number" id="depositAmtInput" placeholder="100.00" class="w-full p-2.5 rounded-xl text-xs font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Upload Payment Proof Screenshot</label>
+                            <input type="file" id="depositProofFile" accept="image/*" onchange="handleProofPreview(this)" class="w-full p-2 rounded-xl text-xs">
+                            <img id="depositProofPreview" class="w-full h-28 object-cover rounded-xl mt-2 hidden border border-brand-border">
+                        </div>
+                        <button onclick="submitDepositRequest()" class="w-full py-2.5 rounded-xl text-xs font-black btn-emerald">
+                            Submit Deposit Verification
+                        </button>
+                    </div>
+
+                    <!-- Withdraw Section -->
+                    <div id="walletSecWithdraw" class="space-y-3 hidden">
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Withdrawal Amount ($)</label>
+                            <input type="number" id="withdrawAmtInput" placeholder="Enter USD amount" class="w-full p-2.5 rounded-xl text-xs font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Payout USDT Address (TRC-20)</label>
+                            <input type="text" id="withdrawAddressInput" placeholder="Paste TRC-20 address" class="w-full p-2.5 rounded-xl text-xs">
+                        </div>
+                        <button onclick="submitWithdrawalRequest()" class="w-full py-2.5 rounded-xl text-xs font-black btn-emerald">
+                            Request Withdrawal
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Investment History Ledger -->
+                <div class="glass-panel p-4 rounded-2xl space-y-3">
+                    <h3 class="font-bold text-xs text-white flex items-center gap-1.5">
+                        <i class="fa-solid fa-clock-rotate-left text-brand-primary"></i> Investment History & Active Positions
+                    </h3>
+                    <div id="activeInvestmentsHistory" class="space-y-2">
+                        <!-- Dynamic Ledger Records -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== 6. PROFILE & KYC TAB ==================== -->
+            <section id="tab-profile" class="space-y-4 hidden">
+                <div class="glass-panel p-5 rounded-3xl space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-primary/20 border border-brand-primary/40 flex items-center justify-center text-brand-primary text-xl font-bold">
+                            👤
+                        </div>
+                        <div>
+                            <h2 id="profileUsernameDisplay" class="font-black text-sm text-white">Demo User</h2>
+                            <p id="profileAccountRoleBadge" class="text-[10px] text-brand-primary font-bold">Standard User Account</p>
+                        </div>
+                    </div>
+
+                    <!-- Identity Verification KYC Section -->
+                    <div class="p-3.5 bg-brand-bg rounded-2xl border border-brand-border space-y-2.5">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-slate-400 font-semibold">KYC Verification Status:</span>
+                            <span id="kycBadgeStatus" class="font-extrabold text-amber-400 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">Unverified</span>
+                        </div>
+                        <div class="space-y-2 pt-1 border-t border-brand-border">
+                            <label class="block text-[10px] text-slate-400 font-semibold">Upload ID / Passport Document</label>
+                            <input type="file" id="kycDocFileInput" accept="image/*" class="w-full p-2 rounded-xl text-xs">
+                            <button onclick="submitKycVerification()" class="w-full py-2 rounded-xl text-xs font-bold bg-brand-card text-brand-primary border border-brand-border hover:bg-brand-bg">
+                                Submit Identity Documents
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ==================== INVESTMENT CONFIRMATION MODAL ==================== -->
+        <div id="investConfirmModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+            <div class="glass-panel-glow w-full max-w-sm rounded-3xl p-5 space-y-4 relative">
+                <button onclick="closeInvestModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="flex items-center space-x-3">
+                    <img id="modalAssetImg" src="" class="w-12 h-12 rounded-2xl object-cover border border-brand-border">
+                    <div>
+                        <h3 id="modalAssetTitle" class="font-black text-sm text-white">Asset Title</h3>
+                        <p id="modalAssetCategory" class="text-[10px] text-brand-primary font-bold uppercase">Category</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Investment Amount ($)</label>
+                    <input type="number" id="investAmountInput" value="100" oninput="calculateInvestmentReturn()" class="w-full p-2.5 rounded-xl text-xs font-extrabold">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Select Lock Duration</label>
+                    <div id="durationSelectorGrid" class="grid grid-cols-3 gap-1.5 text-[10px]">
+                        <!-- Dynamic Duration Buttons -->
+                    </div>
+                </div>
+
+                <!-- Calculated Return Summary -->
+                <div class="p-3 bg-brand-bg rounded-2xl border border-brand-border space-y-1.5 text-xs">
+                    <div class="flex justify-between text-slate-400">
+                        <span>Return Rate:</span>
+                        <span id="summaryRateLabel" class="font-bold text-brand-primary">1.5%/day</span>
+                    </div>
+                    <div class="flex justify-between text-slate-400">
+                        <span>Estimated Total Profit:</span>
+                        <span id="summaryProfitVal" class="font-bold text-amber-400">+$1.50</span>
+                    </div>
+                    <div class="flex justify-between text-white font-black pt-1 border-t border-brand-border">
+                        <span>Total Maturity Payout:</span>
+                        <span id="summaryMaturityPayout" class="text-brand-accent">$101.50</span>
+                    </div>
+                </div>
+
+                <button onclick="executeInvestmentLock()" class="w-full py-3 rounded-xl text-xs font-black btn-emerald">
+                    CONFIRM & LOCK INVESTMENT
+                </button>
+            </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-2">
-          <button onclick="switchTab('wallet')" class="glass-card p-3 rounded-xl flex flex-col items-center justify-center">
-            <i class="fa-solid fa-wallet text-emerald-400 text-lg mb-1"></i>
-            <span class="text-xs font-semibold text-emerald-200">Deposit</span>
-          </button>
-          <button onclick="switchTab('invest')" class="glass-card p-3 rounded-xl flex flex-col items-center justify-center">
-            <i class="fa-solid fa-chart-line text-emerald-400 text-lg mb-1"></i>
-            <span class="text-xs font-semibold text-emerald-200">Invest</span>
-          </button>
-          <button onclick="switchTab('tasks')" class="glass-card p-3 rounded-xl flex flex-col items-center justify-center">
-            <i class="fa-solid fa-gift text-amber-400 text-lg mb-1"></i>
-            <span class="text-xs font-semibold text-amber-200">Daily Gifts</span>
-          </button>
+        <!-- ==================== CRYPTO MINING SIMULATION MODAL ==================== -->
+        <div id="miningSimModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 hidden">
+            <div class="glass-panel-glow w-full max-w-sm rounded-3xl p-5 space-y-4 text-center">
+                <div class="w-16 h-16 rounded-full bg-brand-primary/20 border-2 border-brand-primary border-t-transparent animate-spin mx-auto flex items-center justify-center text-brand-primary text-2xl">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <div>
+                    <h3 class="font-black text-sm text-white">Connecting to Crypto Mining Rig</h3>
+                    <p class="text-[10px] text-brand-primary font-mono mt-1">Syncing Node Hashrate & Block Rewards...</p>
+                </div>
+                <div class="p-3 bg-brand-bg rounded-2xl border border-brand-border text-xs text-left space-y-1 font-mono text-slate-300">
+                    <div class="flex justify-between"><span>Hashrate:</span> <span class="text-brand-primary">140.5 TH/s</span></div>
+                    <div class="flex justify-between"><span>Active Nodes:</span> <span class="text-amber-400">256 Rigs Syncing</span></div>
+                    <div class="flex justify-between"><span>Mining Pool:</span> <span class="text-white">GreenEarn Hydro-Pool</span></div>
+                </div>
+            </div>
         </div>
-      </section>
 
-      <!-- INVEST TAB -->
-      <section id="tab-invest" class="space-y-4 hidden">
-        <h2 class="text-base font-bold text-emerald-100">Green Investment Catalog</h2>
-        <div id="investCatalogList" class="space-y-3"></div>
-      </section>
-
-      <!-- TASKS TAB -->
-      <section id="tab-tasks" class="space-y-4 hidden">
-        <div class="glass-card p-4 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-950/40 to-emerald-950/60">
-          <h2 class="text-base font-extrabold text-amber-200">🎁 Daily Task & Gift Center</h2>
-          <p class="text-xs text-amber-300/80">Complete actions to earn instant USD rewards!</p>
+        <!-- ==================== COMPANY DETAILS MODAL ==================== -->
+        <div id="companyDetailModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+            <div class="glass-panel-glow w-full max-w-sm rounded-3xl p-5 space-y-3 relative max-h-[85vh] overflow-y-auto">
+                <button onclick="closeCompanyModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <img id="detailCompanyBanner" src="" class="w-full h-32 object-cover rounded-2xl border border-brand-border">
+                <h3 id="detailCompanyTitle" class="font-black text-base text-white">Company Title</h3>
+                <p id="detailCompanyDesc" class="text-xs text-slate-300 leading-relaxed"></p>
+                <div class="p-3 bg-brand-bg rounded-2xl border border-brand-border space-y-1">
+                    <h4 class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-info"></i> Why Invest Here?
+                    </h4>
+                    <p id="detailCompanyWhy" class="text-xs text-slate-300 leading-relaxed"></p>
+                </div>
+                <button onclick="closeCompanyModal(); switchTab('invest')" class="w-full py-2.5 rounded-xl text-xs font-black btn-emerald">
+                    Proceed To Invest
+                </button>
+            </div>
         </div>
-        <div id="tasksListContainer" class="space-y-3"></div>
-      </section>
 
-      <!-- WALLET TAB -->
-      <section id="tab-wallet" class="space-y-4 hidden">
-        <div class="glass-card p-5 rounded-2xl space-y-4">
-          <h2 class="text-base font-bold text-emerald-100">Crypto Wallet Gateway</h2>
-          <p class="text-xs text-emerald-300/80">Send USDT via TRC-20 network to deposit:</p>
-          <div class="p-3 bg-black/60 rounded-xl border border-emerald-800/50 flex items-center justify-between">
-            <span class="text-xs font-mono text-emerald-400 truncate mr-2">T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB</span>
-            <button onclick="navigator.clipboard.writeText('T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB'); alert('Copied!')" class="px-2.5 py-1 text-xs bg-emerald-800 text-emerald-200 rounded">Copy</button>
-          </div>
+        <!-- ==================== AUTH MODAL (SIGN IN / SIGN UP) ==================== -->
+        <div id="authModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+            <div class="glass-panel-glow w-full max-w-sm rounded-3xl p-5 space-y-4 relative">
+                <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="text-center">
+                    <h3 class="font-black text-base text-white">Account Access</h3>
+                    <p class="text-[10px] text-slate-400">Sign in or register your GreenEarn account</p>
+                </div>
+                <div class="space-y-3 text-xs">
+                    <input type="text" id="authUsername" placeholder="Username" class="w-full p-2.5 rounded-xl font-bold">
+                    <input type="password" id="authPassword" placeholder="Password" class="w-full p-2.5 rounded-xl">
+                    <select id="authAccountRole" class="w-full p-2.5 rounded-xl font-bold">
+                        <option value="user">Standard User</option>
+                        <option value="main_admin">Main Admin (Master Key Required)</option>
+                    </select>
+                    <button onclick="handleAuthSubmit()" class="w-full py-2.5 rounded-xl font-black btn-emerald">
+                        Proceed To Account
+                    </button>
+                </div>
+            </div>
         </div>
-      </section>
-    </main>
 
-    <!-- ADMIN PANEL MODAL -->
-    <div id="adminPanelModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col hidden">
-      <div class="p-4 border-b border-emerald-800/50 bg-[#06180e] flex items-center justify-between">
-        <h2 class="text-sm font-bold text-emerald-100">Unified Admin Control Panel</h2>
-        <button onclick="toggleAdminPanel()" class="w-8 h-8 rounded-lg bg-emerald-900/50 text-emerald-300">✕</button>
-      </div>
-      <div class="p-4 flex-1 overflow-y-auto space-y-4">
-        <p class="text-xs text-emerald-300">Admin privileges active. You can manage balances, tasks, and companies here.</p>
-      </div>
+        <!-- ==================== UNIFIED ADMIN CONTROL PANEL MODAL ==================== -->
+        <div id="unifiedAdminModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 hidden">
+            <div class="glass-panel-glow w-full max-w-2xl max-h-[90vh] rounded-3xl flex flex-col overflow-hidden border border-amber-500/40">
+                <div class="flex items-center justify-between p-4 bg-amber-500/10 border-b border-amber-500/20">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black">
+                            👑
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm text-white">Unified Admin Control Panel</h3>
+                            <span id="currentAdminRoleTag" class="text-[9px] text-amber-400 uppercase font-bold">Main Admin</span>
+                        </div>
+                    </div>
+                    <button onclick="toggleAdminPanelModal()" class="text-slate-400 hover:text-white text-lg">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Admin Subtabs -->
+                <div id="adminTabNavContainer" class="flex border-b border-brand-border bg-brand-bg/60 overflow-x-auto hide-scrollbar text-xs">
+                    <!-- Dynamic Subtabs generated by role permissions -->
+                </div>
+
+                <!-- Admin Panel Body -->
+                <div class="p-4 overflow-y-auto flex-1 space-y-4 text-xs">
+                    <!-- SUBTAB: MANAGE ADMINS -->
+                    <div id="admin-sub-admins" class="admin-sub-content space-y-4 hidden">
+                        <div class="p-3 bg-brand-bg rounded-2xl border border-brand-border space-y-2">
+                            <h4 class="font-bold text-amber-400 text-xs">Add Co-Admin or Sub-Admin</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="newAdminUsername" placeholder="Username" class="p-2 rounded-xl">
+                                <input type="password" id="newAdminPassword" placeholder="Password" class="p-2 rounded-xl">
+                            </div>
+                            <select id="newAdminRoleType" class="w-full p-2 rounded-xl font-bold">
+                                <option value="co_admin">👑 Co-Admin (Full Unrestricted Rights)</option>
+                                <option value="sub_admin">🛡️ Sub-Admin (Granular Rights)</option>
+                            </select>
+                            <button onclick="createNewAdminAccount()" class="w-full py-2 bg-amber-500 text-slate-950 font-black rounded-xl">
+                                Create Administrative User
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SUBTAB: RATES & BONUS -->
+                    <div id="admin-sub-rates" class="admin-sub-content space-y-3">
+                        <div class="p-3 bg-brand-bg rounded-2xl border border-brand-border space-y-2">
+                            <h4 class="font-bold text-brand-primary text-xs">Daily Login Bonus Setting ($)</h4>
+                            <div class="flex items-center space-x-2">
+                                <input type="number" id="adminBonusAmountInput" value="5.00" class="p-2 rounded-xl w-32 font-bold">
+                                <button onclick="saveAdminDailyBonus()" class="px-3 py-2 bg-brand-primary text-slate-950 font-bold rounded-xl">Save Bonus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBTAB: COMPANY EDITOR -->
+                    <div id="admin-sub-companies" class="admin-sub-content space-y-3 hidden">
+                        <div class="p-3 bg-brand-bg rounded-2xl border border-brand-border space-y-2">
+                            <h4 class="font-bold text-brand-primary text-xs">Edit Asset Details & Image URL</h4>
+                            <select id="adminSelectCompany" onchange="loadCompanyAdminDetails(this.value)" class="w-full p-2 rounded-xl font-bold">
+                                <!-- Options dynamically rendered -->
+                            </select>
+                            <textarea id="adminCompanyDesc" rows="2" placeholder="Company Overview" class="w-full p-2 rounded-xl"></textarea>
+                            <textarea id="adminCompanyWhy" rows="2" placeholder="Why Invest Rationale" class="w-full p-2 rounded-xl"></textarea>
+                            <input type="text" id="adminCompanyImg" placeholder="Banner Image URL" class="w-full p-2 rounded-xl">
+                            <button onclick="saveAdminCompanyDetail()" class="w-full py-2 bg-brand-primary text-slate-950 font-bold rounded-xl">Save Company Info</button>
+                        </div>
+                    </div>
+
+                    <!-- SUBTAB: USER BALANCES -->
+                    <div id="admin-sub-users" class="admin-sub-content space-y-3 hidden">
+                        <div class="p-3 bg-brand-bg rounded-2xl border border-brand-border space-y-2">
+                            <h4 class="font-bold text-brand-primary text-xs">Manage User Balances</h4>
+                            <input type="number" id="adminUserBalanceInput" placeholder="New Wallet Balance ($)" class="w-full p-2 rounded-xl font-bold">
+                            <button onclick="adminSetUserBalance()" class="w-full py-2 bg-brand-primary text-slate-950 font-bold rounded-xl">Update Wallet Balance</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-brand-bg/95 backdrop-blur-xl border-t border-brand-border py-2 px-3 flex justify-around items-center z-40">
+            <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center text-brand-primary" data-tab="home">
+                <i class="fa-solid fa-house text-base"></i>
+                <span class="text-[10px] font-bold mt-1">Home</span>
+            </button>
+            <button onclick="switchTab('invest')" class="nav-btn flex flex-col items-center text-slate-500 hover:text-brand-primary" data-tab="invest">
+                <i class="fa-solid fa-chart-pie text-base"></i>
+                <span class="text-[10px] font-bold mt-1">Invest</span>
+            </button>
+            <button onclick="switchTab('tasks')" class="nav-btn flex flex-col items-center text-slate-500 hover:text-brand-primary" data-tab="tasks">
+                <i class="fa-solid fa-list-check text-base"></i>
+                <span class="text-[10px] font-bold mt-1">Tasks</span>
+            </button>
+            <button onclick="switchTab('refer')" class="nav-btn flex flex-col items-center text-slate-500 hover:text-brand-primary" data-tab="refer">
+                <i class="fa-solid fa-users text-base"></i>
+                <span class="text-[10px] font-bold mt-1">Refer</span>
+            </button>
+            <button onclick="switchTab('wallet')" class="nav-btn flex flex-col items-center text-slate-500 hover:text-brand-primary" data-tab="wallet">
+                <i class="fa-solid fa-wallet text-base"></i>
+                <span class="text-[10px] font-bold mt-1">Wallet</span>
+            </button>
+            <button onclick="switchTab('profile')" class="nav-btn flex flex-col items-center text-slate-500 hover:text-brand-primary" data-tab="profile">
+                <i class="fa-solid fa-user text-base"></i>
+                <span class="text-[10px] font-bold mt-1">Profile</span>
+            </button>
+        </nav>
+
     </div>
 
-    <!-- AUTH MODAL -->
-    <div id="authModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-      <div class="glass-card-glow w-full max-w-sm rounded-2xl p-5 space-y-4 relative">
-        <button onclick="closeAuthModal()" class="absolute top-3 right-3 text-emerald-400">✕</button>
-        <h3 class="text-lg font-bold text-emerald-100 text-center">Sign In / Sign Up</h3>
-        <input id="authUsername" type="text" placeholder="Username" class="w-full p-2.5 rounded-xl text-xs">
-        <input id="authPassword" type="password" placeholder="Password" class="w-full p-2.5 rounded-xl text-xs">
-        <button onclick="handleAuthSubmit()" class="w-full py-2.5 rounded-xl
+    <!-- Application Engine JavaScript -->
+    <script>
+        let selectedDurationKey = "1 Day";
+        let currentSelectedAssetId = null;
+
+        let appState = {
+            currentUser: { username: "Demo User", role: "user", permissions: [] },
+            user: {
+                balance: 1000.00,
+                dailyClaimAmount: 5.00,
+                claimedBonusToday: false,
+                kycStatus: "Unverified",
+                investments: []
+            },
+            assets: [
+                // Solar Power
+                { id: 'midong', name: 'MIDONG Solar Farm', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', desc: 'World class 3.5GW mega solar project.', why: 'PPA agreements with state grids.', img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80' },
+                { id: 'bhadla', name: 'Bhadla Solar Park', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', desc: 'Premier solar park in Rajasthan.', why: 'Maximum photovoltaic density location.', img: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=600&q=80' },
+                { id: 'huanghe', name: 'Huanghe Hydropower Hainan', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', desc: 'Hydro-solar hybrid renewable giant.', why: 'Balanced energy dispatch around the clock.', img: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=600&q=80' },
+
+                // EV Charging
+                { id: 'chpt', name: 'ChargePoint Holdings (CHPT)', category: 'EV Charging', yieldText: 'Yield: Up to 25000% return', desc: 'Leading EV charging network.', why: 'Expanding commercial fast-charger footprint.', img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80' },
+                { id: 'blnk', name: 'Blink Charging Co. (BLNK)', category: 'EV Charging', yieldText: 'Yield: Up to 25000% return', desc: 'Next-gen DC fast charging.', why: 'Strategic location deployments.', img: 'https://images.unsplash.com/photo-1558441719-6705166e03c0?auto=format&fit=crop&w=600&q=80' },
+
+                // Crypto Mining
+                { id: 'btcmining', name: 'Bitcoin Green Mining', category: 'Crypto Mining', yieldText: 'Yield: Up to 25000% return', desc: 'Zero-emission BTC hydro data center.', why: 'Ultra-low electricity hash rates.', img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80' },
+                { id: 'sui', name: 'Sui Node Validator (SUI)', category: 'Crypto Mining', yieldText: 'Yield: Up to 25000% return', desc: 'High throughput Move ecosystem node.', why: 'High staking APR yields.', img: 'https://images.unsplash.com/photo-1622979135225-d2ba269bc1bd?auto=format&fit=crop&w=600&q=80' },
+
+                // AI Platforms
+                { id: 'pltr', name: 'Palantir Technologies (PLTR)', category: 'AI Platforms', yieldText: 'Yield: Up to 25000% return', desc: 'Enterprise AI analytics platform.', why: 'Defense & commercial software dominance.', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80' },
+
+                // EV Cars
+                { id: 'tesla', name: 'Tesla Inc.', category: 'EV Cars', yieldText: 'Yield: Up to 25000% return', desc: 'Global electric vehicle titan.', why: 'Autopilot FSD & Megapack energy storage.', img: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=600&q=80' }
+            ],
+            tasks: [
+                { id: 1, title: 'Join GREENEARN Telegram Channel', reward: 5.0, icon: 'fa-paper-plane', done: false },
+                { id: 2, title: 'Daily Check-in Reward', reward: 2.5, icon: 'fa-gift', done: false },
+                { id: 3, title: 'Retweet Official Announcement', reward: 3.0, icon: 'fa-retweet', done: false }
+            ],
+            news: [
+                { id: 1, title: '3.5GW Midong Solar Installation Online', body: 'The largest hydro-solar project node sync completed successfully.', img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80' }
+            ],
+            durationConfigMap: {
+                "1 Day": { days: 1, rate: 0.015, cycle: "daily", label: "1.5%/day" },
+                "15 Days": { days: 15, rate: 0.019, cycle: "daily", label: "1.9%/day" },
+                "1 Month": { days: 30, rate: 0.025, cycle: "daily", label: "2.5%/day" },
+                "6 Months": { days: 180, rate: 0.10, cycle: "15days", label: "10%/15d" },
+                "1 Year": { days: 365, rate: 0.20, cycle: "monthly", label: "20%/mo" },
+                "5 Years": { days: 1825, rate: 100.0, cycle: "lump", label: "10000% Total" },
+                "10 Years": { days: 3650, rate: 250.0, cycle: "lump", label: "25000% Total" }
+            }
+        };
+
+        function saveState() {
+            try { localStorage.setItem('greenearn_app_state_v3', JSON.stringify(appState)); } catch (e) {}
+        }
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem('greenearn_app_state_v3');
+                if (saved) appState = { ...appState, ...JSON.parse(saved) };
+            } catch (e) {}
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.tab === tabId) {
+                    btn.classList.add('text-brand-primary');
+                    btn.classList.remove('text-slate-500');
+                } else {
+                    btn.classList.remove('text-brand-primary');
+                    btn.classList.add('text-slate-500');
+                }
+            });
+        }
+
+        function renderApp() {
+            document.getElementById('homeDisplayBalance').innerText = '$' + appState.user.balance.toFixed(2);
+            document.getElementById('dailyBonusVal').innerText = appState.user.dailyClaimAmount.toFixed(2);
+
+            // Render Catalog
+            filterInvestCategory('all');
+
+            // Render Tasks
+            const taskContainer = document.getElementById('tasksListContainer');
+            taskContainer.innerHTML = '';
+            appState.tasks.forEach(t => {
+                taskContainer.innerHTML += `
+                    <div class="glass-panel p-3.5 rounded-2xl flex items-center justify-between border border-brand-border">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-base">
+                                <i class="fa-solid ${t.icon}"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs text-white">${t.title}</h4>
+                                <p class="text-[10px] font-extrabold text-amber-400">+$${t.reward.toFixed(2)} USD</p>
+                            </div>
+                        </div>
+                        <button onclick="claimTaskReward(${t.id})" class="px-3 py-1.5 rounded-xl text-xs font-bold ${t.done ? 'bg-brand-card text-slate-500' : 'bg-amber-500 text-slate-950'}" ${t.done ? 'disabled' : ''}>
+                            ${t.done ? 'Completed ✓' : 'Claim Gift'}
+                        </button>
+                    </div>
+                `;
+            });
+
+            // Render News Feed
+            const newsFeed = document.getElementById('homeNewsFeed');
+            newsFeed.innerHTML = '';
+            appState.news.forEach(n => {
+                newsFeed.innerHTML += `
+                    <div class="glass-panel p-3 rounded-2xl border border-brand-border space-y-2">
+                        <img src="${n.img}" class="w-full h-24 object-cover rounded-xl">
+                        <h4 class="font-bold text-xs text-white">${n.title}</h4>
+                        <p class="text-[10px] text-slate-400 leading-relaxed">${n.body}</p>
+                    </div>
+                `;
+            });
+
+            // Check Role Controls
+            const adminTriggerBtn = document.getElementById('adminTriggerBtn');
+            if (appState.currentUser.role.includes('admin')) {
+                adminTriggerBtn.classList.remove('hidden');
+            } else {
+                adminTriggerBtn.classList.add('hidden');
+            }
+        }
+
+        function filterInvestCategory(cat) {
+            const container = document.getElementById('investCatalogContainer');
+            container.innerHTML = '';
+
+            const list = cat === 'all' ? appState.assets : appState.assets.filter(a => a.category === cat);
+            list.forEach(asset => {
+                container.innerHTML += `
+                    <div class="glass-panel p-3.5 rounded-2xl flex items-center justify-between border border-brand-border">
+                        <div class="flex items-center space-x-3">
+                            <img src="${asset.img}" class="w-12 h-12 rounded-xl object-cover border border-brand-border">
+                            <div>
+                                <h3 class="font-bold text-xs text-white">${asset.name}</h3>
+                                <p class="text-[10px] text-brand-primary font-semibold">${asset.yieldText}</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-1.5">
+                            <button onclick="openCompanyModal('${asset.id}')" class="px-2.5 py-1.5 rounded-xl text-[10px] font-bold bg-brand-card text-slate-300 border border-brand-border">Detail</button>
+                            <button onclick="openInvestModal('${asset.id}')" class="px-3 py-1.5 rounded-xl text-xs font-black btn-emerald">Invest</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openInvestModal(assetId) {
+            currentSelectedAssetId = assetId;
+            const asset = appState.assets.find(a => a.id === assetId);
+            if (!asset) return;
+
+            document.getElementById('modalAssetTitle').innerText = asset.name;
+            document.getElementById('modalAssetCategory').innerText = asset.category;
+            document.getElementById('modalAssetImg').src = asset.img;
+
+            // Render Duration Grid
+            const durationGrid = document.getElementById('durationSelectorGrid');
+            durationGrid.innerHTML = '';
+            Object.keys(appState.durationConfigMap).forEach(key => {
+                const conf = appState.durationConfigMap[key];
+                durationGrid.innerHTML += `
+                    <button onclick="selectDurationPlan('${key}')" class="dur-btn p-2 rounded-xl text-center border ${key === selectedDurationKey ? 'bg-brand-primary text-slate-950 font-black border-brand-primary' : 'bg-brand-bg text-slate-400 border-brand-border'}">
+                        <div class="font-bold">${key}</div>
+                        <div class="text-[9px]">${conf.label}</div>
+                    </button>
+                `;
+            });
+
+            calculateInvestmentReturn();
+            document.getElementById('investConfirmModal').classList.remove('hidden');
+        }
+
+        function closeInvestModal() {
+            document.getElementById('investConfirmModal').classList.add('hidden');
+        }
+
+        function selectDurationPlan(key) {
+            selectedDurationKey = key;
+            openInvestModal(currentSelectedAssetId);
+        }
+
+        function calculateInvestmentReturn() {
+            const amt = parseFloat(document.getElementById('investAmountInput').value) || 0;
+            const conf = appState.durationConfigMap[selectedDurationKey];
+            if (!conf) return;
+
+            let profit = 0;
+            if (conf.cycle === "lump") {
+                profit = amt * conf.rate;
+            } else {
+                profit = amt * conf.rate * conf.days;
+            }
+
+            document.getElementById('summaryRateLabel').innerText = conf.label;
+            document.getElementById('summaryProfitVal').innerText = '+$' + profit.toFixed(2);
+            document.getElementById('summaryMaturityPayout').innerText = '$' + (amt + profit).toFixed(2);
+        }
+
+        function executeInvestmentLock() {
+            const amt = parseFloat(document.getElementById('investAmountInput').value) || 0;
+            if (amt <= 0 || amt > appState.user.balance) {
+                alert("Insufficient balance for this investment!");
+                return;
+            }
+
+            const asset = appState.assets.find(a => a.id === currentSelectedAssetId);
+            
+            if (asset && asset.category === 'Crypto Mining') {
+                document.getElementById('miningSimModal').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('miningSimModal').classList.add('hidden');
+                    finalizeLock(amt, asset);
+                }, 2000);
+            } else {
+                finalizeLock(amt, asset);
+            }
+        }
+
+        function finalizeLock(amt, asset) {
+            appState.user.balance -= amt;
+            appState.user.investments.push({
+                id: Date.now(),
+                assetName: asset.name,
+                amount: amt,
+                duration: selectedDurationKey,
+                date: new Date().toLocaleDateString()
+            });
+            saveState();
+            renderApp();
+            closeInvestModal();
+            confetti({ particleCount: 70, spread: 60, origin: { y: 0.8 } });
+            alert("Investment locked successfully!");
+        }
+
+        function claimDailyLoginBonus() {
+            if (appState.user.claimedBonusToday) {
+                alert("Bonus already claimed today!");
+                return;
+            }
+            appState.user.balance += appState.user.dailyClaimAmount;
+            appState.user.claimedBonusToday = true;
+            saveState();
+            renderApp();
+            confetti({ particleCount: 60, spread: 60, origin: { y: 0.8 } });
+        }
+
+        function claimTaskReward(taskId) {
+            const t = appState.tasks.find(x => x.id === taskId);
+            if (t && !t.done) {
+                t.done = true;
+                appState.user.balance += t.reward;
+                saveState();
+                renderApp();
+                confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+            }
+        }
+
+        function openCompanyModal(id) {
+            const comp = appState.assets.find(a => a.id === id);
+            if (!comp) return;
+            document.getElementById('detailCompanyBanner').src = comp.img;
+            document.getElementById('detailCompanyTitle').innerText = comp.name;
+            document.getElementById('detailCompanyDesc').innerText = comp.desc;
+            document.getElementById('detailCompanyWhy').innerText = comp.why;
+            document.getElementById('companyDetailModal').classList.remove('hidden');
+        }
+
+        function closeCompanyModal() {
+            document.getElementById('companyDetailModal').classList.add('hidden');
+        }
+
+        function toggleAdminPanelModal() {
+            document.getElementById('unifiedAdminModal').classList.toggle('hidden');
+        }
+
+        function openAuthModal() {
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function handleAuthSubmit() {
+            const user = document.getElementById('authUsername').value.trim() || 'Demo User';
+            const role = document.getElementById('authAccountRole').value;
+            appState.currentUser = { username: user, role: role, permissions: ['all'] };
+            saveState();
+            renderApp();
+            closeAuthModal();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadState();
+            renderApp();
+        });
+    </script>
+</body>
+</html>
