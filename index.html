@@ -1,1183 +1,1393 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GREENEARN - Eco-Luxury Investment Protocol</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Confetti Particle FX -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- FontAwesome Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            bg: '#040d08',
-                            card: '#0a1d12',
-                            panel: '#0c2316',
-                            border: '#153e26',
-                            primary: '#10b981',
-                            accent: '#34d399',
-                            gold: '#fbbf24',
-                            purple: '#a855f7'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-    * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: #040d08; color: #e2f1e8; margin: 0; padding: 0; min-height: 100vh; }
-    .glass-card { background: rgba(12, 31, 20, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(34, 197, 94, 0.2); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
-    .glass-card-glow { background: rgba(12, 35, 22, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(52, 211, 153, 0.35); box-shadow: 0 0 25px rgba(16, 185, 129, 0.2); }
-    .btn-emerald { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-weight: 700; transition: all 0.25s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .btn-emerald:hover { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45); }
-    .text-gradient-emerald { background: linear-gradient(135deg, #6ee7b7 0%, #10b981 50%, #059669 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    input, select, textarea { background: rgba(6, 22, 14, 0.9) !important; border: 1px solid rgba(34, 197, 94, 0.3) !important; color: #ecfdf5 !important; outline: none !important; }
-
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); border-color: rgba(16, 185, 129, 0.3); }
-      50% { box-shadow: 0 0 25px rgba(52, 211, 153, 0.8); border-color: rgba(52, 211, 153, 0.8); }
-      100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); border-color: rgba(16, 185, 129, 0.3); }
-    }
-    .animate-glow { animation: pulseGlow 3s infinite ease-in-out; }
-
-    @keyframes toastSlide {
-      0% { transform: translateY(-100%) translateX(-50%); opacity: 0; }
-      15% { transform: translateY(0) translateX(-50%); opacity: 1; }
-      85% { transform: translateY(0) translateX(-50%); opacity: 1; }
-      100% { transform: translateY(-100%) translateX(-50%); opacity: 0; }
-    }
-    .toast-popup { animation: toastSlide 3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-  </style>
-
-  <!-- JavaScript Engine Hoisted to Head -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GREENEARN Protocol Telegram Mini App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
-    let activeInvestCompId = null;
-
-    let state = {
-      currentUser: null,
-      balance: 1250.00,
-      dailyBonusAmount: 5.00,
-      claimedToday: false,
-      activeCategory: 'Solar Power',
-      registeredUsers: [
-        { 
-          id: 1, 
-          username: 'Alexander Wright', 
-          email: 'alexander.w@ecotech.io', 
-          password: 'password123', 
-          balance: 1250.00, 
-          kycStatus: 'Verified', 
-          role: 'Standard',
-          fullName: 'Alexander Wright',
-          address: '742 Evergreen Terrace, Springfield',
-          country: 'United States',
-          identityNumber: 'US-88392011',
-          phone: '+1 (555) 382-9102',
-          profession: 'Senior Energy Analyst',
-          companyName: 'EcoTech Global Solutions',
-          companyLocation: 'Austin, TX',
-          docType: 'Passport',
-          idDocUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80',
-          idDocUrlBack: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80'
-        }
-      ],
-      paymentMethods: [
-        { id: 1, name: 'USDT (TRC-20)', detail: 'T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB' },
-        { id: 2, name: 'Bitcoin (BTC)', detail: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh' }
-      ],
-      yieldPlans: [
-        { label: '1 Day', rate: 1.5 },
-        { label: '15 Days', rate: 1.9 },
-        { label: '1 Month', rate: 2.5 },
-        { label: '6 Months', rate: 4.0 },
-        { label: '1 Year', rate: 15.0 },
-        { label: '5 Years', rate: 35.0 },
-        { label: '10 Years', rate: 90.0 }
-      ],
-      activeInvestments: [
-        { id: 1, name: 'MIDONG Solar Farm', amount: 100.00, plan: '1 Day', dailyRate: 1.5, profit: 1.50, status: 'Active Yielding', date: '2026-06-01' }
-      ],
-      supportMessages: [
-        { id: 1, sender: 'admin', text: 'Welcome to GREENEARN! Explore sustainable assets and daily rewards.', time: '09:00' }
-      ],
-      transactions: [
-        { id: 101, type: 'Deposit', amount: 500.00, status: 'Completed', date: '2026-06-01 14:20', proof: 'USDT TRC20 TX #98821' }
-      ],
-      categories: ['Solar Power', 'EV Charging', 'Crypto Mining', 'AI Platforms', 'EV Cars'],
-      companies: {
-        'Solar Power': [
-          { id: 'midong', name: 'MIDONG Solar Farm', desc: 'World-class 3.5GW mega solar energy station with peak grid integration.', why: 'Backed by guaranteed government power purchase agreements.', img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'bhadla', name: 'Bhadla Solar Park', desc: '14,000-acre mega solar cluster in high irradiation desert zone.', why: 'Highest solar photovoltaic conversion efficiency worldwide.', img: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'huanghe', name: 'Huanghe Hydropower Hainan Solar Park', desc: 'Ultra-large hydro-solar hybrid clean energy plant.', why: 'Combined hydro and solar stability eliminates intermittency.', img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80', status: 'Coming Soon' }
-        ],
-        'EV Charging': [
-          { id: 'chpt', name: 'ChargePoint Holdings (CHPT)', desc: 'Leading global EV charging network with 250,000+ ports.', why: 'Dominant market share in North American commercial fleet charging.', img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'blink', name: 'Blink Charging Co. (BLNK)', desc: 'Rapid DC fast-charging deployment across major metropolitan hubs.', why: 'Strategic municipal partnerships and federal subsidies.', img: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'wallbox', name: 'Wallbox N.V. (WBX)', desc: 'Advanced bidirectional smart EV chargers and energy management.', why: 'Pioneering vehicle-to-grid (V2G) home energy storage.', img: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'decharge', name: 'DeCharge (Solana Network)', desc: 'Decentralized peer-to-peer electric vehicle charging protocol.', why: 'Web3 tokenized energy rewards for station hosts.', img: 'https://images.unsplash.com/photo-1558449040-643b03a8c64d?auto=format&fit=crop&w=600&q=80', status: 'Coming Soon' }
-        ],
-        'Crypto Mining': [
-          { id: 'btcmin', name: 'Bitcoin Green Mining', desc: 'Eco-friendly ASIC mining powered 100% by geothermal and hydro energy.', why: 'Lowest operational cost per mined Bitcoin globally.', img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'sui', name: 'Sui (SUI) Staking & Validator Node', desc: 'High-throughput Layer 1 blockchain validation infrastructure.', why: 'Exceptional delegated proof-of-stake APY rewards.', img: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'bittensor', name: 'Bittensor (TAO) AI Subnet', desc: 'Decentralized machine learning network pooling GPU compute.', why: 'Pioneering open-source artificial intelligence incentives.', img: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'arbitrum', name: 'Arbitrum (ARB) Sequencer Yield', desc: 'Ethereum Layer 2 scaling infrastructure revenue sharing.', why: 'High transaction volume fee accrual mechanism.', img: 'https://images.unsplash.com/photo-1622979135225-d2ba269bc1df?auto=format&fit=crop&w=600&q=80', status: 'Active' }
-        ],
-        'AI Platforms': [
-          { id: 'pltr', name: 'Palantir Technologies (PLTR)', desc: 'Enterprise Artificial Intelligence Platform (AIP) for global operations.', why: 'Unrivaled defense and Fortune 500 enterprise contracts.', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'msft', name: 'Microsoft Corp. (MSFT)', desc: 'Cloud computing and Azure OpenAI infrastructure leadership.', why: 'Exclusive partnership with OpenAI and Copilot ecosystem.', img: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'googl', name: 'Alphabet Inc. (GOOGL)', desc: 'Google DeepMind AI research and Gemini cloud infrastructure.', why: 'Proprietary TPU chips and global search dominance.', img: 'https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'orcl', name: 'Oracle Corp. (ORCL)', desc: 'High-performance AI cloud data centers for LLM training.', why: 'Massive enterprise database migration demand.', img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', status: 'Active' }
-        ],
-        'EV Cars': [
-          { id: 'byd', name: 'BYD Company Ltd.', desc: 'World leader in new energy vehicles and Blade battery technology.', why: 'Complete vertical supply chain cost advantage.', img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'tesla', name: 'Tesla, Inc. (TSLA)', desc: 'Pioneer of electric autonomous mobility and Megapack energy storage.', why: 'Unmatched global Supercharger network and FSD AI.', img: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'geely', name: 'Geely Automobile Holdings', desc: 'Global multi-brand EV manufacturer and premium smart mobility.', why: 'Synergies across Volvo, Polestar, and Zeekr.', img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'xiaomi', name: 'Xiaomi EV (SU7)', desc: 'Smart human-centric home and electric vehicle ecosystem.', why: 'Unrivaled consumer electronics and OS integration.', img: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=600&q=80', status: 'Active' },
-          { id: 'vw', name: 'Volkswagen AG', desc: 'Accelerating luxury and mass-market electric vehicle transition.', why: 'Massive manufacturing footprint in Europe and Americas.', img: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80', status: 'Coming Soon' }
-        ]
-      },
-      news: [
-        { id: 1, headline: 'Global Green Energy Summit 2026 Announced', text: 'Join international solar & EV leaders for the annual green investment keynote in Geneva.', img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80' }
-      ],
-      events: [
-        { id: 1, title: 'MIDONG Solar Farm Q2 Dividend Payout', date: 'June 20, 2026 • 15:00 UTC', desc: 'Live webinar reviewing regional clean energy yield distribution.', img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80', rsvp: null }
-      ],
-      tasks: [
-        { id: 1, title: 'Join Official Telegram Channel', reward: 5.0, icon: 'fa-telegram', link: 'https://t.me/GreenEarnOfficial', done: false },
-        { id: 2, title: 'Share Green Portfolio on Twitter', reward: 3.0, icon: 'fa-twitter', link: 'https://twitter.com', done: false }
-      ]
-    };
-
-    function saveState() {
-      try { localStorage.setItem('greenearn_app_state', JSON.stringify(state)); } catch(e){}
-    }
-
-    function loadState() {
-      try {
-        const saved = localStorage.getItem('greenearn_app_state');
-        if (saved) state = Object.assign(state, JSON.parse(saved));
-      } catch(e){}
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toastNotification');
-      document.getElementById('toastMsg').innerText = msg;
-      toast.classList.remove('hidden');
-      setTimeout(() => { toast.classList.add('hidden'); }, 3000);
-    }
-
-    function switchAuthTab(mode) {
-      document.getElementById('authCardSignin').classList.toggle('hidden', mode !== 'signin');
-      document.getElementById('authCardSignup').classList.toggle('hidden', mode !== 'signup');
-    }
-
-    function handleSignIn() {
-      const email = document.getElementById('signinEmail').value.trim();
-      const pass = document.getElementById('signinPass').value.trim();
-      if (!email || !pass) {
-        showToast('Please enter email and password!');
-        return;
-      }
-      
-      if (email === 'admin@gmail.com' && pass === 'admin123') {
-        state.currentUser = { id: 999, username: 'Main Administrator', email: 'admin@gmail.com', role: 'Admin', kycStatus: 'Verified' };
-        saveState();
-        document.getElementById('authGateContainer').classList.add('hidden');
-        renderApp();
-        switchTab('admin');
-        showToast('Main Admin access granted successfully!');
-        return;
-      }
-
-      const found = state.registeredUsers.find(u => u.email === email && u.password === pass);
-      if (found) {
-        state.currentUser = found;
-        state.balance = found.balance;
-        saveState();
-        document.getElementById('authGateContainer').classList.add('hidden');
-        renderApp();
-        showToast(`Welcome back, ${found.username}!`);
-      } else {
-        showToast('Invalid credentials. Try demo: alexander.w@ecotech.io / password123');
-      }
-    }
-
-    function handleSignUp() {
-      const username = document.getElementById('signupName').value.trim();
-      const email = document.getElementById('signupEmail').value.trim();
-      const pass = document.getElementById('signupPass').value.trim();
-      if (!username || !email || !pass) {
-        showToast('Please fill all registration fields!');
-        return;
-      }
-      const newUser = {
-        id: Date.now(),
-        username,
-        email,
-        password: pass,
-        balance: 50.00,
-        kycStatus: 'Unverified',
-        role: 'Standard',
-        fullName: username,
-        address: '',
-        country: '',
-        identityNumber: '',
-        phone: '',
-        profession: '',
-        companyName: '',
-        companyLocation: '',
-        docType: 'Citizenship',
-        idDocUrl: '',
-        idDocUrlBack: ''
-      };
-      state.registeredUsers.push(newUser);
-      state.currentUser = newUser;
-      state.balance = newUser.balance;
-      saveState();
-      document.getElementById('authGateContainer').classList.add('hidden');
-      renderApp();
-      showToast('Account created successfully! +$50 Welcome Bonus added.');
-    }
-
-    function handleLogout() {
-      state.currentUser = null;
-      saveState();
-      document.getElementById('authGateContainer').classList.remove('hidden');
-      showToast('Logged out securely.');
-    }
-
-    function switchTab(tabId) {
-      document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
-      const target = document.getElementById('tab-' + tabId);
-      if (target) target.classList.remove('hidden');
-
-      document.querySelectorAll('.top-nav-btn, .nav-btn').forEach(btn => {
-        if (btn.dataset.tab === tabId) {
-          btn.classList.add('text-emerald-400');
-          btn.classList.remove('text-emerald-600/70');
-        } else {
-          btn.classList.remove('text-emerald-400');
-          btn.classList.add('text-emerald-600/70');
-        }
-      });
-    }
-
-    function claimDailyBonus() {
-      if (state.claimedToday) {
-        showToast('Daily bonus already claimed today!');
-        return;
-      }
-      state.balance += state.dailyBonusAmount;
-      state.claimedToday = true;
-      saveState();
-      renderApp();
-      showToast(`Daily Bonus Claimed! +$${state.dailyBonusAmount.toFixed(2)} added.`);
-      confetti({ particleCount: 60, spread: 60, origin: { y: 0.6 } });
-    }
-
-    function switchInvestCategory(cat) {
-      state.activeCategory = cat;
-      renderCatalog();
-    }
-
-    function renderCatalog() {
-      const container = document.getElementById('investCatalogList');
-      if (!container) return;
-      container.innerHTML = '';
-      
-      const items = state.companies[state.activeCategory] || [];
-      items.forEach(comp => {
-        container.innerHTML += `
-          <div class="glass-card animate-glow p-4 rounded-2xl space-y-2.5 border border-emerald-500/30">
-            <div class="flex items-center space-x-3">
-              <img src="${comp.img}" class="w-14 h-14 rounded-xl object-cover border border-emerald-500/40 shadow-lg">
-              <div class="flex-1">
-                <div class="flex justify-between items-start">
-                  <h3 class="text-xs font-bold text-emerald-100">${comp.name}</h3>
-                  <span class="px-2 py-0.5 rounded text-[9px] font-bold ${comp.status === 'Active' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'}">${comp.status}</span>
-                </div>
-                <p class="text-[10px] text-emerald-300/80 mt-1">${comp.desc}</p>
-                <p class="text-[9px] text-amber-300 font-semibold mt-1">💡 Why Invest: ${comp.why}</p>
-              </div>
-            </div>
-            <button onclick="openInvestModal('${comp.name}')" class="w-full py-2 text-xs font-bold rounded-xl btn-emerald">Invest Now</button>
-          </div>
-        `;
-      });
-    }
-
-    function openInvestModal(compName) {
-      activeInvestCompId = compName;
-      document.getElementById('investModalTitle').innerText = 'Invest in ' + compName;
-      const selectPlan = document.getElementById('investPlanSelect');
-      selectPlan.innerHTML = '';
-      state.yieldPlans.forEach((p, idx) => {
-        selectPlan.innerHTML += `<option value="${idx}">${p.label} (${p.rate}% per day)</option>`;
-      });
-      calculateInvestReturn();
-      document.getElementById('investConfirmModal').classList.remove('hidden');
-    }
-
-    function closeInvestConfirmModal() {
-      document.getElementById('investConfirmModal').classList.add('hidden');
-    }
-
-    function calculateInvestReturn() {
-      const amt = parseFloat(document.getElementById('investInputAmount').value) || 100;
-      const planIdx = parseInt(document.getElementById('investPlanSelect').value) || 0;
-      const plan = state.yieldPlans[planIdx];
-      const estimatedDaily = amt * (plan.rate / 100);
-      document.getElementById('investEstimatedReturnDisplay').innerText = `Est. Daily Profit: +$${estimatedDaily.toFixed(2)} (${plan.rate}% / day)`;
-    }
-
-    function confirmAndLockInvestment() {
-      const amt = parseFloat(document.getElementById('investInputAmount').value) || 100;
-      const planIdx = parseInt(document.getElementById('investPlanSelect').value) || 0;
-      const plan = state.yieldPlans[planIdx];
-
-      if (amt > state.balance) {
-        showToast('Insufficient wallet balance!');
-        return;
-      }
-      state.balance -= amt;
-      state.activeInvestments.unshift({
-        id: Date.now(),
-        name: activeInvestCompId,
-        amount: amt,
-        plan: plan.label,
-        dailyRate: plan.rate,
-        profit: amt * (plan.rate / 100),
-        status: 'Active Yielding',
-        date: new Date().toISOString().slice(0, 10)
-      });
-      saveState();
-      renderApp();
-      closeInvestConfirmModal();
-      switchTab('wallet');
-      showToast('Investment locked successfully!');
-      confetti({ particleCount: 70, spread: 70, origin: { y: 0.7 } });
-    }
-
-    function switchWalletTab(sub) {
-      document.getElementById('walletDepositSection').classList.toggle('hidden', sub !== 'deposit');
-      document.getElementById('walletWithdrawSection').classList.toggle('hidden', sub !== 'withdraw');
-      document.getElementById('walletHistorySection').classList.toggle('hidden', sub !== 'history');
-    }
-
-    function handleDepositScreenshotUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('depositScreenshotPreview').src = e.target.result;
-          document.getElementById('depositScreenshotContainer').classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function submitDepositRequest() {
-      const amt = parseFloat(document.getElementById('depositAmountInput').value) || 0;
-      const proofImg = document.getElementById('depositScreenshotPreview').src || '';
-      if (amt <= 0) {
-        showToast('Please enter valid deposit amount!');
-        return;
-      }
-      state.transactions.unshift({
-        id: Date.now(),
-        type: 'Deposit',
-        amount: amt,
-        status: 'Pending Admin Review',
-        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-        proof: proofImg
-      });
-      saveState();
-      renderApp();
-      showToast('Deposit request & screenshot submitted to admin.');
-      document.getElementById('depositAmountInput').value = '';
-    }
-
-    function submitWithdrawRequest() {
-      const amt = parseFloat(document.getElementById('withdrawAmountInput').value) || 0;
-      const methodText = document.getElementById('withdrawMethodInput').value.trim();
-      if (amt <= 0 || amt > state.balance || !methodText) {
-        showToast('Please enter valid amount and destination account address/details!');
-        return;
-      }
-      state.balance -= amt;
-      state.transactions.unshift({
-        id: Date.now(),
-        type: 'Withdrawal',
-        amount: amt,
-        status: 'Pending Admin Review',
-        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-        proof: methodText
-      });
-      saveState();
-      renderApp();
-      showToast('Withdrawal request submitted.');
-      document.getElementById('withdrawAmountInput').value = '';
-      document.getElementById('withdrawMethodInput').value = '';
-    }
-
-    function handleKycImageUpload(event, slot) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          if (!state.currentUser) return;
-          if (slot === 1) {
-            state.currentUser.idDocUrl = e.target.result;
-            const prev1 = document.getElementById('kycIdPreviewImg1');
-            const cont1 = document.getElementById('kycIdPreviewContainer1');
-            if (prev1 && cont1) { prev1.src = e.target.result; cont1.classList.remove('hidden'); }
-          } else {
-            state.currentUser.idDocUrlBack = e.target.result;
-            const prev2 = document.getElementById('kycIdPreviewImg2');
-            const cont2 = document.getElementById('kycIdPreviewContainer2');
-            if (prev2 && cont2) { prev2.src = e.target.result; cont2.classList.remove('hidden'); }
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            emerald: { 400: '#34d399', 500: '#10b981', 600: '#059669', 950: '#022c22' }
           }
-          const regUser = state.registeredUsers.find(u => u.id === state.currentUser.id);
-          if (regUser) {
-            regUser.idDocUrl = state.currentUser.idDocUrl;
-            regUser.idDocUrlBack = state.currentUser.idDocUrlBack;
-          }
-          saveState();
-          showToast('Document uploaded successfully!');
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function submitKycProfileForm() {
-      if (!state.currentUser) return;
-      state.currentUser.fullName = document.getElementById('kycFullName').value;
-      state.currentUser.docType = document.getElementById('kycDocTypeSelect').value;
-      state.currentUser.address = document.getElementById('kycAddress').value;
-      state.currentUser.country = document.getElementById('kycCountry').value;
-      state.currentUser.identityNumber = document.getElementById('kycIdNumber').value;
-      state.currentUser.phone = document.getElementById('kycPhone').value;
-      state.currentUser.email = document.getElementById('kycEmail').value;
-      state.currentUser.profession = document.getElementById('kycProfession').value;
-      state.currentUser.companyName = document.getElementById('kycCompanyName').value;
-      state.currentUser.companyLocation = document.getElementById('kycCompanyLoc').value;
-      state.currentUser.kycStatus = 'Pending';
-
-      const regUser = state.registeredUsers.find(u => u.id === state.currentUser.id);
-      if (regUser) {
-        Object.assign(regUser, state.currentUser);
-      } else {
-        state.registeredUsers.push(state.currentUser);
-      }
-
-      saveState();
-      renderApp();
-      showToast('KYC details submitted for admin review!');
-    }
-
-    function adminVerifyKyc(userId) {
-      const u = state.registeredUsers.find(x => x.id === userId);
-      if (u) {
-        u.kycStatus = 'Verified';
-        if (state.currentUser && (state.currentUser.id === u.id || state.currentUser.email === u.email)) {
-          state.currentUser.kycStatus = 'Verified';
-        }
-        saveState();
-        renderApp();
-        showToast(`KYC Verified permanently for ${u.username}!`);
-      }
-    }
-
-    function adminRejectKyc(userId) {
-      const u = state.registeredUsers.find(x => x.id === userId);
-      if (u) {
-        u.kycStatus = 'Unverified';
-        if (state.currentUser && (state.currentUser.id === u.id || state.currentUser.email === u.email)) {
-          state.currentUser.kycStatus = 'Unverified';
-        }
-        saveState();
-        renderApp();
-        showToast(`KYC Rejected for ${u.username}.`);
-      }
-    }
-
-    function adminConfirmTransaction(txId) {
-      const tx = state.transactions.find(t => t.id === txId);
-      if (tx && tx.status.includes('Pending')) {
-        tx.status = 'Completed';
-        if (tx.type === 'Deposit') {
-          state.balance += tx.amount;
-          const targetUser = state.registeredUsers[0];
-          if (targetUser) targetUser.balance = state.balance;
-        }
-        saveState();
-        renderApp();
-        showToast('Transaction confirmed & balanced updated.');
-      }
-    }
-
-    function adminRejectTransaction(txId) {
-      const tx = state.transactions.find(t => t.id === txId);
-      if (tx) {
-        tx.status = 'Rejected';
-        if (tx.type === 'Withdrawal') {
-          state.balance += tx.amount; // refund withdrawal
-        }
-        saveState();
-        renderApp();
-        showToast('Transaction rejected.');
-      }
-    }
-
-    function startTaskVerification(id) {
-      const t = state.tasks.find(x => x.id === id);
-      if (!t || t.done) return;
-      if (t.link) window.open(t.link, '_blank');
-      t.done = true;
-      state.balance += t.reward;
-      saveState();
-      renderApp();
-      showToast(`Task Claimed! +$${t.reward.toFixed(2)} added.`);
-    }
-
-    function copyRefLink() {
-      navigator.clipboard.writeText('https://t.me/GreenEarnBot?start=ref9821');
-      showToast('Referral link copied!');
-    }
-
-    function switchAdminSubTab(sub) {
-      document.querySelectorAll('[id^="adm-sub-"]').forEach(el => el.classList.add('hidden'));
-      const active = document.getElementById('adm-sub-' + sub);
-      if (active) active.classList.remove('hidden');
-    }
-
-    function adminSaveBalance() {
-      const selectUserId = parseInt(document.getElementById('admUserSelect').value);
-      const val = parseFloat(document.getElementById('admUserBal').value);
-      if (!isNaN(val)) {
-        const targetUser = state.registeredUsers.find(u => u.id === selectUserId);
-        if (targetUser) {
-          targetUser.balance = val;
-          if (state.currentUser && state.currentUser.id === targetUser.id) {
-            state.balance = val;
-          }
-          saveState();
-          renderApp();
-          showToast(`Balance updated for ${targetUser.username}!`);
         }
       }
     }
-
-    function adminSaveDailyBonus() {
-      const val = parseFloat(document.getElementById('admDailyBonusInput').value);
-      if (!isNaN(val) && val > 0) {
-        state.dailyBonusAmount = val;
-        saveState();
-        showToast('Daily login bonus amount updated!');
-      }
-    }
-
-    function adminPublishNews() {
-      const headline = document.getElementById('admNewsHeadline').value.trim();
-      const text = document.getElementById('admNewsText').value.trim();
-      const img = document.getElementById('admNewsImgUrl').value.trim() || 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80';
-      if (!headline || !text) {
-        showToast('Please enter headline and content!');
-        return;
-      }
-      state.news.unshift({ id: Date.now(), headline, text, img });
-      saveState();
-      renderApp();
-      showToast('News published!');
-      document.getElementById('admNewsHeadline').value = '';
-      document.getElementById('admNewsText').value = '';
-      document.getElementById('admNewsImgUrl').value = '';
-    }
-
-    function adminCreateEvent() {
-      const title = document.getElementById('admEventTitle').value.trim();
-      const date = document.getElementById('admEventDate').value.trim();
-      const desc = document.getElementById('admEventDesc').value.trim();
-      const img = document.getElementById('admEventImgUrl').value.trim() || 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80';
-      if (!title || !date) return;
-      state.events.unshift({ id: Date.now(), title, date, desc: desc || 'Global green energy event.', img, rsvp: null });
-      saveState();
-      renderApp();
-      showToast('Event published successfully!');
-      document.getElementById('admEventTitle').value = '';
-      document.getElementById('admEventDate').value = '';
-      document.getElementById('admEventDesc').value = '';
-      document.getElementById('admEventImgUrl').value = '';
-    }
-
-    function adminSaveYieldRates() {
-      state.yieldPlans[0].rate = parseFloat(document.getElementById('yieldRate1d').value) || 1.5;
-      state.yieldPlans[1].rate = parseFloat(document.getElementById('yieldRate15d').value) || 1.9;
-      state.yieldPlans[2].rate = parseFloat(document.getElementById('yieldRate1m').value) || 2.5;
-      state.yieldPlans[3].rate = parseFloat(document.getElementById('yieldRate6m').value) || 4.0;
-      state.yieldPlans[4].rate = parseFloat(document.getElementById('yieldRate1y').value) || 15.0;
-      state.yieldPlans[5].rate = parseFloat(document.getElementById('yieldRate5y').value) || 35.0;
-      state.yieldPlans[6].rate = parseFloat(document.getElementById('yieldRate10y').value) || 90.0;
-      saveState();
-      renderApp();
-      showToast('Yield percentages updated successfully!');
-    }
-
-    function rsvpEvent(eventId, status) {
-      const ev = state.events.find(e => e.id === eventId);
-      if (ev) {
-        ev.rsvp = status;
-        saveState();
-        renderApp();
-        showToast(`Event RSVP: ${status}`);
-      }
-    }
-
-    function populateAdminPanel() {
-      const sel = document.getElementById('admUserSelect');
-      const listDiv = document.getElementById('adminUsersDetailList');
-      const kycListDiv = document.getElementById('adminKycVerifyList');
-      const txListDiv = document.getElementById('adminTransactionsList');
-
-      if (!sel || !listDiv) return;
-
-      sel.innerHTML = '';
-      listDiv.innerHTML = '';
-
-      state.registeredUsers.forEach(u => {
-        sel.innerHTML += `<option value="${u.id}">${u.username} (Bal: $${u.balance.toFixed(2)})</option>`;
-        listDiv.innerHTML += `
-          <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 text-[11px] space-y-1">
-            <div class="flex justify-between items-center font-bold text-purple-200">
-              <span>👤 ${u.username}</span>
-              <span class="text-amber-300 font-mono">$${u.balance.toFixed(2)}</span>
-            </div>
-            <div class="text-[10px] text-purple-300">Email: ${u.email} | KYC: <strong class="${u.kycStatus === 'Verified' ? 'text-emerald-400' : 'text-amber-400'}">${u.kycStatus}</strong></div>
-          </div>
-        `;
-      });
-
-      if (kycListDiv) {
-        kycListDiv.innerHTML = '';
-        state.registeredUsers.forEach(u => {
-          kycListDiv.innerHTML += `
-            <div class="p-3 rounded-xl bg-black/50 border border-purple-900/40 text-[11px] space-y-2">
-              <div class="flex justify-between items-center font-bold text-purple-200">
-                <span>${u.fullName || u.username} (${u.docType || 'ID Document'})</span>
-                <span class="${u.kycStatus === 'Verified' ? 'text-emerald-400' : 'text-amber-400'}">${u.kycStatus}</span>
-              </div>
-              <div class="grid grid-cols-2 gap-1 text-[10px] text-purple-300">
-                <div>ID/No: <strong class="text-white">${u.identityNumber || 'N/A'}</strong></div>
-                <div>Country: <strong class="text-white">${u.country || 'N/A'}</strong></div>
-                <div>Phone: <strong class="text-white">${u.phone || 'N/A'}</strong></div>
-                <div>Profession: <strong class="text-white">${u.profession || 'N/A'}</strong></div>
-                <div>Company: <strong class="text-white">${u.companyName || 'N/A'}</strong></div>
-                <div>Location: <strong class="text-white">${u.companyLocation || 'N/A'}</strong></div>
-              </div>
-              <p class="text-[10px] text-purple-300">Address: <span class="text-white">${u.address || 'N/A'}</span></p>
-              
-              <div class="grid grid-cols-2 gap-2 pt-1">
-                <div>
-                  <p class="text-[9px] font-bold text-purple-300 mb-1">Document Front:</p>
-                  ${u.idDocUrl ? `<a href="${u.idDocUrl}" target="_blank"><img src="${u.idDocUrl}" class="w-full h-24 object-cover rounded-lg border border-purple-800 hover:opacity-90"></a>` : '<p class="text-[9px] text-amber-400 italic">Not uploaded</p>'}
-                </div>
-                <div>
-                  <p class="text-[9px] font-bold text-purple-300 mb-1">Document Back / Selfie:</p>
-                  ${u.idDocUrlBack ? `<a href="${u.idDocUrlBack}" target="_blank"><img src="${u.idDocUrlBack}" class="w-full h-24 object-cover rounded-lg border border-purple-800 hover:opacity-90"></a>` : '<p class="text-[9px] text-amber-400 italic">Not uploaded</p>'}
-                </div>
-              </div>
-
-              <div class="flex gap-2 pt-2">
-                <button onclick="adminVerifyKyc(${u.id})" class="px-3 py-1 text-[10px] font-bold bg-emerald-600 text-white rounded-lg">Verify Permanently</button>
-                <button onclick="adminRejectKyc(${u.id})" class="px-3 py-1 text-[10px] font-bold bg-red-600 text-white rounded-lg">Reject</button>
-              </div>
-            </div>
-          `;
-        });
-      }
-
-      if (txListDiv) {
-        txListDiv.innerHTML = '';
-        state.transactions.forEach(tx => {
-          txListDiv.innerHTML += `
-            <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 text-[11px] space-y-1.5">
-              <div class="flex justify-between items-center font-bold text-purple-200">
-                <span>${tx.type}: $${tx.amount.toFixed(2)}</span>
-                <span class="${tx.status === 'Completed' ? 'text-emerald-400' : 'text-amber-400'}">${tx.status}</span>
-              </div>
-              <p class="text-[10px] text-purple-300">Date: ${tx.date} | Info/Proof: <span class="text-white">${tx.proof}</span></p>
-              ${tx.status.includes('Pending') ? `
-                <div class="flex gap-2 pt-1">
-                  <button onclick="adminConfirmTransaction(${tx.id})" class="px-3 py-1 text-[10px] font-bold bg-emerald-600 text-white rounded-lg">Confirm & Add Funds</button>
-                  <button onclick="adminRejectTransaction(${tx.id})" class="px-3 py-1 text-[10px] font-bold bg-red-600 text-white rounded-lg">Reject</button>
-                </div>
-              ` : ''}
-            </div>
-          `;
-        });
-      }
-    }
-
-    function renderApp() {
-      if (!state.currentUser) return;
-
-      document.getElementById('homeDisplayBalance').innerText = '$' + state.balance.toFixed(2);
-      document.getElementById('profileUsernameDisplay').innerText = state.currentUser.username;
-
-      const regMatch = state.registeredUsers.find(u => u.email === state.currentUser.email || u.id === state.currentUser.id);
-      const currentKycStatus = regMatch ? regMatch.kycStatus : (state.currentUser.kycStatus || 'Unverified');
-      const isVer = currentKycStatus === 'Verified';
-
-      const kycBadge = document.getElementById('profileKycStatusBadge');
-      if (kycBadge) {
-        kycBadge.className = `px-2.5 py-1 rounded text-[10px] font-extrabold ${isVer ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}`;
-        kycBadge.innerText = currentKycStatus.toUpperCase() + (isVer ? ' KYC ✓' : ' KYC');
-      }
-
-      // Render Daily Bonus claim button state
-      const bonusBtn = document.getElementById('dailyBonusClaimBtn');
-      if (bonusBtn) {
-        bonusBtn.innerText = state.claimedToday ? 'Claimed Today ✓' : `Claim Daily $${state.dailyBonusAmount.toFixed(2)} Bonus`;
-        bonusBtn.disabled = state.claimedToday;
-        bonusBtn.className = state.claimedToday ? 'w-full py-2.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-400 border border-emerald-800 cursor-not-allowed' : 'w-full py-2.5 rounded-xl text-xs font-bold btn-emerald';
-      }
-
-      // Render News
-      const newsContainer = document.getElementById('homeNewsContainer');
-      if (newsContainer) {
-        newsContainer.innerHTML = '';
-        state.news.forEach(n => {
-          newsContainer.innerHTML += `
-            <div class="glass-card rounded-2xl overflow-hidden border border-emerald-800/40 space-y-2 p-3">
-              <img src="${n.img}" class="w-full h-32 object-cover rounded-xl">
-              <h3 class="text-xs font-bold text-emerald-100">${n.headline}</h3>
-              <p class="text-[11px] text-emerald-300/80">${n.text}</p>
-            </div>
-          `;
-        });
-      }
-
-      // Render Events
-      const eventsContainer = document.getElementById('homeEventsContainer');
-      if (eventsContainer) {
-        eventsContainer.innerHTML = '';
-        state.events.forEach(ev => {
-          eventsContainer.innerHTML += `
-            <div class="glass-card rounded-2xl overflow-hidden border border-emerald-800/40 p-3 space-y-2">
-              <img src="${ev.img}" class="w-full h-32 object-cover rounded-xl">
-              <div class="flex justify-between items-start">
-                <div>
-                  <h4 class="text-xs font-bold text-emerald-100">${ev.title}</h4>
-                  <p class="text-[10px] text-emerald-400 font-mono">${ev.date}</p>
-                </div>
-                <span class="px-2 py-0.5 rounded text-[9px] font-bold ${ev.rsvp === 'attending' ? 'bg-emerald-500 text-black' : ev.rsvp === 'declined' ? 'bg-red-900/40 text-red-300' : 'bg-emerald-950 text-emerald-300 border border-emerald-800'}">
-                  ${ev.rsvp === 'attending' ? 'Attending ✓' : ev.rsvp === 'declined' ? 'Not Attending' : 'RSVP Open'}
-                </span>
-              </div>
-              <p class="text-[11px] text-emerald-300/80">${ev.desc}</p>
-              <div class="flex gap-2 pt-1">
-                <button onclick="rsvpEvent(${ev.id}, 'attending')" class="flex-1 py-1.5 text-[10px] font-bold rounded-lg ${ev.rsvp === 'attending' ? 'btn-emerald' : 'bg-emerald-950 text-emerald-300 border border-emerald-800'}">Attend</button>
-                <button onclick="rsvpEvent(${ev.id}, 'declined')" class="flex-1 py-1.5 text-[10px] font-bold rounded-lg ${ev.rsvp === 'declined' ? 'bg-red-600 text-white' : 'bg-emerald-950 text-emerald-300 border border-emerald-800'}">Not Attend</button>
-              </div>
-            </div>
-          `;
-        });
-      }
-
-      // Render Tasks
-      const tasksListContainer = document.getElementById('tasksListContainer');
-      if (tasksListContainer) {
-        tasksListContainer.innerHTML = '';
-        state.tasks.forEach(t => {
-          tasksListContainer.innerHTML += `
-            <div class="glass-card p-3.5 rounded-2xl flex items-center justify-between border border-emerald-800/30 gap-2">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-300 text-sm">
-                  <i class="fa-solid ${t.icon || 'fa-bullhorn'}"></i>
-                </div>
-                <div>
-                  <h4 class="text-xs font-bold text-emerald-100">${t.title}</h4>
-                  <p class="text-[10px] font-bold text-amber-300">+$${t.reward.toFixed(2)} USD</p>
-                </div>
-              </div>
-              <button onclick="startTaskVerification(${t.id})" class="px-3 py-1.5 text-xs font-bold rounded-lg ${t.done ? 'bg-emerald-950 text-emerald-400 border border-emerald-800 cursor-not-allowed' : 'bg-amber-500 text-black'}" ${t.done ? 'disabled' : ''}>
-                ${t.done ? 'Claimed ✓' : 'Complete'}
-              </button>
-            </div>
-          `;
-        });
-      }
-
-      // Render Wallet Ledger & Investments
-      const historyContainer = document.getElementById('walletHistoryContainer');
-      if (historyContainer) {
-        historyContainer.innerHTML = '';
-        state.activeInvestments.forEach(inv => {
-          historyContainer.innerHTML += `
-            <div class="p-3 rounded-xl bg-black/60 border border-emerald-800/50 text-[11px] space-y-1">
-              <div class="flex justify-between font-bold text-emerald-200">
-                <span>📦 ${inv.name}</span>
-                <span class="text-amber-300 font-mono">$${inv.amount.toFixed(2)}</span>
-              </div>
-              <div class="text-[10px] text-emerald-400">Plan: ${inv.plan} | Daily Profit: +$${inv.profit.toFixed(2)}</div>
-              <div class="text-[9px] text-emerald-300/70">Status: <strong class="text-emerald-400">${inv.status}</strong> • Date: ${inv.date}</div>
-            </div>
-          `;
-        });
-        state.transactions.forEach(tx => {
-          historyContainer.innerHTML += `
-            <div class="p-3 rounded-xl bg-black/60 border border-emerald-800/50 text-[11px] space-y-1">
-              <div class="flex justify-between font-bold text-emerald-200">
-                <span>💳 ${tx.type}</span>
-                <span class="${tx.status === 'Completed' ? 'text-emerald-400' : 'text-amber-400'} font-mono">$${tx.amount.toFixed(2)}</span>
-              </div>
-              <div class="text-[10px] text-emerald-300/70">Status: <strong>${tx.status}</strong> | Date: ${tx.date}</div>
-            </div>
-          `;
-        });
-      }
-
-      renderCatalog();
-      populateAdminPanel();
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      loadState();
-      if (state.currentUser) {
-        document.getElementById('authGateContainer').classList.add('hidden');
-        renderApp();
-      }
-    });
   </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #030712; color: #f3f4f6; }
+    .glass-card { background: rgba(6, 78, 59, 0.2); backdrop-filter: blur(12px); border: 1px solid rgba(52, 211, 153, 0.2); }
+    .glass-card-glow { background: linear-gradient(135deg, rgba(6, 78, 59, 0.4), rgba(2, 44, 34, 0.6)); backdrop-filter: blur(16px); border: 1px solid rgba(52, 211, 153, 0.4); box-shadow: 0 0 25px rgba(16, 185, 129, 0.15); }
+    .btn-emerald { background: linear-gradient(135deg, #10b981, #059669); color: white; transition: all 0.2s ease; }
+    .btn-emerald:hover { background: linear-gradient(135deg, #34d399, #10b981); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); }
+  </style>
 </head>
-<body class="flex justify-center bg-black min-h-screen">
+<body class="min-h-screen flex flex-col items-center justify-start p-3 sm:p-6">
 
-  <div id="authGateContainer" class="fixed inset-0 z-50 bg-[#040d08] flex items-center justify-center p-4 overflow-y-auto">
-    <div class="glass-card-glow w-full max-w-sm rounded-3xl p-6 space-y-5 border border-emerald-500/40 shadow-2xl">
-      <div class="text-center space-y-2">
-        <div class="w-12 h-12 mx-auto rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-900/50">
-          <i class="fa-solid fa-leaf text-black text-xl"></i>
-        </div>
-        <h1 class="text-lg font-extrabold text-gradient-emerald">GREENEARN PROTOCOL</h1>
-        <p class="text-[11px] text-emerald-400/80">Secure Telegram Mini App Gateway</p>
+  <div id="authContainer" class="w-full max-w-md mx-auto my-auto glass-card-glow rounded-3xl p-6 sm:p-8 space-y-6">
+    <div class="text-center space-y-2">
+      <div class="w-16 h-16 bg-emerald-500/20 border border-emerald-400/40 rounded-2xl mx-auto flex items-center justify-center text-emerald-400 text-3xl shadow-lg">
+        <i class="fa-solid fa-leaf"></i>
       </div>
-
-      <div id="authCardSignin" class="space-y-3">
-        <h2 class="text-xs font-bold text-emerald-200 uppercase tracking-wide">Sign In to Your Account</h2>
-        <input id="signinEmail" type="email" placeholder="Email Address (Demo Admin: admin@gmail.com)" class="w-full p-2.5 rounded-xl text-xs">
-        <input id="signinPass" type="password" placeholder="Password (Demo Admin: admin123)" class="w-full p-2.5 rounded-xl text-xs">
-        <button onclick="handleSignIn()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Sign In</button>
-        <div class="flex justify-between text-[10px] pt-1">
-          <button onclick="switchAuthTab('signup')" class="text-emerald-400 underline">Create Account</button>
-        </div>
-      </div>
-
-      <div id="authCardSignup" class="space-y-3 hidden">
-        <h2 class="text-xs font-bold text-emerald-200 uppercase tracking-wide">Create New Account</h2>
-        <input id="signupName" type="text" placeholder="Full Name" class="w-full p-2.5 rounded-xl text-xs">
-        <input id="signupEmail" type="email" placeholder="Email Address" class="w-full p-2.5 rounded-xl text-xs">
-        <input id="signupPass" type="password" placeholder="Create Password" class="w-full p-2.5 rounded-xl text-xs">
-        <button onclick="handleSignUp()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Register & Get $50 Bonus</button>
-        <div class="text-center pt-1">
-          <button onclick="switchAuthTab('signin')" class="text-[10px] text-emerald-400 underline">Already have an account? Sign In</button>
-        </div>
-      </div>
+      <h1 class="text-2xl font-extrabold tracking-tight text-white">GREENEARN Protocol</h1>
+      <p class="text-xs text-emerald-300/80">Sustainable Clean Energy & Tech Investment Hub</p>
     </div>
-  </div>
 
-  <div id="toastNotification" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500 to-emerald-500 text-black font-extrabold text-xs shadow-2xl flex items-center gap-2 pointer-events-none hidden toast-popup">
-    <span class="text-base">🎉</span> <span id="toastMsg">Notification</span>
-  </div>
+    <!-- Auth Tabs -->
+    <div class="flex rounded-xl bg-emerald-950/60 p-1 border border-emerald-500/30">
+      <button onclick="switchAuthTab('login')" id="authTabLogin" class="flex-1 py-2 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow">Sign In</button>
+      <button onclick="switchAuthTab('signup')" id="authTabSignup" class="flex-1 py-2 text-xs font-bold rounded-lg text-emerald-300 hover:text-white">Sign Up</button>
+    </div>
 
-  <div class="w-full max-w-md bg-[#040d08] min-h-screen flex flex-col justify-between relative pb-20 shadow-2xl border-x border-emerald-900/30">
-
-    <header class="sticky top-0 z-40 bg-[#040d08]/90 backdrop-blur-md px-3 py-2.5 border-b border-emerald-900/30 space-y-2">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-900/50">
-            <i class="fa-solid fa-leaf text-black text-sm"></i>
-          </div>
-          <div>
-            <h1 class="text-base font-extrabold tracking-wider text-gradient-emerald leading-tight">GREENEARN</h1>
-          </div>
-        </div>
-        <button onclick="handleLogout()" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-red-900/30 text-red-300 border border-red-700/50 flex items-center gap-1">
-          <i class="fa-solid fa-right-from-bracket text-[10px]"></i> Logout
-        </button>
+    <!-- Login Form -->
+    <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+      <div>
+        <label class="block text-[11px] font-semibold text-emerald-300 mb-1">Email Address</label>
+        <input type="email" id="loginEmail" required class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-400" placeholder="user@greenearn.com">
       </div>
+      <div>
+        <label class="block text-[11px] font-semibold text-emerald-300 mb-1">Password</label>
+        <input type="password" id="loginPassword" required class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-400" placeholder="••••••••">
+      </div>
+      <button type="submit" class="w-full py-3 rounded-xl font-bold text-sm btn-emerald shadow-lg">Sign In to Dashboard</button>
+      <div class="text-center pt-2">
+        <button type="button" onclick="fillAdminDemo()" class="text-[11px] text-emerald-400 underline hover:text-emerald-300">Quickfill Admin Demo (admin@greenearn.com)</button>
+      </div>
+    </form>
 
-      <div class="flex items-center space-x-1 overflow-x-auto no-scrollbar text-[11px] font-bold">
-        <button onclick="switchTab('home')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="home">Home</button>
-        <button onclick="switchTab('invest')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="invest">Invest</button>
-        <button onclick="switchTab('tasks')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="tasks">Tasks</button>
-        <button onclick="switchTab('refer')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="refer">Refer</button>
-        <button onclick="switchTab('wallet')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="wallet">Wallet</button>
-        <button onclick="switchTab('profile')" class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-900 whitespace-nowrap top-nav-btn" data-tab="profile">Profile</button>
-        <button onclick="switchTab('admin')" class="px-3 py-1 rounded-lg bg-purple-900/40 text-purple-300 border border-purple-500/50 font-black whitespace-nowrap top-nav-btn" data-tab="admin">ADMIN</button>
+    <!-- Signup Form -->
+    <form id="signupForm" onsubmit="handleSignup(event)" class="space-y-4 hidden">
+      <div>
+        <label class="block text-[11px] font-semibold text-emerald-300 mb-1">Full Name / Username</label>
+        <input type="text" id="signupName" required class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-400" placeholder="Alexander Wright">
+      </div>
+      <div>
+        <label class="block text-[11px] font-semibold text-emerald-300 mb-1">Email Address</label>
+        <input type="email" id="signupEmail" required class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-400" placeholder="user@greenearn.com">
+      </div>
+      <div>
+        <label class="block text-[11px] font-semibold text-emerald-300 mb-1">Password</label>
+        <input type="password" id="signupPassword" required class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-400" placeholder="••••••••">
+      </div>
+      <button type="submit" class="w-full py-3 rounded-xl font-bold text-sm btn-emerald shadow-lg">Create Account</button>
+    </form>
+  </div>
+
+  <!-- Main App Shell -->
+  <div id="mainApp" class="w-full max-w-md mx-auto flex flex-col min-h-screen hidden">
+    <!-- Header -->
+    <header class="flex justify-between items-center py-4 px-2">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-10 h-10 bg-emerald-500/20 border border-emerald-400/40 rounded-xl flex items-center justify-center text-emerald-400 text-lg shadow">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <div>
+          <h2 class="font-extrabold text-white text-base tracking-tight flex items-center gap-1.5">
+            GREENEARN
+            <span id="roleBadge" class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/30 text-emerald-300 border border-emerald-400/30">USER</span>
+          </h2>
+          <p id="currentUserDisplayEmail" class="text-[10px] text-emerald-400/70">user@greenearn.com</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="openSupportModal()" class="px-3 py-1.5 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-xs font-semibold text-emerald-300 hover:text-white flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-headset"></i> Support
+        </button>
+        <button onclick="handleLogout()" class="px-3 py-1.5 rounded-xl bg-red-950/40 border border-red-500/30 text-xs font-semibold text-red-300 hover:text-red-200 flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
       </div>
     </header>
 
-    <main class="flex-1 p-3.5 space-y-4 overflow-y-auto">
+    <!-- Navigation Tabs -->
+    <nav class="flex overflow-x-auto space-x-1 py-2 scrollbar-none border-b border-emerald-500/20 mb-4">
+      <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow whitespace-nowrap">Home</button>
+      <button onclick="switchTab('invest')" id="nav-invest" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold text-emerald-300 hover:text-white whitespace-nowrap">Invest</button>
+      <button onclick="switchTab('tasks')" id="nav-tasks" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold text-emerald-300 hover:text-white whitespace-nowrap">Tasks</button>
+      <button onclick="switchTab('refer')" id="nav-refer" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold text-emerald-300 hover:text-white whitespace-nowrap">Refer</button>
+      <button onclick="switchTab('wallet')" id="nav-wallet" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold text-emerald-300 hover:text-white whitespace-nowrap">Wallet</button>
+      <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold text-emerald-300 hover:text-white whitespace-nowrap">Profile</button>
+      <button onclick="switchTab('admin')" id="nav-admin" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold text-purple-300 hover:text-white whitespace-nowrap hidden"><i class="fa-solid fa-crown mr-1"></i> ADMIN</button>
+    </nav>
 
+    <!-- Content Sections -->
+    <main class="flex-1 pb-20 space-y-4">
+
+      <!-- HOME TAB -->
       <section id="tab-home" class="space-y-4">
+        <!-- Wallet & Earnings Projection Card -->
         <div class="glass-card-glow rounded-2xl p-4 relative overflow-hidden space-y-3">
           <div class="flex justify-between items-center">
             <div>
               <p class="text-[10px] uppercase tracking-wider text-emerald-400/80 font-semibold">Wallet Balance</p>
-              <h2 id="homeDisplayBalance" class="text-2xl font-extrabold text-white mt-0.5">$1,250.00</h2>
+              <h2 id="homeDisplayBalance" class="text-3xl font-extrabold text-white mt-0.5 tracking-tight">$1,250.00</h2>
             </div>
-            <button onclick="claimDailyBonus()" id="dailyBonusClaimBtn" class="px-3.5 py-2 rounded-xl text-xs font-bold btn-emerald shadow-lg">Claim Daily Bonus</button>
+            <div class="w-12 h-12 bg-emerald-500/20 border border-emerald-400/40 rounded-2xl flex items-center justify-center text-emerald-400 text-xl">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+          </div>
+          <!-- Left side daily earning, Right side estimated earning in X days -->
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-emerald-500/20">
+            <div class="bg-emerald-950/40 p-2.5 rounded-xl border border-emerald-500/20">
+              <p class="text-[9px] uppercase text-emerald-400/70 font-medium">Daily Earning</p>
+              <p id="homeDailyEarning" class="text-sm font-bold text-emerald-300 mt-0.5">+$15.00/day</p>
+            </div>
+            <div class="bg-emerald-950/40 p-2.5 rounded-xl border border-emerald-500/20">
+              <p class="text-[9px] uppercase text-emerald-400/70 font-medium">Expected Return</p>
+              <p id="homeExpectedReturn" class="text-sm font-bold text-amber-300 mt-0.5">+$450.00 (30d)</p>
+            </div>
           </div>
         </div>
 
+        <!-- Daily News & Bulletin -->
         <div>
           <h2 class="text-xs font-bold text-emerald-200 mb-2 uppercase tracking-wide">Daily News & Bulletin Announcements</h2>
           <div id="homeNewsContainer" class="space-y-3"></div>
         </div>
 
-        <div class="pt-2">
+        <!-- Daily Events & RSVP Center -->
+        <div>
           <h2 class="text-xs font-bold text-emerald-200 mb-2 uppercase tracking-wide">Daily Events & RSVP Center</h2>
           <div id="homeEventsContainer" class="space-y-3"></div>
         </div>
       </section>
 
-      <section id="tab-invest" class="space-y-3.5 hidden">
-        <div>
-          <h2 class="text-sm font-bold text-emerald-100">Green Asset Catalog & Coming Soon</h2>
-          <p class="text-[11px] text-emerald-400/70">Select industry category to inspect companies & invest</p>
+      <!-- INVEST TAB -->
+      <section id="tab-invest" class="space-y-4 hidden">
+        <div class="glass-card p-4 rounded-2xl border border-emerald-500/30">
+          <h2 class="text-sm font-bold text-white">Green Asset Catalog & Coming Soon</h2>
+          <p class="text-[11px] text-emerald-300/80 mt-0.5">Select industry category to inspect companies & invest</p>
+          <div id="investCategoryTabs" class="flex flex-wrap gap-1.5 mt-3"></div>
         </div>
-
-        <div class="flex gap-1 overflow-x-auto no-scrollbar pb-1">
-          <button onclick="switchInvestCategory('Solar Power')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap">Solar Power</button>
-          <button onclick="switchInvestCategory('EV Charging')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap">EV Charging</button>
-          <button onclick="switchInvestCategory('Crypto Mining')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap">Crypto Mining</button>
-          <button onclick="switchInvestCategory('AI Platforms')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap">AI Platforms</button>
-          <button onclick="switchInvestCategory('EV Cars')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap">EV Cars</button>
-        </div>
-
-        <div id="investCatalogList" class="space-y-3"></div>
+        <div id="investCompaniesList" class="space-y-3"></div>
       </section>
 
+      <!-- TASKS TAB -->
       <section id="tab-tasks" class="space-y-3.5 hidden">
-        <div class="glass-card p-3.5 rounded-2xl bg-gradient-to-r from-emerald-950/60 to-emerald-900/30 border border-emerald-500/30">
-          <h2 class="text-sm font-bold text-amber-200">Daily Earning Tasks</h2>
-          <p class="text-[10px] text-emerald-300/80">Complete social tasks below to instantly boost your wallet balance!</p>
+        <div class="glass-card p-3.5 rounded-2xl bg-gradient-to-r from-emerald-950/60 to-emerald-900/30 border border-emerald-500/30 space-y-3">
+          <div class="flex justify-between items-center">
+            <div>
+              <h2 class="text-sm font-bold text-amber-200">Daily Gift Center</h2>
+              <p class="text-[10px] text-emerald-300/80">Claim your daily login bonus & complete simple tasks!</p>
+            </div>
+            <span class="text-xl">🎁</span>
+          </div>
+          <button onclick="claimDailyBonus()" id="dailyBonusClaimBtn" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald shadow-lg">Claim Daily Bonus</button>
         </div>
         <div id="tasksListContainer" class="space-y-2.5"></div>
       </section>
 
-      <section id="tab-refer" class="space-y-3.5 hidden">
-        <div class="glass-card p-4 rounded-2xl text-center space-y-2.5">
-          <h2 class="text-sm font-bold text-emerald-100">Bronze Investor (VIP Level 1)</h2>
-          <p class="text-[11px] text-emerald-300/80">Invite friends and earn $1 per invite milestone bonus!</p>
-          <div class="bg-black/50 p-2.5 rounded-xl border border-emerald-900/50 flex items-center justify-between">
-            <span class="text-[10px] font-mono text-emerald-300 truncate mr-2">https://t.me/GreenEarnBot?start=ref9821</span>
-            <button onclick="copyRefLink()" class="px-2.5 py-1 text-[11px] font-bold rounded btn-emerald">Copy</button>
+      <!-- REFER TAB -->
+      <section id="tab-refer" class="space-y-4 hidden">
+        <div class="glass-card-glow p-5 rounded-2xl space-y-4 text-center">
+          <div class="w-14 h-14 bg-emerald-500/20 border border-emerald-400/40 rounded-2xl mx-auto flex items-center justify-center text-emerald-400 text-2xl">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div>
+            <h2 class="text-base font-bold text-white">Referral & VIP Level Program</h2>
+            <p class="text-xs text-emerald-300/80 mt-1">Invite friends to GREENEARN and earn up to 15% commission instantly!</p>
+          </div>
+          <div class="bg-emerald-950/60 p-3.5 rounded-xl border border-emerald-500/30 flex items-center justify-between">
+            <span id="referralLinkText" class="text-xs text-emerald-300 font-mono truncate mr-2">https://greenearn.app/ref/GE-88912</span>
+            <button onclick="copyReferralLink()" class="px-3 py-1.5 rounded-lg text-xs font-bold btn-emerald shrink-0">Copy Link</button>
+          </div>
+          <div class="grid grid-cols-2 gap-3 pt-2 text-left">
+            <div class="bg-emerald-950/40 p-3 rounded-xl border border-emerald-500/20">
+              <p class="text-[10px] text-emerald-400/80 uppercase font-semibold">Your VIP Level</p>
+              <p class="text-sm font-extrabold text-amber-300 mt-1"><i class="fa-solid fa-crown mr-1"></i> VIP Level 2</p>
+            </div>
+            <div class="bg-emerald-950/40 p-3 rounded-xl border border-emerald-500/20">
+              <p class="text-[10px] text-emerald-400/80 uppercase font-semibold">Total Referrals</p>
+              <p id="totalReferralsCount" class="text-sm font-extrabold text-white mt-1">4 Friends</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="tab-wallet" class="space-y-3.5 hidden">
-        <div class="glass-card p-4 rounded-2xl space-y-3">
-          <div class="flex gap-1.5">
-            <button onclick="switchWalletTab('deposit')" class="flex-1 py-2 text-xs font-bold rounded-xl btn-emerald">Deposit</button>
-            <button onclick="switchWalletTab('withdraw')" class="flex-1 py-2 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-900">Withdraw</button>
-            <button onclick="switchWalletTab('history')" class="flex-1 py-2 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-900">History</button>
-          </div>
-
-          <div id="walletDepositSection" class="space-y-3">
-            <p class="text-xs text-emerald-300/80">Send USDT (TRC-20) or Bitcoin to our payment address:</p>
-            <div class="bg-black/60 p-2.5 rounded-xl border border-emerald-900/50">
-              <span class="text-[10px] font-mono text-emerald-300 block">USDT TRC20: T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB</span>
-              <span class="text-[10px] font-mono text-amber-300 block mt-1">BTC: bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</span>
+      <!-- WALLET TAB -->
+      <section id="tab-wallet" class="space-y-4 hidden">
+        <div class="glass-card-glow p-5 rounded-2xl space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="text-[11px] text-emerald-300/80 font-semibold uppercase">Total Wallet Balance</p>
+              <h2 id="walletDisplayBalance" class="text-2xl font-extrabold text-white mt-0.5">$1,250.00</h2>
             </div>
-            <input id="depositAmountInput" type="number" placeholder="Deposit Amount ($)" class="w-full p-2.5 text-xs rounded-xl">
-            <div class="space-y-1">
-              <label class="text-[10px] text-emerald-300 font-bold block">Upload Payment Screenshot</label>
-              <input type="file" accept="image/*" onchange="handleDepositScreenshotUpload(event)" class="w-full p-1 text-[10px] rounded file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500 file:text-black">
-              <div id="depositScreenshotContainer" class="hidden pt-1">
-                <img id="depositScreenshotPreview" src="" class="w-full h-24 object-cover rounded-lg border border-emerald-800">
+            <div class="flex gap-2">
+              <button onclick="openDepositModal()" class="px-4 py-2 rounded-xl text-xs font-bold btn-emerald shadow-lg">Deposit</button>
+              <button onclick="openWithdrawModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-600 hover:bg-amber-500 text-white shadow-lg">Withdraw</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h2 class="text-xs font-bold text-emerald-200 uppercase tracking-wide">Financial & Investment History</h2>
+          <div id="walletHistoryContainer" class="space-y-2"></div>
+        </div>
+      </section>
+
+      <!-- PROFILE TAB -->
+      <section id="tab-profile" class="space-y-4 hidden">
+        <div class="glass-card p-5 rounded-2xl space-y-4 border border-emerald-500/30">
+          <div class="flex items-center space-x-3">
+            <div class="w-14 h-14 bg-emerald-500/20 border border-emerald-400/40 rounded-full flex items-center justify-center text-emerald-400 text-2xl font-extrabold shadow">
+              <span id="profileAvatarInitial">A</span>
+            </div>
+            <div>
+              <h2 id="profileUsernameDisplay" class="text-base font-bold text-white">Alexander Wright</h2>
+              <div class="flex items-center gap-2 mt-1">
+                <span id="profileKycStatusBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">Verified KYC ✓</span>
               </div>
             </div>
-            <button onclick="submitDepositRequest()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Submit Deposit & Proof for Admin Confirmation</button>
-          </div>
-
-          <div id="walletWithdrawSection" class="space-y-3 hidden">
-            <input id="withdrawAmountInput" type="number" placeholder="Withdrawal Amount ($)" class="w-full p-2.5 text-xs rounded-xl mb-2">
-            <input id="withdrawMethodInput" type="text" placeholder="Enter your Wallet Address or Bank Account info" class="w-full p-2.5 text-xs rounded-xl mb-2">
-            <button onclick="submitWithdrawRequest()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Request Withdrawal</button>
-          </div>
-
-          <div id="walletHistorySection" class="space-y-2.5 hidden">
-            <h3 class="text-xs font-bold text-emerald-200">Investment & Transaction Ledger</h3>
-            <div id="walletHistoryContainer" class="space-y-2 max-h-72 overflow-y-auto no-scrollbar"></div>
           </div>
         </div>
-      </section>
 
-      <section id="tab-profile" class="space-y-3.5 hidden">
-        <div class="glass-card p-4 rounded-2xl space-y-3.5">
-          <div class="flex items-center space-x-3">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" class="w-12 h-12 rounded-full object-cover border-2 border-emerald-500">
-            <div>
-              <h3 id="profileUsernameDisplay" class="text-xs font-bold text-emerald-100">User Account</h3>
-              <span id="profileKycStatusBadge" class="px-2 py-0.5 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Unverified KYC</span>
-            </div>
-          </div>
+        <!-- Active Investment Portfolio & Yield Records (Previous clean animation view) -->
+        <div class="space-y-3">
+          <h2 class="text-xs font-bold text-emerald-200 uppercase tracking-wide flex items-center gap-1.5">
+            <i class="fa-solid fa-chart-line text-emerald-400"></i> Active Investment Portfolio & Yield Records
+          </h2>
+          <div id="profileInvestmentsContainer" class="space-y-3"></div>
+        </div>
 
-          <div class="p-3 bg-black/50 rounded-xl border border-emerald-800/50 space-y-2.5">
-            <h4 class="text-[11px] font-bold text-emerald-200">Identity Verification & Employment KYC Form</h4>
-            
+        <!-- KYC Verification Form -->
+        <div class="glass-card p-5 rounded-2xl space-y-3 border border-emerald-500/30">
+          <h2 class="text-sm font-bold text-white">Identity Verification & Employment KYC Form</h2>
+          <p class="text-[11px] text-emerald-300/80">Upload two distinct identification images (Front & Back/Selfie) to complete verification.</p>
+          <div class="space-y-3 pt-1">
             <div>
-              <label class="text-[10px] text-emerald-300 font-bold block mb-1">Select Document Type</label>
-              <select id="kycDocTypeSelect" class="w-full p-2 text-xs rounded-lg mb-2">
-                <option value="Citizenship">Citizenship ID</option>
-                <option value="Passport">Passport</option>
-                <option value="Driving License">Driving License</option>
-                <option value="National ID Card">National ID Card</option>
+              <label class="block text-[11px] font-semibold text-emerald-300 mb-1">Select Document Type</label>
+              <select id="kycDocType" class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
+                <option>Citizenship ID</option>
+                <option>Passport</option>
+                <option>Driving License</option>
+                <option>National ID Card</option>
               </select>
             </div>
-
             <div class="grid grid-cols-2 gap-2">
-              <input id="kycFullName" type="text" placeholder="Full Name" class="p-2 text-xs rounded-lg">
-              <input id="kycIdNumber" type="text" placeholder="Identity / Document No." class="p-2 text-xs rounded-lg">
-              <input id="kycCountry" type="text" placeholder="Country" class="p-2 text-xs rounded-lg">
-              <input id="kycPhone" type="text" placeholder="Phone Number" class="p-2 text-xs rounded-lg">
-              <input id="kycEmail" type="email" placeholder="Email" class="p-2 text-xs rounded-lg">
-              <input id="kycProfession" type="text" placeholder="Profession" class="p-2 text-xs rounded-lg">
-              <input id="kycCompanyName" type="text" placeholder="Company Name" class="p-2 text-xs rounded-lg">
-              <input id="kycCompanyLoc" type="text" placeholder="Company Location" class="p-2 text-xs rounded-lg">
+              <input type="text" id="kycFullName" placeholder="Full Name" class="bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-white">
+              <input type="text" id="kycDocNumber" placeholder="Document No." class="bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-white">
             </div>
-            <textarea id="kycAddress" rows="2" placeholder="Residential Address" class="w-full p-2 text-xs rounded-lg"></textarea>
-            
-            <div class="grid grid-cols-2 gap-2 pt-1">
-              <div class="space-y-1">
-                <label class="text-[9px] text-emerald-300 font-bold block">1. Upload ID Front</label>
-                <input type="file" accept="image/*" onchange="handleKycImageUpload(event, 1)" class="w-full p-1 text-[10px] rounded file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500 file:text-black">
-                <div id="kycIdPreviewContainer1" class="hidden pt-1">
-                  <img id="kycIdPreviewImg1" src="" class="w-full h-20 object-cover rounded-lg border border-emerald-800">
-                </div>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="text" id="kycCountry" placeholder="Country" class="bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-white">
+              <input type="text" id="kycPhone" placeholder="Phone Number" class="bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] text-emerald-300 mb-1">Front Image URL</label>
+                <input type="text" id="kycFrontImg" placeholder="https://..." class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-white">
               </div>
-              <div class="space-y-1">
-                <label class="text-[9px] text-emerald-300 font-bold block">2. Upload ID Back / Selfie</label>
-                <input type="file" accept="image/*" onchange="handleKycImageUpload(event, 2)" class="w-full p-1 text-[10px] rounded file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500 file:text-black">
-                <div id="kycIdPreviewContainer2" class="hidden pt-1">
-                  <img id="kycIdPreviewImg2" src="" class="w-full h-20 object-cover rounded-lg border border-emerald-800">
-                </div>
+              <div>
+                <label class="block text-[10px] text-emerald-300 mb-1">Back / Selfie Image URL</label>
+                <input type="text" id="kycBackImg" placeholder="https://..." class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-white">
               </div>
             </div>
-
-            <button onclick="submitKycProfileForm()" class="w-full py-2 text-xs font-bold btn-emerald mt-2">Submit KYC for Admin Verification</button>
+            <button onclick="submitKycApplication()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald shadow-lg mt-2">Submit KYC for Review</button>
           </div>
         </div>
       </section>
 
-      <section id="tab-admin" class="space-y-3.5 hidden">
-        <div class="glass-card p-3.5 rounded-2xl border border-purple-500/40 bg-purple-950/20 space-y-3">
-          <div class="flex justify-between items-center border-b border-purple-900/40 pb-2">
-            <h2 class="text-xs font-extrabold text-purple-200 uppercase tracking-wide">Main Admin Control Center</h2>
+      <!-- ADMIN TAB -->
+      <section id="tab-admin" class="space-y-4 hidden">
+        <div class="glass-card p-4 rounded-2xl border border-purple-500/30 space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold text-purple-200"><i class="fa-solid fa-crown mr-1"></i> Main Admin Control Center</h2>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-400/30 font-mono">SECURE</span>
           </div>
-          <div class="flex space-x-1 overflow-x-auto no-scrollbar pb-1 border-b border-purple-900/40 text-[11px]">
-            <button onclick="switchAdminSubTab('users')" class="px-2.5 py-1 font-bold rounded-lg bg-purple-700 text-white whitespace-nowrap">Balances</button>
-            <button onclick="switchAdminSubTab('kyc')" class="px-2.5 py-1 font-bold rounded-lg text-purple-300 whitespace-nowrap">KYC Verify</button>
-            <button onclick="switchAdminSubTab('finance')" class="px-2.5 py-1 font-bold rounded-lg text-purple-300 whitespace-nowrap">Finance & Pay</button>
-            <button onclick="switchAdminSubTab('yields')" class="px-2.5 py-1 font-bold rounded-lg text-purple-300 whitespace-nowrap">Yield Rates</button>
-            <button onclick="switchAdminSubTab('news')" class="px-2.5 py-1 font-bold rounded-lg text-purple-300 whitespace-nowrap">News & Events</button>
-          </div>
-
-          <div id="adm-sub-users" class="space-y-2.5 mt-2">
-            <label class="text-[10px] text-purple-300 font-bold block">Select User Account</label>
-            <select id="admUserSelect" class="w-full p-2 text-xs rounded-lg"></select>
-            <label class="text-[10px] text-purple-300 font-bold block">Modify User Balance ($ Add or Deduct)</label>
-            <input id="admUserBal" type="number" placeholder="Enter new balance amount" class="w-full p-2 text-xs rounded-lg">
-            <button onclick="adminSaveBalance()" class="w-full py-1.5 text-xs font-bold btn-emerald">Update Balance</button>
-            <div id="adminUsersDetailList" class="space-y-1.5 pt-2 max-h-40 overflow-y-auto no-scrollbar"></div>
-          </div>
-
-          <div id="adm-sub-kyc" class="space-y-2.5 mt-2 hidden">
-            <h3 class="text-xs font-bold text-purple-200">User KYC Verification Queue</h3>
-            <div id="adminKycVerifyList" class="space-y-2.5 max-h-72 overflow-y-auto no-scrollbar"></div>
-          </div>
-
-          <div id="adm-sub-finance" class="space-y-2.5 mt-2 hidden">
-            <h3 class="text-xs font-bold text-purple-200">Deposit & Withdrawal Confirmations</h3>
-            <div id="adminTransactionsList" class="space-y-2.5 max-h-64 overflow-y-auto no-scrollbar"></div>
-            <div class="pt-2 border-t border-purple-900/40">
-              <label class="text-[10px] text-purple-300 font-bold block">Daily Login Bonus Amount ($)</label>
-              <input id="admDailyBonusInput" type="number" value="5" class="w-full p-2 text-xs rounded-lg mb-2">
-              <button onclick="adminSaveDailyBonus()" class="w-full py-1.5 text-xs font-bold btn-emerald">Update Bonus Amount</button>
-            </div>
-          </div>
-
-          <div id="adm-sub-yields" class="space-y-2.5 mt-2 hidden">
-            <h3 class="text-xs font-bold text-purple-200">Edit Plan Yield Percentages (% per day)</h3>
-            <div class="grid grid-cols-2 gap-2 text-[10px] text-purple-300">
-              <div>1 Day: <input id="yieldRate1d" type="number" value="1.5" class="w-full p-1 rounded"></div>
-              <div>15 Days: <input id="yieldRate15d" type="number" value="1.9" class="w-full p-1 rounded"></div>
-              <div>1 Month: <input id="yieldRate1m" type="number" value="2.5" class="w-full p-1 rounded"></div>
-              <div>6 Months: <input id="yieldRate6m" type="number" value="4.0" class="w-full p-1 rounded"></div>
-              <div>1 Year: <input id="yieldRate1y" type="number" value="15.0" class="w-full p-1 rounded"></div>
-              <div>5 Years: <input id="yieldRate5y" type="number" value="35.0" class="w-full p-1 rounded"></div>
-              <div>10 Years: <input id="yieldRate10y" type="number" value="90.0" class="w-full p-1 rounded"></div>
-            </div>
-            <button onclick="adminSaveYieldRates()" class="w-full py-2 text-xs font-bold btn-emerald mt-2">Save Yield Percentages</button>
-          </div>
-
-          <div id="adm-sub-news" class="space-y-2.5 mt-2 hidden">
-            <h3 class="text-xs font-bold text-purple-200">Publish News & Events with Images</h3>
-            <input id="admNewsHeadline" type="text" placeholder="News Headline" class="w-full p-2 text-xs rounded-lg mb-2">
-            <textarea id="admNewsText" rows="2" placeholder="News Content" class="w-full p-2 text-xs rounded-lg mb-2"></textarea>
-            <input id="admNewsImgUrl" type="text" placeholder="News Banner Image URL" class="w-full p-2 text-xs rounded-lg mb-2">
-            <button onclick="adminPublishNews()" class="w-full py-2 text-xs font-bold btn-emerald mb-3">Publish News</button>
-            <input id="admEventTitle" type="text" placeholder="Event Title" class="w-full p-2 text-xs rounded-lg mb-2">
-            <input id="admEventDate" type="text" placeholder="Event Date" class="w-full p-2 text-xs rounded-lg mb-2">
-            <textarea id="admEventDesc" rows="2" placeholder="Event Description" class="w-full p-2 text-xs rounded-lg mb-2"></textarea>
-            <input id="admEventImgUrl" type="text" placeholder="Event Image URL" class="w-full p-2 text-xs rounded-lg mb-2">
-            <button onclick="adminCreateEvent()" class="w-full py-2 text-xs font-bold btn-emerald">Publish Event</button>
+          <!-- Admin Sub-navigation -->
+          <div class="flex flex-wrap gap-1 pt-1">
+            <button onclick="switchAdminSubTab('balances')" id="admSubBalances" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-purple-600 text-white">Users & Balances</button>
+            <button onclick="switchAdminSubTab('kyc')" id="admSubKyc" class="px-3 py-1.5 rounded-lg text-xs font-bold text-purple-300 hover:text-white">KYC Review</button>
+            <button onclick="switchAdminSubTab('finance')" id="admSubFinance" class="px-3 py-1.5 rounded-lg text-xs font-bold text-purple-300 hover:text-white">Finance & Pay</button>
+            <button onclick="switchAdminSubTab('yield')" id="admSubYield" class="px-3 py-1.5 rounded-lg text-xs font-bold text-purple-300 hover:text-white">Yield Rates</button>
+            <button onclick="switchAdminSubTab('content')" id="admSubContent" class="px-3 py-1.5 rounded-lg text-xs font-bold text-purple-300 hover:text-white">News & Events</button>
+            <button onclick="switchAdminSubTab('companies')" id="admSubCompanies" class="px-3 py-1.5 rounded-lg text-xs font-bold text-purple-300 hover:text-white">Companies</button>
           </div>
         </div>
+
+        <!-- Admin Sub-Panel 1: Users & Balances -->
+        <div id="adminPanelBalances" class="space-y-3">
+          <div class="glass-card p-4 rounded-2xl space-y-3 border border-purple-500/30">
+            <h3 class="text-xs font-bold text-purple-200 uppercase">Daily Login Bonus Amount</h3>
+            <div class="flex gap-2">
+              <input type="number" id="adminBonusInput" class="flex-1 bg-emerald-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-xs text-white" value="5">
+              <button onclick="updateBonusAmount()" class="px-4 py-2 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white">Update</button>
+            </div>
+          </div>
+          <div class="glass-card p-4 rounded-2xl space-y-3 border border-purple-500/30">
+            <h3 class="text-xs font-bold text-purple-200 uppercase">User Directory & Balance Editor</h3>
+            <div id="adminUserDirectoryList" class="space-y-2"></div>
+          </div>
+        </div>
+
+        <!-- Admin Sub-Panel 2: KYC Review -->
+        <div id="adminPanelKyc" class="space-y-3 hidden">
+          <div class="glass-card p-4 rounded-2xl space-y-3 border border-purple-500/30">
+            <h3 class="text-xs font-bold text-purple-200 uppercase">Pending & Submitted KYC Applications</h3>
+            <div id="adminKycReviewList" class="space-y-3"></div>
+          </div>
+        </div>
+
+        <!-- Admin Sub-Panel 3: Finance & Pay -->
+        <div id="adminPanelFinance" class="space-y-3 hidden">
+          <div class="glass-card p-4 rounded-2xl space-y-3 border border-purple-500/30">
+            <h3 class="text-xs font-bold text-purple-200 uppercase">Deposit & Withdrawal Confirmations</h3>
+            <div id="adminFinanceQueueList" class="space-y-3"></div>
+          </div>
+          <div class="glass-card p-4 rounded-2xl space-y-3 border border-purple-500/30">
+            <h3 class="text-xs font-bold text-purple-200 uppercase">Deposit Methods Manager</h3>
+            <div class="flex gap-2 mb-2">
+              <input type="text" id="newDepositMethodName" placeholder="Method Name (e.g. USDT TRC20)" class="flex-1 bg-emerald-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-xs text-white">
+              <input type="text" id="newDepositMethodAddress" placeholder="Address / Account" class="flex-1 bg-emerald-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-xs text-white">
+              <button onclick="addDepositMethod()" class="px-3 py-2 rounded-xl text-xs font-bold bg-purple-600 text-white">Add</button>
+            </div>
+            <div id="adminDepositMethodsList" class="space-y-2"></div>
+          </div>
+        </div>
+
+        <!-- Admin Sub-Panel 4: Yield Rates -->
+        <div id="adminPanelYield" class="space-y-3 hidden">
+          <div class="glass-card p-4 rounded-2xl space-y-3 border border-purple-500/30">
+            <h3 class="text-xs font-bold text-purple-200 uppercase">Edit Investment Duration Percentages</h3>
+            <div id="adminYieldRatesList" class="space-y-2"></div>
+          </div>
+        </div>
+
+        <!-- Admin Sub-Panel 5: News & Events -->
+        <div id="adminPanelContent" class="space-y-3 hidden">
+          <div class="glass-card p-4 rounded-2xl space-y-3 border border-purple-500/30">
+            <h3 class="text-xs font-bold text-purple-200 uppercase">Add / Edit News & Events</h3>
+            <div class="space-y-2">
+              <input type="text" id="adminContentTitle" placeholder="Headline / Title" class="w-full bg-emerald-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-xs text-white">
+              <textarea id="adminContentText" placeholder="Announcement or Event details..." class="w-full bg-emerald-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-xs text-white h-20"></textarea>
+              <input type="text" id="adminContentImage" placeholder="Image URL (https://...)" class="w-full bg-emerald-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-xs text-white">
+              <div class="flex gap-2">
+                <select id="adminContentType" class="bg-emerald-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-xs text-white">
+                  <option value="news">News Bulletin</option>
+                  <option value="event">Daily Event</option>
+                </select>
+                <button onclick="addNewContent()" class="flex-1 py-2 rounded-xl text-xs font-bold bg-purple-600 text-white">Publish Bulletin</button>
+              </div>
+            </div>
+            <div id="adminContentList" class="space-y-2 pt-2"></div>
+          </div>
+        </div>
+
+        <!-- Admin Sub-Panel 6: Companies -->
+        <div id="adminPanelCompanies" class="space-y-3 hidden">
+          <div class="glass-card p-4 rounded-2xl space-y-3 border border-purple-500/30">
+            <h3 class="text-xs font-bold text-purple-200 uppercase">Manage Companies, Images & Details</h3>
+            <div id="adminCompaniesList" class="space-y-3"></div>
+          </div>
+        </div>
+
       </section>
 
     </main>
 
-    <div id="investConfirmModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
-      <div class="glass-card-glow w-full max-w-sm rounded-2xl p-4 space-y-3.5 relative">
-        <button onclick="closeInvestConfirmModal()" class="absolute top-3 right-3 text-emerald-400 text-sm">✕</button>
-        <h3 id="investModalTitle" class="text-sm font-bold text-emerald-100">Invest in Asset</h3>
-        <div>
-          <label class="text-[10px] text-emerald-300 font-bold block mb-1">Select Investment Duration Plan</label>
-          <select id="investPlanSelect" onchange="calculateInvestReturn()" class="w-full p-2 text-xs rounded-lg mb-2"></select>
-        </div>
-        <div>
-          <label class="text-[10px] text-emerald-300 font-bold block mb-1">Investment Amount ($)</label>
-          <input id="investInputAmount" type="number" value="100" oninput="calculateInvestReturn()" class="w-full p-2 text-xs font-bold rounded-lg">
-        </div>
-        <p id="investEstimatedReturnDisplay" class="text-[11px] text-amber-300 font-bold"></p>
-        <button onclick="confirmAndLockInvestment()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">CONFIRM & LOCK INVESTMENT</button>
-      </div>
-    </div>
-
-    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-[#040d08]/95 backdrop-blur-xl border-t border-emerald-900/40 py-2 px-2 flex justify-around items-center z-40">
-      <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center text-emerald-400" data-tab="home"><i class="fa-solid fa-house text-sm"></i><span class="text-[9px] mt-0.5">Home</span></button>
-      <button onclick="switchTab('invest')" class="nav-btn flex flex-col items-center text-emerald-600/70" data-tab="invest"><i class="fa-solid fa-chart-pie text-sm"></i><span class="text-[9px] mt-0.5">Invest</span></button>
-      <button onclick="switchTab('tasks')" class="nav-btn flex flex-col items-center text-emerald-600/70" data-tab="tasks"><i class="fa-solid fa-list-check text-sm"></i><span class="text-[9px] mt-0.5">Tasks</span></button>
-      <button onclick="switchTab('refer')" class="nav-btn flex flex-col items-center text-emerald-600/70" data-tab="refer"><i class="fa-solid fa-users text-sm"></i><span class="text-[9px] mt-0.5">Refer</span></button>
-      <button onclick="switchTab('wallet')" class="nav-btn flex flex-col items-center text-emerald-600/70" data-tab="wallet"><i class="fa-solid fa-wallet text-sm"></i><span class="text-[9px] mt-0.5">Wallet</span></button>
-      <button onclick="switchTab('profile')" class="nav-btn flex flex-col items-center text-emerald-600/70" data-tab="profile"><i class="fa-solid fa-user text-sm"></i><span class="text-[9px] mt-0.5">Profile</span></button>
-      <button onclick="switchTab('admin')" class="nav-btn flex flex-col items-center text-purple-400" data-tab="admin"><i class="fa-solid fa-crown text-sm text-amber-300"></i><span class="text-[9px] mt-0.5 font-bold">ADMIN</span></button>
-    </nav>
-
+    <!-- Bottom Navigation Bar -->
+    <footer class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-emerald-950/90 backdrop-blur-lg border-t border-emerald-500/30 py-2 px-4 flex justify-around items-center z-40">
+      <button onclick="switchTab('home')" class="nav-icon-btn flex flex-col items-center text-emerald-400 text-xs">
+        <i class="fa-solid fa-house text-base"></i>
+        <span class="text-[9px] mt-0.5">Home</span>
+      </button>
+      <button onclick="switchTab('invest')" class="nav-icon-btn flex flex-col items-center text-emerald-400/60 hover:text-emerald-400 text-xs">
+        <i class="fa-solid fa-chart-pie text-base"></i>
+        <span class="text-[9px] mt-0.5">Invest</span>
+      </button>
+      <button onclick="switchTab('tasks')" class="nav-icon-btn flex flex-col items-center text-emerald-400/60 hover:text-emerald-400 text-xs">
+        <i class="fa-solid fa-list-check text-base"></i>
+        <span class="text-[9px] mt-0.5">Tasks</span>
+      </button>
+      <button onclick="switchTab('refer')" class="nav-icon-btn flex flex-col items-center text-emerald-400/60 hover:text-emerald-400 text-xs">
+        <i class="fa-solid fa-user-group text-base"></i>
+        <span class="text-[9px] mt-0.5">Refer</span>
+      </button>
+      <button onclick="switchTab('wallet')" class="nav-icon-btn flex flex-col items-center text-emerald-400/60 hover:text-emerald-400 text-xs">
+        <i class="fa-solid fa-wallet text-base"></i>
+        <span class="text-[9px] mt-0.5">Wallet</span>
+      </button>
+      <button onclick="switchTab('profile')" class="nav-icon-btn flex flex-col items-center text-emerald-400/60 hover:text-emerald-400 text-xs">
+        <i class="fa-solid fa-user text-base"></i>
+        <span class="text-[9px] mt-0.5">Profile</span>
+      </button>
+    </footer>
   </div>
 
+  <!-- Investment Modal -->
+  <div id="investModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card-glow w-full max-w-sm rounded-3xl p-6 space-y-4 relative border border-emerald-500/40">
+      <button onclick="closeInvestModal()" class="absolute top-4 right-4 text-emerald-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      <div class="flex items-center space-x-3">
+        <div id="modalCompanyIcon" class="w-12 h-12 bg-emerald-500/20 border border-emerald-400/40 rounded-2xl flex items-center justify-center text-emerald-400 text-xl">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div>
+          <h3 id="modalCompanyName" class="text-base font-bold text-white">MIDONG Solar Farm</h3>
+          <p id="modalCompanyCategory" class="text-[10px] text-emerald-400 uppercase tracking-wider font-semibold">Solar Power</p>
+        </div>
+      </div>
+      <div>
+        <label class="block text-[11px] font-semibold text-emerald-300 mb-1">Investment Amount ($ USD)</label>
+        <input type="number" id="investAmountInput" value="100" oninput="calculateInvestmentReturn()" class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3.5 py-2.5 text-sm text-white font-bold focus:outline-none focus:border-emerald-400">
+      </div>
+      <div>
+        <label class="block text-[11px] font-semibold text-emerald-300 mb-1">Choose Lock Duration</label>
+        <div id="investDurationsGrid" class="grid grid-cols-3 gap-2"></div>
+      </div>
+      <div class="bg-emerald-950/60 p-3 rounded-xl border border-emerald-500/30 space-y-1.5 text-xs">
+        <div class="flex justify-between text-emerald-300">
+          <span>Selected Duration Rate:</span>
+          <span id="modalDisplayRate" class="font-bold text-white">1.5%/day</span>
+        </div>
+        <div class="flex justify-between text-emerald-300">
+          <span>Estimated Profit Gain:</span>
+          <span id="modalDisplayProfit" class="font-bold text-amber-300">+$1.50</span>
+        </div>
+        <div class="flex justify-between text-emerald-300 pt-1 border-t border-emerald-500/20 font-extrabold text-sm">
+          <span class="text-white">Total Maturity Payout:</span>
+          <span id="modalDisplayTotal" class="text-emerald-400">$101.50</span>
+        </div>
+      </div>
+      <button onclick="confirmInvestment()" class="w-full py-3 rounded-xl font-bold text-sm btn-emerald shadow-lg">Confirm & Lock Investment</button>
+    </div>
+  </div>
+
+  <!-- Company Details Modal -->
+  <div id="companyDetailModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card-glow w-full max-w-sm rounded-3xl p-6 space-y-4 relative border border-emerald-500/40">
+      <button onclick="closeCompanyDetailModal()" class="absolute top-4 right-4 text-emerald-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      <div class="flex items-center space-x-3">
+        <img id="detailModalImage" src="https://placehold.co/80x80/064e3b/34d399?text=Solar" class="w-14 h-14 rounded-2xl object-cover border border-emerald-400/30" alt="">
+        <div>
+          <h3 id="detailModalName" class="text-base font-bold text-white">MIDONG Solar Farm</h3>
+          <p id="detailModalCategory" class="text-[10px] text-emerald-400 uppercase font-semibold">Solar Power</p>
+        </div>
+      </div>
+      <div class="space-y-2 text-xs text-emerald-200">
+        <div>
+          <p class="font-bold text-white mb-0.5">Company Overview</p>
+          <p id="detailModalDesc" class="text-emerald-300/80 leading-relaxed">World-class 3.5GW mega solar energy station with peak grid integration.</p>
+        </div>
+        <div>
+          <p class="font-bold text-white mb-0.5">💡 Why Invest Here?</p>
+          <p id="detailModalWhy" class="text-amber-300 leading-relaxed">Backed by guaranteed government power purchase agreements.</p>
+        </div>
+      </div>
+      <button onclick="closeCompanyDetailModal(); openInvestModalFromDetail()" class="w-full py-2.5 rounded-xl font-bold text-xs btn-emerald shadow-lg">Proceed to Invest</button>
+    </div>
+  </div>
+
+  <!-- Deposit Modal -->
+  <div id="depositModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card-glow w-full max-w-sm rounded-3xl p-6 space-y-4 relative border border-emerald-500/40">
+      <button onclick="closeDepositModal()" class="absolute top-4 right-4 text-emerald-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="text-base font-bold text-white">Deposit Funds</h3>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-emerald-300 mb-1">Select Payment Method</label>
+          <select id="depositMethodSelect" class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-white"></select>
+        </div>
+        <div id="depositMethodAddressDisplay" class="bg-emerald-950/60 p-2.5 rounded-xl border border-emerald-500/30 text-[11px] text-emerald-300 font-mono"></div>
+        <div>
+          <label class="block text-emerald-300 mb-1">Deposit Amount ($ USD)</label>
+          <input type="number" id="depositAmountInput" value="100" class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-white font-bold">
+        </div>
+        <div>
+          <label class="block text-emerald-300 mb-1">Transaction ID / Reference Number</label>
+          <input type="text" id="depositTxId" placeholder="e.g. TX998218173" class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="block text-emerald-300 mb-1">Payment Proof Screenshot URL</label>
+          <input type="text" id="depositScreenshot" placeholder="https://..." class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-white">
+        </div>
+        <button onclick="submitDepositOrder()" class="w-full py-2.5 rounded-xl font-bold btn-emerald shadow-lg mt-2">Submit Deposit Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Withdraw Modal -->
+  <div id="withdrawModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card-glow w-full max-w-sm rounded-3xl p-6 space-y-4 relative border border-emerald-500/40">
+      <button onclick="closeWithdrawModal()" class="absolute top-4 right-4 text-emerald-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="text-base font-bold text-white">Withdraw Funds</h3>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-emerald-300 mb-1">Withdrawal Method (e.g. USDT / Bank / Crypto)</label>
+          <input type="text" id="withdrawMethodName" placeholder="USDT TRC20" class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="block text-emerald-300 mb-1">Destination Address / Account Number</label>
+          <input type="text" id="withdrawDestination" placeholder="TXYZ...WalletAddress" class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="block text-emerald-300 mb-1">Withdrawal Amount ($ USD)</label>
+          <input type="number" id="withdrawAmountInput" value="50" class="w-full bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-white font-bold">
+        </div>
+        <button onclick="submitWithdrawOrder()" class="w-full py-2.5 rounded-xl font-bold bg-amber-600 hover:bg-amber-500 text-white shadow-lg mt-2">Submit Withdrawal Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Support Modal -->
+  <div id="supportModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card-glow w-full max-w-sm rounded-3xl p-5 space-y-3 relative border border-emerald-500/40 flex flex-col h-[450px]">
+      <div class="flex justify-between items-center border-b border-emerald-500/20 pb-2">
+        <h3 class="text-sm font-bold text-white flex items-center gap-1.5"><i class="fa-solid fa-headset text-emerald-400"></i> GREENEARN Support</h3>
+        <button onclick="closeSupportModal()" class="text-emerald-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="supportChatMessages" class="flex-1 overflow-y-auto space-y-2.5 p-2 text-xs"></div>
+      <div class="flex gap-2 pt-2 border-t border-emerald-500/20">
+        <input type="text" id="supportChatInput" placeholder="Type message to support..." class="flex-1 bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 text-white text-xs">
+        <button onclick="sendSupportMessage()" class="px-4 py-2 rounded-xl text-xs font-bold btn-emerald">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success / Celebration Animation Modal -->
+  <div id="successAnimModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card-glow w-full max-w-xs rounded-3xl p-6 text-center space-y-4 border border-emerald-400">
+      <div class="w-16 h-16 bg-emerald-500/30 border border-emerald-400 rounded-full mx-auto flex items-center justify-center text-emerald-300 text-3xl animate-bounce">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-extrabold text-white">Investment Locked!</h3>
+        <p id="successAnimText" class="text-xs text-emerald-300 mt-1">Capital successfully deployed to node network.</p>
+      </div>
+      <div class="w-full bg-emerald-950/60 h-2 rounded-full overflow-hidden">
+        <div id="successAnimBar" class="bg-emerald-400 h-full w-full animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State Management
+    const defaultCompanies = [
+      { id: 'c1', category: 'Solar Power', name: 'MIDONG Solar Farm', desc: 'World-class 3.5GW mega solar energy station with peak grid integration.', why: 'Backed by guaranteed government power purchase agreements.', image: 'https://images.unsplash.com/photo-1509391365360-e835f37f63f4?w=400', icon: 'fa-solar-panel', status: 'Active' },
+      { id: 'c2', category: 'Solar Power', name: 'Bhadla Solar Park', desc: '14,000-acre mega solar cluster in high irradiation desert zone.', why: 'Highest solar photovoltaic conversion efficiency worldwide.', image: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400', icon: 'fa-sun', status: 'Active' },
+      { id: 'c3', category: 'Solar Power', name: 'Huanghe Hydropower Hainan Solar Park', desc: 'Ultra-large hydro-solar hybrid clean energy plant.', why: 'Combined hydro and solar stability eliminates intermittency.', image: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=400', icon: 'fa-water', status: 'Coming Soon' },
+      { id: 'c4', category: 'EV Charging', name: 'ChargePoint Holdings (NYSE: CHPT)', desc: 'Leading global electric vehicle charging network infrastructure.', why: 'Dominant market share across North American enterprise and fleet hubs.', image: 'https://images.unsplash.com/photo-1558449041-654eaef03f35?w=400', icon: 'fa-charging-station', status: 'Active' },
+      { id: 'c5', category: 'EV Charging', name: 'Blink Charging Co. (NASDAQ: BLNK)', desc: 'Owner and operator of EV charging equipment and networked services.', why: 'Rapid expansion contracts with municipal and retail portfolios.', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400', icon: 'fa-bolt', status: 'Active' },
+      { id: 'c6', category: 'EV Charging', name: 'Wallbox N.V. (NYSE: WBX)', desc: 'Global technology company dedicated to changing the way the world uses energy.', why: 'Award-winning bidirectional smart charging hardware design.', image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400', icon: 'fa-plug', status: 'Active' },
+      { id: 'c7', category: 'EV Charging', name: 'DeCharge (Solana Network)', desc: 'Decentralized peer-to-peer EV charging ecosystem powered by Web3.', why: 'Zero-intermediary revenue sharing model for station hosts.', image: 'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=400', icon: 'fa-network-wired', status: 'Coming Soon' },
+      { id: 'c8', category: 'Crypto Mining', name: 'Bitcoin Green Mining Hub', desc: 'Sustainable ASIC cryptocurrency mining powered entirely by hydro and solar.', why: 'Zero carbon footprint crypto-asset generation with high hash margins.', image: 'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400', icon: 'fa-bitcoin-sign', status: 'Active' },
+      { id: 'c9', category: 'Crypto Mining', name: 'Sui (SUI) Validator Pool', desc: 'High-throughput Layer 1 blockchain proof-of-stake rewards vault.', why: 'Exceptional compounding staking yields on next-gen object-centric architecture.', image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400', icon: 'fa-coins', status: 'Active' },
+      { id: 'c10', category: 'Crypto Mining', name: 'Bittensor (TAO) Subnet Node', desc: 'Decentralized machine learning network token yield generator.', why: 'Direct exposure to decentralized AI compute marketplace growth.', image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400', icon: 'fa-brain', status: 'Active' },
+      { id: 'c11', category: 'Crypto Mining', name: 'Arbitrum (ARB) Liquidity Farm', desc: 'Ethereum Layer 2 scaling protocol yield compounding vault.', why: 'Maximized transaction fee revenue sharing across DeFi pools.', image: 'https://images.unsplash.com/photo-1642104704074-907c0698cbd9?w=400', icon: 'fa-layer-group', status: 'Active' },
+      { id: 'c12', category: 'AI Platforms', name: 'Palantir Technologies (PLTR)', desc: 'Advanced big data analytics and AI operating systems for enterprise & defense.', why: 'Unmatched competitive moat in enterprise AI ontology integration.', image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400', icon: 'fa-chart-network', status: 'Active' },
+      { id: 'c13', category: 'AI Platforms', name: 'Microsoft Corp. (MSFT)', desc: 'Global leader in cloud computing, Azure AI, and generative software.', why: 'Exclusive partnership advantage with OpenAI and enterprise ecosystems.', image: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=400', icon: 'fa-laptop-code', status: 'Active' },
+      { id: 'c14', category: 'AI Platforms', name: 'Alphabet Inc. (GOOGL)', desc: 'Pioneering AI research laboratory (Google DeepMind) and cloud infrastructure.', why: 'Proprietary TPU hardware chips and unmatched data indexing capability.', image: 'https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=400', icon: 'fa-robot', status: 'Active' },
+      { id: 'c15', category: 'AI Platforms', name: 'Oracle Corp. (ORCL)', desc: 'High-performance cloud database and AI cluster infrastructure provider.', why: 'Chosen cloud backbone for next-gen foundational model training clusters.', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400', icon: 'fa-server', status: 'Active' },
+      { id: 'c16', category: 'EV Cars', name: 'BYD Company', desc: 'World leader in new energy vehicles and advanced blade battery technology.', why: 'Unrivaled vertical integration and global EV unit sales volume.', image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400', icon: 'fa-car-side', status: 'Active' },
+      { id: 'c17', category: 'EV Cars', name: 'Tesla Inc.', desc: 'Pioneer of electric mobility, autonomous driving software, and energy storage.', why: 'Market leader in operating margin, Supercharger network, and FSD data.', image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=400', icon: 'fa-car', status: 'Active' },
+      { id: 'c18', category: 'EV Cars', name: 'Geely Automobile', desc: 'Innovative multi-brand EV manufacturer with advanced modular architectures.', why: 'Strategic global partnerships including Volvo, Polestar, and Zeekr.', image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400', icon: 'fa-gauge-high', status: 'Active' },
+      { id: 'c19', category: 'EV Cars', name: 'Xiaomi EV', desc: 'Smart electric vehicle ecosystem connecting mobile tech with intelligent driving.', why: 'Massive loyal consumer ecosystem and cutting-edge cockpit OS integration.', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400', icon: 'fa-mobile-screen', status: 'Active' },
+      { id: 'c20', category: 'EV Cars', name: 'Volkswagen Group', desc: 'Legacy automotive titan rapidly scaling MEB and SSP electric platforms.', why: 'Enormous manufacturing capacity transitioning to 100% electric fleets.', image: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c351?w=400', icon: 'fa-truck-front', status: 'Active' }
+    ];
+
+    const defaultYieldRates = [
+      { duration: '1 Day', rate: '1.5%', days: 1 },
+      { duration: '15 Days', rate: '1.9%/day', days: 15 },
+      { duration: '1 Month', rate: '2.5%/day', days: 30 },
+      { duration: '6 Months', rate: '4%/day', days: 180 },
+      { duration: '1 Year', rate: '15%/day', days: 365 },
+      { duration: '5 Years', rate: '35%/day', days: 1825 },
+      { duration: '10 Years', rate: '90%/day', days: 3650 }
+    ];
+
+    const defaultNews = [
+      { id: 'n1', title: 'Global Green Energy Summit 2026 Announced', text: 'Join international solar & EV leaders for the annual green investment keynote in Geneva.', image: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600', type: 'news', date: '2026-06-01' },
+      { id: 'n2', title: 'MIDONG Solar Farm Q2 Dividend Payout', text: 'Live webinar reviewing regional clean energy yield distribution and staking records.', image: 'https://images.unsplash.com/photo-1509391365360-e835f37f63f4?w=600', type: 'event', date: '2026-06-20' }
+    ];
+
+    const defaultTasks = [
+      { id: 't1', title: 'Join GREENEARN Telegram Channel', reward: 5.00, icon: 'fa-telegram', claimed: false },
+      { id: 't2', title: 'Retweet Official Announcement', reward: 3.00, icon: 'fa-retweet', claimed: false },
+      { id: 't3', title: 'Daily Eco Check-In Bonus', reward: 2.50, icon: 'fa-calendar-check', claimed: false },
+      { id: 't4', title: 'Verify Profile & Get $20 Bonus', reward: 20.00, icon: 'fa-id-card', claimed: false }
+    ];
+
+    const defaultDepositMethods = [
+      { id: 'dm1', name: 'USDT (TRC20)', address: 'TXYZ998127391827391827391827391873' },
+      { id: 'dm2', name: 'Bitcoin (BTC)', address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh' },
+      { id: 'dm3', name: 'Solana (SOL)', address: 'SoL1111111111111111111111111111111111111112' }
+    ];
+
+    let state = {
+      currentUser: null,
+      balance: 1250.00,
+      dailyBonusAmount: 5.00,
+      dailyBonusClaimedToday: false,
+      registeredUsers: [
+        { id: 'u1', username: 'Alexander Wright', email: 'user@greenearn.com', role: 'user', kycStatus: 'Verified', balance: 1250.00 },
+        { id: 'u2', username: 'Main Administrator', email: 'admin@greenearn.com', role: 'admin', kycStatus: 'Verified', balance: 99999.00 }
+      ],
+      investments: [
+        { id: 'i1', companyName: 'MIDONG Solar Farm', category: 'Solar Power', amount: 100.00, duration: '1 Day', rate: '1.5%', dailyReturn: 1.50, date: '2026-06-01', status: 'Active' }
+      ],
+      companies: [...defaultCompanies],
+      yieldRates: [...defaultYieldRates],
+      news: [...defaultNews],
+      tasks: [...defaultTasks],
+      depositMethods: [...defaultDepositMethods],
+      financeQueue: [
+        { id: 'fq1', type: 'Deposit', userEmail: 'user@greenearn.com', amount: 500.00, info: 'USDT TRC20 TX #98821', status: 'Completed', date: '2026-06-01' }
+      ],
+      kycSubmissions: [
+        { id: 'k1', email: 'user@greenearn.com', fullName: 'Alexander Wright', docType: 'Citizenship ID', docNo: 'CID-998127', country: 'United States', phone: '+1 555-0199', frontImg: 'https://placehold.co/300x200/064e3b/ffffff?text=ID+Front', backImg: 'https://placehold.co/300x200/064e3b/ffffff?text=ID+Back', status: 'Verified' }
+      ],
+      supportMessages: [
+        { sender: 'System', text: 'Welcome to GREENEARN Support. How can we assist your green investments today?', time: '09:00 AM' }
+      ],
+      selectedCategory: 'Solar Power',
+      selectedDurationIndex: 0,
+      activeModalCompany: null
+    };
+
+    // Initialization
+    window.onload = function() {
+      // Auto login user for convenience or show auth
+      switchAuthTab('login');
+    };
+
+    function switchAuthTab(tab) {
+      if (tab === 'login') {
+        document.getElementById('loginForm').classList.remove('hidden');
+        document.getElementById('signupForm').classList.add('hidden');
+        document.getElementById('authTabLogin').className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow';
+        document.getElementById('authTabSignup').className = 'flex-1 py-2 text-xs font-bold rounded-lg text-emerald-300 hover:text-white';
+      } else {
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('signupForm').classList.remove('hidden');
+        document.getElementById('authTabSignup').className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow';
+        document.getElementById('authTabLogin').className = 'flex-1 py-2 text-xs font-bold rounded-lg text-emerald-300 hover:text-white';
+      }
+    }
+
+    function fillAdminDemo() {
+      document.getElementById('loginEmail').value = 'admin@greenearn.com';
+      document.getElementById('loginPassword').value = 'admin123';
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const user = state.registeredUsers.find(u => u.email === email);
+      if (user) {
+        state.currentUser = user;
+        state.balance = user.balance;
+      } else {
+        state.currentUser = { id: 'u_gen', username: email.split('@')[0], email: email, role: email.includes('admin') ? 'admin' : 'user', kycStatus: 'Unverified' };
+        state.registeredUsers.push(state.currentUser);
+      }
+      launchApp();
+    }
+
+    function handleSignup(e) {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const newUser = { id: 'u_' + Date.now(), username: name, email: email, role: 'user', kycStatus: 'Unverified', balance: 50.00 };
+      state.registeredUsers.push(newUser);
+      state.currentUser = newUser;
+      state.balance = 50.00;
+      launchApp();
+    }
+
+    function handleLogout() {
+      state.currentUser = null;
+      document.getElementById('mainApp').classList.add('hidden');
+      document.getElementById('authContainer').classList.remove('hidden');
+    }
+
+    function launchApp() {
+      document.getElementById('authContainer').classList.add('hidden');
+      document.getElementById('mainApp').classList.remove('hidden');
+      
+      const isAdm = state.currentUser.role === 'admin';
+      document.getElementById('roleBadge').innerText = isAdm ? 'ADMIN' : 'USER';
+      document.getElementById('currentUserDisplayEmail').innerText = state.currentUser.email;
+      
+      const adminNavBtn = document.getElementById('nav-admin');
+      if (isAdm) {
+        adminNavBtn.classList.remove('hidden');
+      } else {
+        adminNavBtn.classList.add('hidden');
+      }
+
+      renderApp();
+      switchTab('home');
+    }
+
+    function switchTab(tabId) {
+      ['home', 'invest', 'tasks', 'refer', 'wallet', 'profile', 'admin'].forEach(t => {
+        const sec = document.getElementById('tab-' + t);
+        if (sec) sec.classList.add('hidden');
+      });
+      const activeSec = document.getElementById('tab-' + tabId);
+      if (activeSec) activeSec.classList.remove('hidden');
+
+      // Update nav button styles
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.className = btn.className.replace('bg-emerald-600 text-white shadow', 'text-emerald-300 hover:text-white');
+      });
+      const activeBtn = document.getElementById('nav-' + tabId);
+      if (activeBtn) {
+        activeBtn.className = activeBtn.className.replace('text-emerald-300 hover:text-white', 'bg-emerald-600 text-white shadow');
+      }
+    }
+
+    function renderApp() {
+      // Sync balance
+      document.getElementById('homeDisplayBalance').innerText = '$' + state.balance.toFixed(2);
+      document.getElementById('walletDisplayBalance').innerText = '$' + state.balance.toFixed(2);
+      document.getElementById('profileUsernameDisplay').innerText = state.currentUser.username;
+      document.getElementById('profileAvatarInitial').innerText = state.currentUser.username.charAt(0).toUpperCase();
+
+      const regMatch = state.registeredUsers.find(u => u.email === state.currentUser.email);
+      const isVer = regMatch ? regMatch.kycStatus === 'Verified' : false;
+      const kycBadge = document.getElementById('profileKycStatusBadge');
+      if (kycBadge) {
+        kycBadge.className = isVer ? 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30' : 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30';
+        kycBadge.innerText = isVer ? 'Verified KYC ✓' : 'Unverified KYC ⚠';
+      }
+
+      // Render Home News & Events
+      renderHomeNewsEvents();
+      // Render Invest Catalog
+      renderInvestCatalog();
+      // Render Tasks
+      renderTasksList();
+      // Render Wallet History
+      renderWalletHistory();
+      // Render Profile Investments
+      renderProfileInvestments();
+      // Render Admin Panels
+      if (state.currentUser.role === 'admin') {
+        renderAdminPanel();
+      }
+    }
+
+    function renderHomeNewsEvents() {
+      const newsContainer = document.getElementById('homeNewsContainer');
+      const eventsContainer = document.getElementById('homeEventsContainer');
+      
+      const newsList = state.news.filter(n => n.type === 'news');
+      const eventsList = state.news.filter(n => n.type === 'event');
+
+      newsContainer.innerHTML = newsList.map(n => `
+        <div class="glass-card rounded-2xl overflow-hidden border border-emerald-500/30 space-y-2 p-3">
+          <img src="${n.image}" class="w-full h-32 object-cover rounded-xl" alt="" onerror="this.src='https://placehold.co/400x200/064e3b/34d399?text=News'">
+          <h4 class="text-xs font-bold text-white">${n.title}</h4>
+          <p class="text-[11px] text-emerald-300/80">${n.text}</p>
+        </div>
+      `).join('');
+
+      eventsContainer.innerHTML = eventsList.map(e => `
+        <div class="glass-card rounded-2xl p-3.5 border border-emerald-500/30 space-y-2.5">
+          <img src="${e.image}" class="w-full h-32 object-cover rounded-xl" alt="" onerror="this.src='https://placehold.co/400x200/064e3b/34d399?text=Event'">
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="text-xs font-bold text-white">${e.title}</h4>
+              <p class="text-[10px] text-emerald-400 font-medium mt-0.5">${e.date} • 15:00 UTC</p>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">RSVP Open</span>
+          </div>
+          <p class="text-[11px] text-emerald-300/80">${e.text}</p>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="rsvpEvent('${e.id}', 'Attend')" class="py-2 rounded-xl text-xs font-bold btn-emerald">Attend</button>
+            <button onclick="rsvpEvent('${e.id}', 'Not Attend')" class="py-2 rounded-xl text-xs font-bold bg-emerald-950/60 border border-emerald-500/30 text-emerald-300">Not Attend</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function rsvpEvent(id, status) {
+      alert(`RSVP Recorded: You marked "${status}" for event.`);
+    }
+
+    function renderInvestCatalog() {
+      const categories = ['Solar Power', 'EV Charging', 'Crypto Mining', 'AI Platforms', 'EV Cars'];
+      const catTabsContainer = document.getElementById('investCategoryTabs');
+      
+      catTabsContainer.innerHTML = categories.map(cat => `
+        <button onclick="selectCategory('${cat}')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${state.selectedCategory === cat ? 'bg-emerald-600 text-white shadow' : 'bg-emerald-950/40 text-emerald-300 border border-emerald-500/30'}">${cat}</button>
+      `).join('');
+
+      const listContainer = document.getElementById('investCompaniesList');
+      const filtered = state.companies.filter(c => c.category === state.selectedCategory);
+
+      listContainer.innerHTML = filtered.map(c => `
+        <div class="glass-card p-4 rounded-2xl border border-emerald-500/30 flex items-center justify-between gap-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-emerald-500/20 border border-emerald-400/40 rounded-2xl flex items-center justify-center text-emerald-400 text-xl shrink-0">
+              <i class="fa-solid ${c.icon || 'fa-bolt'}"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-sm font-bold text-white">${c.name}</h3>
+                <span class="px-2 py-0.5 rounded text-[9px] font-bold ${c.status === 'Active' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/30' : 'bg-amber-500/20 text-amber-300 border border-amber-400/30'}">${c.status}</span>
+              </div>
+              <button onclick="openCompanyDetailModal('${c.id}')" class="text-[11px] text-emerald-400 underline font-semibold mt-1 inline-block hover:text-emerald-300">Company Details & Why Invest →</button>
+            </div>
+          </div>
+          <button onclick="openInvestModal('${c.id}')" class="px-3.5 py-2 rounded-xl text-xs font-bold btn-emerald shadow shrink-0">Invest Now</button>
+        </div>
+      `).join('');
+    }
+
+    function selectCategory(cat) {
+      state.selectedCategory = cat;
+      renderInvestCatalog();
+    }
+
+    function openCompanyDetailModal(id) {
+      const comp = state.companies.find(c => c.id === id);
+      if (!comp) return;
+      state.activeModalCompany = comp;
+      document.getElementById('detailModalName').innerText = comp.name;
+      document.getElementById('detailModalCategory').innerText = comp.category;
+      document.getElementById('detailModalDesc').innerText = comp.desc;
+      document.getElementById('detailModalWhy').innerText = comp.why;
+      document.getElementById('detailModalImage').src = comp.image;
+      document.getElementById('companyDetailModal').classList.remove('hidden');
+    }
+
+    function closeCompanyDetailModal() {
+      document.getElementById('companyDetailModal').classList.add('hidden');
+    }
+
+    function openInvestModalFromDetail() {
+      if (state.activeModalCompany) {
+        openInvestModal(state.activeModalCompany.id);
+      }
+    }
+
+    function openInvestModal(id) {
+      const comp = state.companies.find(c => c.id === id);
+      if (!comp) return;
+      state.activeModalCompany = comp;
+      document.getElementById('modalCompanyName').innerText = comp.name;
+      document.getElementById('modalCompanyCategory').innerText = comp.category;
+      
+      const grid = document.getElementById('investDurationsGrid');
+      grid.innerHTML = state.yieldRates.map((yr, idx) => `
+        <button type="button" onclick="selectDurationIndex(${idx})" id="durBtn-${idx}" class="p-2.5 rounded-xl border text-center transition-all ${idx === state.selectedDurationIndex ? 'bg-emerald-600 border-emerald-400 text-white shadow-lg' : 'bg-emerald-950/40 border-emerald-500/30 text-emerald-300 hover:border-emerald-400'}">
+          <p class="text-xs font-bold">${yr.duration}</p>
+          <p class="text-[10px] opacity-80 mt-0.5">${yr.rate}</p>
+        </button>
+      `).join('');
+
+      calculateInvestmentReturn();
+      document.getElementById('investModal').classList.remove('hidden');
+    }
+
+    function closeInvestModal() {
+      document.getElementById('investModal').classList.add('hidden');
+    }
+
+    function selectDurationIndex(idx) {
+      state.selectedDurationIndex = idx;
+      const grid = document.getElementById('investDurationsGrid');
+      Array.from(grid.children).forEach((btn, i) => {
+        btn.className = i === idx ? 'p-2.5 rounded-xl border text-center transition-all bg-emerald-600 border-emerald-400 text-white shadow-lg' : 'p-2.5 rounded-xl border text-center transition-all bg-emerald-950/40 border-emerald-500/30 text-emerald-300 hover:border-emerald-400';
+      });
+      calculateInvestmentReturn();
+    }
+
+    function calculateInvestmentReturn() {
+      const amount = parseFloat(document.getElementById('investAmountInput').value) || 0;
+      const yr = state.yieldRates[state.selectedDurationIndex];
+      const rateNum = parseFloat(yr.rate) || 1.5;
+      const dailyReturn = amount * (rateNum / 100);
+      const totalPayout = amount + (dailyReturn * yr.days);
+
+      document.getElementById('modalDisplayRate').innerText = yr.rate;
+      document.getElementById('modalDisplayProfit').innerText = `+$${(dailyReturn * yr.days).toFixed(2)}`;
+      document.getElementById('modalDisplayTotal').innerText = `$${totalPayout.toFixed(2)}`;
+    }
+
+    function confirmInvestment() {
+      const amount = parseFloat(document.getElementById('investAmountInput').value) || 0;
+      if (amount <= 0 || amount > state.balance) {
+        alert('Insufficient wallet balance or invalid amount.');
+        return;
+      }
+
+      state.balance -= amount;
+      const yr = state.yieldRates[state.selectedDurationIndex];
+      const dailyReturn = amount * (parseFloat(yr.rate) || 1.5) / 100;
+
+      const newInv = {
+        id: 'inv_' + Date.now(),
+        companyName: state.activeModalCompany.name,
+        category: state.activeModalCompany.category,
+        amount: amount,
+        duration: yr.duration,
+        rate: yr.rate,
+        dailyReturn: dailyReturn,
+        date: new Date().toISOString().split('T')[0],
+        status: 'Active Yielding'
+      };
+
+      state.investments.unshift(newInv);
+      closeInvestModal();
+
+      // Show celebration animation modal
+      const animModal = document.getElementById('successAnimModal');
+      document.getElementById('successAnimText').innerText = `Successfully locked $${amount.toFixed(2)} into ${state.activeModalCompany.name}!`;
+      animModal.classList.remove('hidden');
+
+      setTimeout(() => {
+        animModal.classList.add('hidden');
+        renderApp();
+      }, 2000);
+    }
+
+    function renderProfileInvestments() {
+      const container = document.getElementById('profileInvestmentsContainer');
+      if (state.investments.length === 0) {
+        container.innerHTML = `<p class="text-xs text-emerald-400/60 italic">No active investments found.</p>`;
+        return;
+      }
+
+      container.innerHTML = state.investments.map(inv => `
+        <div class="glass-card p-4 rounded-2xl border border-emerald-500/30 space-y-3">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2.5">
+              <div class="w-10 h-10 bg-emerald-500/20 border border-emerald-400/40 rounded-xl flex items-center justify-center text-emerald-400 text-base">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white">${inv.companyName}</h4>
+                <p class="text-[10px] text-emerald-400">${inv.category}</p>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">${inv.duration} Active</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="bg-emerald-950/40 p-2.5 rounded-xl border border-emerald-500/20">
+              <p class="text-[9px] uppercase text-emerald-400/70 font-semibold">Locked Capital</p>
+              <p class="text-sm font-extrabold text-white mt-0.5">$${inv.amount.toFixed(2)}</p>
+            </div>
+            <div class="bg-emerald-950/40 p-2.5 rounded-xl border border-emerald-500/20">
+              <p class="text-[9px] uppercase text-emerald-400/70 font-semibold">Estimated Daily Return</p>
+              <p class="text-sm font-extrabold text-amber-300 mt-0.5">+$${inv.dailyReturn.toFixed(2)}</p>
+            </div>
+          </div>
+          <div class="flex justify-between items-center text-[10px] text-emerald-300/80 pt-1">
+            <span>Status: <strong class="text-emerald-400">${inv.status}</strong></span>
+            <span>${inv.date}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderTasksList() {
+      const container = document.getElementById('tasksListContainer');
+      container.innerHTML = state.tasks.map(t => `
+        <div class="glass-card p-3 rounded-2xl border border-emerald-500/30 flex items-center justify-between gap-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-emerald-500/20 border border-emerald-400/40 rounded-xl flex items-center justify-center text-emerald-400 text-base shrink-0">
+              <i class="fa-solid ${t.icon || 'fa-gift'}"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-white">${t.title}</h4>
+              <p class="text-[11px] font-extrabold text-amber-300 mt-0.5">+${t.reward.toFixed(2)} USD</p>
+            </div>
+          </div>
+          <button onclick="claimTask('${t.id}')" class="px-3.5 py-2 rounded-xl text-xs font-bold ${t.claimed ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 cursor-not-allowed' : 'btn-emerald shadow'}" ${t.claimed ? 'disabled' : ''}>
+            ${t.claimed ? 'Claimed ✓' : 'Claim'}
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function claimDailyBonus() {
+      if (state.dailyBonusClaimedToday) {
+        alert('You have already claimed your daily bonus today!');
+        return;
+      }
+      state.dailyBonusClaimedToday = true;
+      state.balance += state.dailyBonusAmount;
+      const btn = document.getElementById('dailyBonusClaimBtn');
+      if (btn) {
+        btn.innerText = 'Claimed Today ✓';
+        btn.className = 'w-full py-2.5 rounded-xl text-xs font-bold bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 cursor-not-allowed';
+      }
+      alert(`Success! Claimed daily login bonus of $${state.dailyBonusAmount.toFixed(2)}.`);
+      renderApp();
+    }
+
+    function claimTask(id) {
+      const task = state.tasks.find(t => t.id === id);
+      if (!task || task.claimed) return;
+      task.claimed = true;
+      state.balance += task.reward;
+      alert(`Task reward claimed: +$${task.reward.toFixed(2)} added to wallet!`);
+      renderApp();
+    }
+
+    function copyReferralLink() {
+      navigator.clipboard.writeText('https://greenearn.app/ref/GE-88912');
+      alert('Referral link copied to clipboard!');
+    }
+
+    function renderWalletHistory() {
+      const container = document.getElementById('walletHistoryContainer');
+      container.innerHTML = state.financeQueue.map(f => `
+        <div class="glass-card p-3 rounded-2xl border border-emerald-500/30 flex justify-between items-center text-xs">
+          <div>
+            <p class="font-bold text-white">${f.type}: $${f.amount.toFixed(2)}</p>
+            <p class="text-[10px] text-emerald-300/70">${f.info} • ${f.date}</p>
+          </div>
+          <span class="px-2.5 py-0.5 rounded text-[10px] font-bold ${f.status === 'Completed' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/30' : 'bg-amber-500/20 text-amber-300 border border-amber-400/30'}">${f.status}</span>
+        </div>
+      `).join('');
+    }
+
+    function openDepositModal() {
+      const sel = document.getElementById('depositMethodSelect');
+      sel.innerHTML = state.depositMethods.map(dm => `<option value="${dm.name}">${dm.name}</option>`).join('');
+      updateDepositAddressDisplay();
+      sel.onchange = updateDepositAddressDisplay;
+      document.getElementById('depositModal').classList.remove('hidden');
+    }
+
+    function updateDepositAddressDisplay() {
+      const sel = document.getElementById('depositMethodSelect').value;
+      const dm = state.depositMethods.find(m => m.name === sel);
+      document.getElementById('depositMethodAddressDisplay').innerText = dm ? `Send funds to ${dm.name} address:\n${dm.address}` : '';
+    }
+
+    function closeDepositModal() {
+      document.getElementById('depositModal').classList.add('hidden');
+    }
+
+    function submitDepositOrder() {
+      const amount = parseFloat(document.getElementById('depositAmountInput').value) || 0;
+      const method = document.getElementById('depositMethodSelect').value;
+      const txId = document.getElementById('depositTxId').value || 'TX-PENDING';
+      
+      state.financeQueue.unshift({
+        id: 'fq_' + Date.now(),
+        type: 'Deposit',
+        userEmail: state.currentUser.email,
+        amount: amount,
+        info: `${method} | ${txId}`,
+        status: 'Pending',
+        date: new Date().toISOString().split('T')[0]
+      });
+
+      closeDepositModal();
+      alert('Deposit order submitted for admin confirmation.');
+      renderApp();
+    }
+
+    function openWithdrawModal() {
+      document.getElementById('withdrawModal').classList.remove('hidden');
+    }
+
+    function closeWithdrawModal() {
+      document.getElementById('withdrawModal').classList.add('hidden');
+    }
+
+    function submitWithdrawOrder() {
+      const amount = parseFloat(document.getElementById('withdrawAmountInput').value) || 0;
+      const method = document.getElementById('withdrawMethodName').value;
+      const dest = document.getElementById('withdrawDestination').value;
+
+      if (amount <= 0 || amount > state.balance) {
+        alert('Invalid withdrawal amount.');
+        return;
+      }
+
+      state.balance -= amount;
+      state.financeQueue.unshift({
+        id: 'fq_' + Date.now(),
+        type: 'Withdrawal',
+        userEmail: state.currentUser.email,
+        amount: amount,
+        info: `${method} -> ${dest}`,
+        status: 'Pending',
+        date: new Date().toISOString().split('T')[0]
+      });
+
+      closeWithdrawModal();
+      alert('Withdrawal request submitted successfully.');
+      renderApp();
+    }
+
+    function submitKycApplication() {
+      const fullName = document.getElementById('kycFullName').value;
+      const docType = document.getElementById('kycDocType').value;
+      const docNo = document.getElementById('kycDocNumber').value;
+      const country = document.getElementById('kycCountry').value;
+      const phone = document.getElementById('kycPhone').value;
+      const frontImg = document.getElementById('kycFrontImg').value || 'https://placehold.co/300x200';
+      const backImg = document.getElementById('kycBackImg').value || 'https://placehold.co/300x200';
+
+      state.kycSubmissions.unshift({
+        id: 'kyc_' + Date.now(),
+        email: state.currentUser.email,
+        fullName, docType, docNo, country, phone, frontImg, backImg,
+        status: 'Pending'
+      });
+
+      alert('KYC application submitted successfully for admin review.');
+    }
+
+    function openSupportModal() {
+      renderSupportMessages();
+      document.getElementById('supportModal').classList.remove('hidden');
+    }
+
+    function closeSupportModal() {
+      document.getElementById('supportModal').classList.add('hidden');
+    }
+
+    function renderSupportMessages() {
+      const container = document.getElementById('supportChatMessages');
+      container.innerHTML = state.supportMessages.map(m => `
+        <div class="p-2.5 rounded-xl ${m.sender === 'System' ? 'bg-emerald-950/50 border border-emerald-500/20' : 'bg-emerald-600/30 border border-emerald-400/30 ml-4'}">
+          <p class="text-[10px] text-emerald-400 font-bold">${m.sender} • ${m.time}</p>
+          <p class="text-white mt-0.5">${m.text}</p>
+        </div>
+      `).join('');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function sendSupportMessage() {
+      const input = document.getElementById('supportChatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      state.supportMessages.push({ sender: state.currentUser.username, text, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+      input.value = '';
+      renderSupportMessages();
+
+      setTimeout(() => {
+        state.supportMessages.push({ sender: 'Support Agent', text: 'Thank you for your message. Our team is reviewing your query.', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+        renderSupportMessages();
+      }, 1000);
+    }
+
+    // Admin Panel Functions
+    function switchAdminSubTab(sub) {
+      ['balances', 'kyc', 'finance', 'yield', 'content', 'companies'].forEach(s => {
+        document.getElementById('adminPanel' + s.charAt(0).toUpperCase() + s.slice(1)).classList.add('hidden');
+        document.getElementById('admSub' + s.charAt(0).toUpperCase() + s.slice(1)).className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-purple-300 hover:text-white';
+      });
+      document.getElementById('adminPanel' + sub.charAt(0).toUpperCase() + sub.slice(1)).classList.remove('hidden');
+      document.getElementById('admSub' + sub.charAt(0).toUpperCase() + sub.slice(1)).className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-purple-600 text-white';
+    }
+
+    function renderAdminPanel() {
+      // User directory
+      const userDir = document.getElementById('adminUserDirectoryList');
+      userDir.innerHTML = state.registeredUsers.map(u => `
+        <div class="bg-emerald-950/40 p-3 rounded-xl border border-purple-500/20 flex justify-between items-center text-xs">
+          <div>
+            <p class="font-bold text-white">${u.username} (${u.email})</p>
+            <p class="text-[10px] text-emerald-300">Balance: $${u.balance || 0} • Role: ${u.role}</p>
+          </div>
+          <div class="flex gap-1.5">
+            <button onclick="adminEditBalance('${u.email}')" class="px-2.5 py-1 rounded bg-purple-600 text-white font-bold text-[10px]">Edit Bal</button>
+          </div>
+        </div>
+      `).join('');
+
+      // KYC review
+      const kycList = document.getElementById('adminKycReviewList');
+      kycList.innerHTML = state.kycSubmissions.map(k => `
+        <div class="bg-emerald-950/40 p-3.5 rounded-xl border border-purple-500/20 space-y-2 text-xs">
+          <div class="flex justify-between items-center">
+            <p class="font-bold text-white">${k.fullName} (${k.email})</p>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${k.status === 'Verified' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${k.status}</span>
+          </div>
+          <p class="text-[11px] text-emerald-300">Doc: ${k.docType} (#${k.docNo}) • Country: ${k.country}</p>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <img src="${k.frontImg}" class="h-20 w-full object-cover rounded-lg border border-purple-500/30" alt="Front">
+            <img src="${k.backImg}" class="h-20 w-full object-cover rounded-lg border border-purple-500/30" alt="Back">
+          </div>
+          ${k.status !== 'Verified' ? `<button onclick="adminVerifyKyc('${k.email}')" class="w-full py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white mt-1">Approve & Verify KYC</button>` : ''}
+        </div>
+      `).join('');
+
+      // Finance Queue
+      const finList = document.getElementById('adminFinanceQueueList');
+      finList.innerHTML = state.financeQueue.map(f => `
+        <div class="bg-emerald-950/40 p-3 rounded-xl border border-purple-500/20 flex justify-between items-center text-xs">
+          <div>
+            <p class="font-bold text-white">${f.type}: $${f.amount} (${f.userEmail})</p>
+            <p class="text-[10px] text-emerald-300">${f.info}</p>
+          </div>
+          <div class="flex gap-1.5">
+            ${f.status === 'Pending' ? `
+              <button onclick="adminConfirmFinance('${f.id}', 'Completed')" class="px-2.5 py-1 rounded bg-emerald-600 text-white font-bold text-[10px]">Confirm</button>
+              <button onclick="adminConfirmFinance('${f.id}', 'Rejected')" class="px-2.5 py-1 rounded bg-red-600 text-white font-bold text-[10px]">Reject</button>
+            ` : `<span class="text-emerald-400 font-bold">${f.status}</span>`}
+          </div>
+        </div>
+      `).join('');
+
+      // Deposit Methods
+      const dmList = document.getElementById('adminDepositMethodsList');
+      dmList.innerHTML = state.depositMethods.map(dm => `
+        <div class="bg-emerald-950/40 p-2.5 rounded-xl border border-purple-500/20 flex justify-between items-center text-xs">
+          <div>
+            <p class="font-bold text-white">${dm.name}</p>
+            <p class="text-[10px] text-emerald-300 font-mono">${dm.address}</p>
+          </div>
+          <button onclick="adminRemoveDepositMethod('${dm.id}')" class="text-red-400 hover:text-red-300 text-xs"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      `).join('');
+
+      // Yield Rates
+      const yList = document.getElementById('adminYieldRatesList');
+      yList.innerHTML = state.yieldRates.map((yr, idx) => `
+        <div class="bg-emerald-950/40 p-2.5 rounded-xl border border-purple-500/20 flex items-center justify-between text-xs">
+          <span class="font-bold text-white">${yr.duration}</span>
+          <div class="flex gap-2">
+            <input type="text" id="adminRateInput-${idx}" value="${yr.rate}" class="bg-emerald-950/60 border border-purple-500/30 rounded px-2 py-1 text-white w-20 text-center">
+            <button onclick="adminUpdateRate(${idx})" class="px-3 py-1 rounded bg-purple-600 text-white font-bold">Save</button>
+          </div>
+        </div>
+      `).join('');
+
+      // News & Events
+      const cList = document.getElementById('adminContentList');
+      cList.innerHTML = state.news.map(n => `
+        <div class="bg-emerald-950/40 p-2.5 rounded-xl border border-purple-500/20 flex justify-between items-center text-xs">
+          <div>
+            <p class="font-bold text-white">${n.title} <span class="text-[9px] text-purple-300 uppercase">(${n.type})</span></p>
+          </div>
+          <button onclick="adminDeleteContent('${n.id}')" class="text-red-400 hover:text-red-300"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      `).join('');
+
+      // Companies
+      const compList = document.getElementById('adminCompaniesList');
+      compList.innerHTML = state.companies.map(c => `
+        <div class="bg-emerald-950/40 p-3 rounded-xl border border-purple-500/20 space-y-2 text-xs">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-white">${c.name} (${c.category})</span>
+            <span class="text-emerald-400">${c.status}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="compName-${c.id}" value="${c.name}" class="bg-emerald-950/60 border border-purple-500/30 rounded px-2 py-1 text-white">
+            <input type="text" id="compImg-${c.id}" value="${c.image}" class="bg-emerald-950/60 border border-purple-500/30 rounded px-2 py-1 text-white">
+          </div>
+          <textarea id="compDesc-${c.id}" class="w-full bg-emerald-950/60 border border-purple-500/30 rounded p-2 text-white h-14">${c.desc}</textarea>
+          <input type="text" id="compWhy-${c.id}" value="${c.why}" class="w-full bg-emerald-950/60 border border-purple-500/30 rounded px-2 py-1 text-white">
+          <button onclick="adminSaveCompany('${c.id}')" class="w-full py-1.5 rounded bg-purple-600 text-white font-bold">Save Company Updates</button>
+        </div>
+      `).join('');
+    }
+
+    function updateBonusAmount() {
+      const val = parseFloat(document.getElementById('adminBonusInput').value) || 5;
+      state.dailyBonusAmount = val;
+      alert(`Daily bonus amount updated to $${val.toFixed(2)}.`);
+    }
+
+    function adminEditBalance(email) {
+      const newBal = prompt('Enter new wallet balance ($):', '1000');
+      if (newBal !== null) {
+        const u = state.registeredUsers.find(user => user.email === email);
+        if (u) {
+          u.balance = parseFloat(newBal) || 0;
+          if (state.currentUser.email === email) {
+            state.balance = u.balance;
+          }
+          renderApp();
+          alert('Balance updated successfully.');
+        }
+      }
+    }
+
+    function adminVerifyKyc(email) {
+      const sub = state.kycSubmissions.find(k => k.email === email);
+      if (sub) sub.status = 'Verified';
+      const user = state.registeredUsers.find(u => u.email === email);
+      if (user) user.kycStatus = 'Verified';
+      alert(`KYC for ${email} has been permanently verified!`);
+      renderApp();
+    }
+
+    function adminConfirmFinance(id, status) {
+      const f = state.financeQueue.find(item => item.id === id);
+      if (f) {
+        f.status = status;
+        if (status === 'Completed' && f.type === 'Deposit') {
+          const u = state.registeredUsers.find(user => user.email === f.userEmail);
+          if (u) {
+            u.balance += f.amount;
+            if (state.currentUser.email === f.userEmail) state.balance = u.balance;
+          }
+        }
+        renderApp();
+        alert(`Transaction marked as ${status}.`);
+      }
+    }
+
+    function addDepositMethod() {
+      const name = document.getElementById('newDepositMethodName').value.trim();
+      const address = document.getElementById('newDepositMethodAddress').value.trim();
+      if (!name || !address) return;
+      state.depositMethods.push({ id: 'dm_' + Date.now(), name, address });
+      document.getElementById('newDepositMethodName').value = '';
+      document.getElementById('newDepositMethodAddress').value = '';
+      renderAdminPanel();
+      alert('Deposit method added.');
+    }
+
+    function adminRemoveDepositMethod(id) {
+      state.depositMethods = state.depositMethods.filter(d => d.id !== id);
+      renderAdminPanel();
+    }
+
+    function adminUpdateRate(idx) {
+      const val = document.getElementById('adminRateInput-' + idx).value;
+      state.yieldRates[idx].rate = val;
+      alert('Yield rate updated.');
+    }
+
+    function addNewContent() {
+      const title = document.getElementById('adminContentTitle').value.trim();
+      const text = document.getElementById('adminContentText').value.trim();
+      const image = document.getElementById('adminContentImage').value.trim() || 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600';
+      const type = document.getElementById('adminContentType').value;
+      if (!title || !text) return;
+
+      state.news.unshift({ id: 'n_' + Date.now(), title, text, image, type, date: new Date().toISOString().split('T')[0] });
+      document.getElementById('adminContentTitle').value = '';
+      document.getElementById('adminContentText').value = '';
+      document.getElementById('adminContentImage').value = '';
+      renderApp();
+      alert('Bulletin published successfully.');
+    }
+
+    function adminDeleteContent(id) {
+      state.news = state.news.filter(n => n.id !== id);
+      renderApp();
+    }
+
+    function adminSaveCompany(id) {
+      const comp = state.companies.find(c => c.id === id);
+      if (comp) {
+        comp.name = document.getElementById('compName-' + id).value;
+        comp.image = document.getElementById('compImg-' + id).value;
+        comp.desc = document.getElementById('compDesc-' + id).value;
+        comp.why = document.getElementById('compWhy-' + id).value;
+        renderApp();
+        alert('Company details updated successfully.');
+      }
+    }
+  </script>
 </body>
 </html>
