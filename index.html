@@ -83,7 +83,9 @@
           profession: 'Senior Energy Analyst',
           companyName: 'EcoTech Global Solutions',
           companyLocation: 'Austin, TX',
-          idDocUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80'
+          docType: 'Passport',
+          idDocUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80',
+          idDocUrlBack: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80'
         },
         { 
           id: 2, 
@@ -101,7 +103,9 @@
           profession: 'Green Engineer',
           companyName: 'SolarCorp Inc',
           companyLocation: 'Miami, FL',
-          idDocUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80'
+          docType: 'Citizenship',
+          idDocUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
+          idDocUrlBack: ''
         }
       ],
       paymentMethods: [
@@ -186,6 +190,7 @@
 
       const found = state.registeredUsers.find(u => u.email === email && u.password === pass);
       if (found) {
+        // Deep clone or assign currentUser while preserving persistent kycStatus from registeredUsers array
         state.currentUser = found;
         state.balance = found.balance;
         saveState();
@@ -211,7 +216,7 @@
         email,
         password: pass,
         balance: 50.00,
-        kycStatus: 'Pending',
+        kycStatus: 'Unverified',
         role: 'Standard',
         fullName: username,
         address: '',
@@ -221,7 +226,9 @@
         profession: '',
         companyName: '',
         companyLocation: '',
-        idDocUrl: ''
+        docType: 'Citizenship',
+        idDocUrl: '',
+        idDocUrlBack: ''
       };
       state.registeredUsers.push(newUser);
       state.currentUser = newUser;
@@ -232,12 +239,56 @@
       showToast('Account created successfully! +$50 Welcome Bonus added.');
     }
 
-    function handleForgotPassword() {
-      const email = document.getElementById('forgotEmail').value.trim();
-      if (!email) {
-        showToast('Please enter your account email!');
-        return;
+    function handleIdImageUpload(event, slot) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          if (slot === 1) {
+            document.getElementById('kycIdPreviewImg1').src = e.target.result;
+            document.getElementById('kycIdPreviewContainer1').classList.remove('hidden');
+            if (state.currentUser) state.currentUser.idDocUrl = e.target.result;
+          } else {
+            document.getElementById('kycIdPreviewImg2').src = e.target.result;
+            document.getElementById('kycIdPreviewContainer2').classList.remove('hidden');
+            if (state.currentUser) state.currentUser.idDocUrlBack = e.target.result;
+          }
+          const regUser = state.registeredUsers.find(u => u.id === state.currentUser.id);
+          if (regUser) {
+            regUser.idDocUrl = state.currentUser.idDocUrl;
+            regUser.idDocUrlBack = state.currentUser.idDocUrlBack;
+          }
+          saveState();
+        };
+        reader.readAsDataURL(file);
       }
+    }
+
+    function submitKycProfileForm() {
+      if (!state.currentUser) return;
+      state.currentUser.fullName = document.getElementById('kycFullName').value;
+      state.currentUser.docType = document.getElementById('kycDocTypeSelect').value;
+      state.currentUser.address = document.getElementById('kycAddress').value;
+      state.currentUser.country = document.getElementById('kycCountry').value;
+      state.currentUser.identityNumber = document.getElementById('kycIdNumber').value;
+      state.currentUser.phone = document.getElementById('kycPhone').value;
+      state.currentUser.email = document.getElementById('kycEmail').value;
+      state.currentUser.profession = document.getElementById('kycProfession').value;
+      state.currentUser.companyName = document.getElementById('kycCompanyName').value;
+      state.currentUser.companyLocation = document.getElementById('kycCompanyLoc').value;
+      state.currentUser.kycStatus = 'Pending';
+
+      const regUser = state.registeredUsers.find(u => u.id === state.currentUser.id);
+      if (regUser) {
+        Object.assign(regUser, state.currentUser);
+      }
+
+      saveState();
+      renderApp();
+      showToast('KYC & Employment documents submitted for admin review!');
+    }
+
+    function handleForgotPassword() {
       showToast('Password reset instructions sent to your email!');
       switchAuthTab('signin');
     }
@@ -714,7 +765,7 @@
         }
         saveState();
         renderApp();
-        showToast(`KYC Verified successfully for ${u.username}!`);
+        showToast(`KYC Verified permanently for ${u.username}!`);
       }
     }
 
@@ -852,11 +903,11 @@
           kycListDiv.innerHTML += `
             <div class="p-3 rounded-xl bg-black/50 border border-purple-900/40 text-[11px] space-y-2">
               <div class="flex justify-between items-center font-bold text-purple-200">
-                <span>${u.fullName || u.username}</span>
+                <span>${u.fullName || u.username} (${u.docType || 'ID Document'})</span>
                 <span class="${u.kycStatus === 'Verified' ? 'text-emerald-400' : 'text-amber-400'}">${u.kycStatus}</span>
               </div>
               <div class="grid grid-cols-2 gap-1 text-[10px] text-purple-300">
-                <div>ID: <strong class="text-white">${u.identityNumber || 'N/A'}</strong></div>
+                <div>ID/No: <strong class="text-white">${u.identityNumber || 'N/A'}</strong></div>
                 <div>Country: <strong class="text-white">${u.country || 'N/A'}</strong></div>
                 <div>Phone: <strong class="text-white">${u.phone || 'N/A'}</strong></div>
                 <div>Profession: <strong class="text-white">${u.profession || 'N/A'}</strong></div>
@@ -864,14 +915,20 @@
                 <div>Location: <strong class="text-white">${u.companyLocation || 'N/A'}</strong></div>
               </div>
               <p class="text-[10px] text-purple-300">Address: <span class="text-white">${u.address || 'N/A'}</span></p>
-              ${u.idDocUrl ? `
+              
+              <div class="grid grid-cols-2 gap-2 pt-1">
                 <div>
-                  <p class="text-[10px] font-bold text-purple-300 mb-1">Identity Document / Photo:</p>
-                  <img src="${u.idDocUrl}" class="w-full h-24 object-cover rounded-lg border border-purple-800">
+                  <p class="text-[9px] font-bold text-purple-300 mb-1">Document Front:</p>
+                  ${u.idDocUrl ? `<img src="${u.idDocUrl}" class="w-full h-24 object-cover rounded-lg border border-purple-800">` : '<p class="text-[9px] text-amber-400 italic">Not uploaded</p>'}
                 </div>
-              ` : '<p class="text-[10px] text-amber-400 italic">No document uploaded.</p>'}
-              <div class="flex gap-2 pt-1">
-                <button onclick="adminVerifyKyc(${u.id})" class="px-3 py-1 text-[10px] font-bold bg-emerald-600 text-white rounded-lg">Verify KYC</button>
+                <div>
+                  <p class="text-[9px] font-bold text-purple-300 mb-1">Document Back / Selfie:</p>
+                  ${u.idDocUrlBack ? `<img src="${u.idDocUrlBack}" class="w-full h-24 object-cover rounded-lg border border-purple-800">` : '<p class="text-[9px] text-amber-400 italic">Not uploaded</p>'}
+                </div>
+              </div>
+
+              <div class="flex gap-2 pt-2">
+                <button onclick="adminVerifyKyc(${u.id})" class="px-3 py-1 text-[10px] font-bold bg-emerald-600 text-white rounded-lg">Verify Permanently</button>
                 <button onclick="adminRejectKyc(${u.id})" class="px-3 py-1 text-[10px] font-bold bg-red-600 text-white rounded-lg">Reject</button>
               </div>
             </div>
@@ -1313,9 +1370,20 @@
 
           <div class="p-3 bg-black/50 rounded-xl border border-emerald-800/50 space-y-2.5">
             <h4 class="text-[11px] font-bold text-emerald-200">Identity Verification & Employment KYC Form</h4>
+            
+            <div>
+              <label class="text-[10px] text-emerald-300 font-bold block mb-1">Select Document Type</label>
+              <select id="kycDocTypeSelect" class="w-full p-2 text-xs rounded-lg mb-2">
+                <option value="Citizenship">Citizenship ID</option>
+                <option value="Passport">Passport</option>
+                <option value="Driving License">Driving License</option>
+                <option value="National ID Card">National ID Card</option>
+              </select>
+            </div>
+
             <div class="grid grid-cols-2 gap-2">
               <input id="kycFullName" type="text" placeholder="Full Name" class="p-2 text-xs rounded-lg">
-              <input id="kycIdNumber" type="text" placeholder="Identity / Passport No." class="p-2 text-xs rounded-lg">
+              <input id="kycIdNumber" type="text" placeholder="Identity / Document No." class="p-2 text-xs rounded-lg">
               <input id="kycCountry" type="text" placeholder="Country" class="p-2 text-xs rounded-lg">
               <input id="kycPhone" type="text" placeholder="Phone Number" class="p-2 text-xs rounded-lg">
               <input id="kycEmail" type="email" placeholder="Email" class="p-2 text-xs rounded-lg">
@@ -1325,15 +1393,24 @@
             </div>
             <textarea id="kycAddress" rows="2" placeholder="Residential Address" class="w-full p-2 text-xs rounded-lg"></textarea>
             
-            <div>
-              <label class="text-[10px] text-emerald-300 font-bold block mb-1">Upload Identity Document / Photo</label>
-              <input type="file" accept="image/*" onchange="handleIdImageUpload(event)" class="w-full p-1.5 text-xs rounded-lg file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-emerald-500 file:text-black">
-            </div>
-            <div id="kycIdPreviewContainer" class="hidden pt-1">
-              <img id="kycIdPreviewImg" src="" class="w-full h-24 object-cover rounded-lg border border-emerald-800">
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <div class="space-y-1">
+                <label class="text-[9px] text-emerald-300 font-bold block">1. Upload ID Front</label>
+                <input type="file" accept="image/*" onchange="handleIdImageUpload(event, 1)" class="w-full p-1 text-[10px] rounded file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500 file:text-black">
+                <div id="kycIdPreviewContainer1" class="hidden pt-1">
+                  <img id="kycIdPreviewImg1" src="" class="w-full h-20 object-cover rounded-lg border border-emerald-800">
+                </div>
+              </div>
+              <div class="space-y-1">
+                <label class="text-[9px] text-emerald-300 font-bold block">2. Upload ID Back / Selfie</label>
+                <input type="file" accept="image/*" onchange="handleIdImageUpload(event, 2)" class="w-full p-1 text-[10px] rounded file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500 file:text-black">
+                <div id="kycIdPreviewContainer2" class="hidden pt-1">
+                  <img id="kycIdPreviewImg2" src="" class="w-full h-20 object-cover rounded-lg border border-emerald-800">
+                </div>
+              </div>
             </div>
 
-            <button onclick="submitKycProfileForm()" class="w-full py-2 text-xs font-bold btn-emerald">Submit KYC & Legal Information</button>
+            <button onclick="submitKycProfileForm()" class="w-full py-2 text-xs font-bold btn-emerald mt-2">Submit KYC & Legal Information</button>
           </div>
 
           <div class="p-3 bg-black/50 rounded-xl border border-emerald-800/50 space-y-2.5">
