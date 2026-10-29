@@ -253,10 +253,12 @@
             document.getElementById('kycIdPreviewContainer2').classList.remove('hidden');
             if (state.currentUser) state.currentUser.idDocUrlBack = e.target.result;
           }
-          const regUser = state.registeredUsers.find(u => u.id === state.currentUser.id);
-          if (regUser) {
-            regUser.idDocUrl = state.currentUser.idDocUrl;
-            regUser.idDocUrlBack = state.currentUser.idDocUrlBack;
+          if (state.currentUser) {
+            const regUser = state.registeredUsers.find(u => u.id === state.currentUser.id);
+            if (regUser) {
+              regUser.idDocUrl = state.currentUser.idDocUrl;
+              regUser.idDocUrlBack = state.currentUser.idDocUrlBack;
+            }
           }
           saveState();
         };
@@ -1099,7 +1101,7 @@
       }
 
       const kycBadge = document.getElementById('profileKycStatusBadge');
-      if (kycBadge) {
+      if (kycBadge && state.currentUser) {
         const isVer = state.currentUser.kycStatus === 'Verified';
         kycBadge.className = `px-2 py-0.5 rounded text-[9px] font-bold ${isVer ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}`;
         kycBadge.innerText = state.currentUser.kycStatus + ' KYC';
