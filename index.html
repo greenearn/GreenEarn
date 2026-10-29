@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0E14">
+<title>Green Earn</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+--bg:#0B0E14;--card:#161B22;--card2:#1b2229;--bd:#21262D;
+--txt:#E6EDF3;--mut:#8B949E;--dim:#6A737D;
+--green:#00E676;--gold:#FFB300;--ton:#0088CC;--sol:#9945FF;--red:#FF5252;
+--r:18px;
+}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+font-size:15px;line-height:1.5;overscroll-behavior-y:none;-webkit-font-smoothing:antialiased}
+body{padding-bottom:96px;min-height:100vh}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:var(--green);text-decoration:none}
+.hide{display:none!important}
+.wrap{max-width:640px;margin:0 auto;padding:0 14px}
+
+/* ---------- glass ---------- */
+.glass{background:linear-gradient(160deg,rgba(22,27,34,.92),rgba(22,27,34,.72));
+backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+border:1px solid var(--bd);border-radius:var(--r)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.card.g{background:linear-gradient(160deg,rgba(22,27,34,.95),rgba(22,27,34,.75));backdrop-filter:blur(10px)}
+
+/* ---------- header ---------- */
+.top{position:sticky;top:0;z-index:40;background:rgba(11,14,20,.86);backdrop-filter:blur(14px);
+border-bottom:1px solid var(--bd);padding:calc(env(safe-area-inset-top) + 10px) 0 10px}
+.topin{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.3px}
+.logo{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:17px;
+background:linear-gradient(140deg,rgba(0,230,118,.18),rgba(0,136,204,.16));border:1px solid rgba(0,230,118,.28)}
+.hicons{display:flex;gap:8px;align-items:center}
+.ib{width:36px;height:36px;border-radius:11px;border:1px solid var(--bd);background:var(--card);
+display:grid;place-items:center;font-size:15px}
+
+/* ---------- hero balance ---------- */
+.hero{position:relative;overflow:hidden;padding:18px;border-radius:22px;margin:14px 0 12px;
+background:linear-gradient(150deg,#12261b 0%,#0f1b22 46%,#161B22 100%);
+border:1px solid rgba(0,230,118,.22)}
+.hero:after{content:'';position:absolute;width:190px;height:190px;right:-70px;top:-80px;border-radius:50%;
+background:radial-gradient(circle,rgba(0,230,118,.30),transparent 68%);filter:blur(6px)}
+.hero:before{content:'';position:absolute;width:150px;height:150px;left:-60px;bottom:-80px;border-radius:50%;
+background:radial-gradient(circle,rgba(0,136,204,.26),transparent 70%);filter:blur(6px)}
+.hlab{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:#9fb3a8;font-weight:700;position:relative}
+.hbal{font-size:36px;font-weight:800;letter-spacing:-1.4px;margin:5px 0 2px;position:relative;line-height:1.1}
+.hbal small{font-size:15px;font-weight:700;color:var(--green);letter-spacing:0}
+.hsub{font-size:12px;color:var(--mut);position:relative}
+.vip{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:5px 11px;border-radius:999px;
+font-size:11.5px;font-weight:700;position:relative;
+background:linear-gradient(90deg,rgba(255,179,0,.16),rgba(0,230,118,.13));
+border:1px solid rgba(255,179,0,.34);color:#ffd479}
+.hrow{display:flex;gap:8px;margin-top:13px;position:relative}
+.hstat{flex:1;background:rgba(0,0,0,.28);border:1px solid var(--bd);border-radius:13px;padding:9px 10px}
+.hstat b{display:block;font-size:15px;letter-spacing:-.3px}
+.hstat span{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--dim);font-weight:700}
+
+/* ---------- telemetry ---------- */
+.tele{display:flex;align-items:center;gap:13px;padding:14px;border-radius:20px;margin-bottom:12px;
+background:radial-gradient(120% 120% at 15% 20%,rgba(0,230,118,.10),transparent 60%),var(--card);
+border:1px solid var(--bd);overflow:hidden}
+.node{position:relative;width:62px;height:62px;flex:0 0 62px;display:grid;place-items:center}
+.pulse{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(0,230,118,.55);animation:pl 2.6s ease-out infinite}
+.pulse:nth-child(2){animation-delay:.9s}
+.pulse:nth-child(3){animation-delay:1.8s}
+@keyframes pl{0%{transform:scale(.55);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+.core{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:18px;
+background:radial-gradient(circle at 32% 28%,#00E676,#00795c 72%);
+box-shadow:0 0 22px rgba(0,230,118,.55),inset 0 0 12px rgba(255,255,255,.28)}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;min-width:0}
+.tcell span{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim);font-weight:700}
+.tcell b{font-size:13.5px;font-weight:800;letter-spacing:-.3px}
+.live{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);
+box-shadow:0 0 8px var(--green);animation:bl 1.4s infinite;margin-right:4px}
+@keyframes bl{50%{opacity:.25}}
+
+/* ---------- sections ---------- */
+.sec{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 10px}
+.sec h2{font-size:15px;font-weight:800;margin:0;letter-spacing:-.2px}
+.sec small{font-size:11.5px;color:var(--dim);font-weight:600}
+.hr{height:1px;background:var(--bd);margin:14px 0;border:0}
+
+/* ---------- chips ---------- */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:8px 14px;border-radius:999px;border:1px solid var(--bd);
+background:var(--card);font-size:12.5px;font-weight:700;color:var(--mut);white-space:nowrap}
+.chip.on{background:rgba(0,230,118,.14);border-color:rgba(0,230,118,.5);color:var(--green);
+box-shadow:0 0 0 1px rgba(0,230,118,.15) inset}
+.chip .pct{font-size:10px;opacity:.8;font-weight:600;margin-left:3px}
+
+/* ---------- plan card ---------- */
+.plan{position:relative;padding:14px;border-radius:18px;border:1px solid var(--bd);
+background:var(--card);margin-bottom:10px;overflow:hidden;transition:transform .18s,border-color .18s}
+.plan:active{transform:scale(.985)}
+.plan.sel{border-color:rgba(0,230,118,.55);box-shadow:0 0 0 1px rgba(0,230,118,.2) inset,0 8px 26px -18px rgba(0,230,118,.9)}
+.ptop{display:flex;align-items:center;gap:11px}
+.pico{width:44px;height:44px;flex:0 0 44px;border-radius:13px;display:grid;place-items:center;
+font-size:20px;font-weight:800;background:#0e1319;border:1px solid var(--bd)}
+.pname{font-size:14px;font-weight:800;letter-spacing:-.2px}
+.pmeta{font-size:11.5px;color:var(--dim);font-weight:600;margin-top:1px}
+.pyield{margin-left:auto;text-align:right}
+.pyield b{font-size:17px;font-weight:800;color:var(--green);letter-spacing:-.6px;display:block;line-height:1}
+.pyield span{font-size:9.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);font-weight:700}
+.pbar{margin:12px 0 10px}
+.sld{width:100%;height:26px;-webkit-appearance:none;background:transparent;margin:0}
+.sld::-webkit-slider-runnable-track{height:5px;border-radius:99px;
+background:linear-gradient(90deg,var(--green) var(--fill,40%),#242b33 var(--fill,40%))}
+.sld::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;margin-top:-8px;
+background:#fff;border:3.5px solid var(--green);box-shadow:0 0 12px rgba(0,230,118,.7)}
+.sld::-moz-range-track{height:5px;border-radius:99px;background:#242b33}
+.sld::-moz-range-thumb{width:16px;height:16px;border:3.5px solid var(--green);background:#fff;border-radius:50%}
+.pin{display:flex;gap:8px;align-items:center;margin-top:8px}
+.pin input{flex:1;background:#0e1319;border:1px solid var(--bd);border-radius:12px;padding:11px 12px;
+font-weight:800;font-size:15px;letter-spacing:-.2px;outline:0;min-width:0}
+.pin input:focus{border-color:rgba(0,230,118,.5)}
+.pout{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin-top:9px;gap:8px}
+.pout b{color:var(--txt);font-weight:800}
+
+/* ---------- buttons ---------- */
+.btn{display:block;width:100%;padding:13px 16px;border-radius:14px;font-weight:800;font-size:14px;
+letter-spacing:-.1px;text-align:center;border:1px solid transparent;transition:transform .15s,opacity .15s}
+.btn:active{transform:scale(.975)}
+.btn.pri{background:linear-gradient(135deg,#00E676,#00b25e);color:#04160d;
+box-shadow:0 10px 26px -14px rgba(0,230,118,.95)}
+.btn.gold{background:linear-gradient(135deg,#FFB300,#e09400);color:#221600}
+.btn.ghost{background:var(--card2);border-color:var(--bd);color:var(--txt)}
+.btn.red{background:rgba(255,82,82,.14);border-color:rgba(255,82,82,.4);color:#ff8a8a}
+.btn.sm{padding:9px 12px;font-size:12.5px;border-radius:11px;width:auto;display:inline-block}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+/* ---------- task ---------- */
+.task{display:flex;gap:11px;padding:13px;border-radius:16px;border:1px solid var(--bd);
+background:var(--card);margin-bottom:9px}
+.tico{width:38px;height:38px;flex:0 0 38px;border-radius:11px;display:grid;place-items:center;font-size:17px;
+background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.2)}
+.ttitle{font-size:13px;font-weight:800;letter-spacing:-.1px}
+.tdesc{font-size:11.5px;color:var(--dim);margin-top:2px;line-height:1.42}
+.trew{font-size:12px;font-weight:800;color:var(--green);margin-top:5px}
+.trew em{font-style:normal;color:var(--gold)}
+.tbtn{flex:0 0 auto;align-self:center}
+.done{opacity:.55}
+
+/* ---------- tree ---------- */
+.tree{display:flex;flex-direction:column;align-items:center;padding:6px 0 2px}
+.tnode{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;font-size:26px;
+background:linear-gradient(150deg,rgba(0,230,118,.22),rgba(0,136,204,.14));
+border:1px solid rgba(0,230,118,.45);box-shadow:0 0 26px -8px rgba(0,230,118,.7)}
+.tstem{width:2px;height:16px;background:linear-gradient(180deg,rgba(0,230,118,.7),rgba(0,230,118,.15))}
+.tlv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;margin-top:2px}
+.tcard{background:#0e1319;border:1px solid var(--bd);border-radius:14px;padding:11px 8px;text-align:center}
+.tcard b{display:block;font-size:19px;font-weight:800;letter-spacing:-.6px}
+.tcard span{font-size:9.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);font-weight:700}
+.tcard em{display:block;font-style:normal;font-size:10.5px;color:var(--green);font-weight:800;margin-top:3px}
+.tlink{display:flex;gap:7px;margin-top:10px}
+.tlink input{flex:1;min-width:0;background:#0e1319;border:1px solid var(--bd);border-radius:11px;
+padding:10px;font-size:11.5px;color:var(--mut);outline:0}
+
+/* ---------- boxes ---------- */
+.boxes{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.box{position:relative;padding:14px 8px;border-radius:16px;text-align:center;border:1px solid var(--bd);
+background:var(--card);overflow:hidden}
+.box b{display:block;font-size:11.5px;font-weight:800;margin-top:7px}
+.box small{display:block;font-size:9.5px;color:var(--dim);margin-top:2px;font-weight:600}
+.bemic{font-size:30px;display:block;line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6))}
+.box.lock{opacity:.5}
+.box.ready{border-color:rgba(255,179,0,.45);box-shadow:0 0 26px -16px rgba(255,179,0,.9)}
+.shake{animation:sk .55s ease-in-out}
+@keyframes sk{0%,100%{transform:rotate(0)}20%{transform:rotate(-9deg) scale(1.06)}40%{transform:rotate(8deg) scale(1.08)}60%{transform:rotate(-6deg) scale(1.06)}80%{transform:rotate(4deg) scale(1.02)}}
+.spark{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:999;
+background:var(--gold);box-shadow:0 0 12px var(--gold);animation:sp .9s ease-out forwards}
+@keyframes sp{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+
+/* ---------- modal ---------- */
+.sheet{position:fixed;inset:0;z-index:80;display:none}
+.sheet.open{display:block}
+.sheet .bg{position:absolute;inset:0;background:rgba(5,7,10,.72);backdrop-filter:blur(4px)}
+.sheet .pan{position:absolute;left:0;right:0;bottom:0;max-height:88vh;overflow-y:auto;
+background:var(--card);border-top:1px solid var(--bd);border-radius:24px 24px 0 0;
+padding:8px 16px calc(env(safe-area-inset-bottom) + 22px);animation:up .28s cubic-bezier(.2,.9,.3,1)}
+@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.handle{width:42px;height:4px;border-radius:99px;background:#2b3239;margin:8px auto 14px}
+.sheet h3{margin:0 0 4px;font-size:16px;font-weight:800;letter-spacing:-.3px}
+.sheet p.sub{margin:0 0 14px;font-size:12px;color:var(--dim)}
+
+/* ---------- inputs ---------- */
+.field{margin-bottom:11px}
+.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.6px;
+color:var(--dim);font-weight:800;margin-bottom:5px}
+.inp,select.inp,textarea.inp{width:100%;background:#0e1319;border:1px solid var(--bd);border-radius:12px;
+padding:12px;outline:0;font-size:14px;font-weight:600}
+.inp:focus{border-color:rgba(0,230,118,.5)}
+textarea.inp{min-height:78px;resize:vertical;font-weight:500;line-height:1.45}
+
+/* ---------- tabs ---------- */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(11,14,20,.94);
+backdrop-filter:blur(16px);border-top:1px solid var(--bd);
+padding:7px 6px calc(env(safe-area-inset-bottom) + 7px)}
+.tabsin{display:grid;grid-template-columns:repeat(4,1fr);max-width:640px;margin:0 auto}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 2px;
+font-size:9.5px;font-weight:700;color:var(--dim);letter-spacing:.1px;transition:color .15s}
+.tab .ti{font-size:19px;line-height:1;filter:grayscale(1) opacity(.6);transition:filter .15s,transform .15s}
+.tab.on{color:var(--green)}
+.tab.on .ti{filter:none;transform:translateY(-1px) scale(1.08)}
+.tab .dot{position:absolute;transform:translate(14px,-6px);width:6px;height:6px;border-radius:50%;
+background:var(--red);display:none}
+.tab .dot.show{display:block}
+
+/* ---------- misc ---------- */
+.kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(33,38,45,.7);font-size:13px}
+.kv:last-child{border-bottom:0}
+.kv span{color:var(--mut);font-weight:600}
+.kv b{font-weight:800}
+.badge{display:inline-block;padding:3px 8px;border-radius:7px;font-size:10px;font-weight:800;
+text-transform:uppercase;letter-spacing:.4px}
+.badge.p{background:rgba(255,179,0,.15);color:#ffca4d}
+.badge.a{background:rgba(0,230,118,.15);color:var(--green)}
+.badge.r{background:rgba(255,82,82,.15);color:#ff8a8a}
+.note{font-size:11.5px;color:var(--dim);line-height:1.55}
+.trust{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:18px 0 6px}
+.trust span{font-size:9.5px;font-weight:700;letter-spacing:.4px;color:var(--dim);
+border:1px solid var(--bd);border-radius:8px;padding:5px 9px;background:rgba(22,27,34,.6)}
+.skel{background:linear-gradient(90deg,#1b2229 25%,#242c35 50%,#1b2229 75%);
+background-size:200% 100%;animation:sh 1.3s infinite;border-radius:10px}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.sk-line{height:12px;margin:9px 0}
+.evt{border-left:3px solid var(--gold);padding:2px 0 2px 11px;margin-bottom:11px}
+.evt b{font-size:12.5px;display:block}
+.evt span{font-size:11.5px;color:var(--mut);line-height:1.45}
+.clog{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;color:var(--mut);
+background:#0a0d12;border:1px solid var(--bd);border-radius:10px;padding:9px;max-height:150px;overflow:auto;white-space:pre-wrap}
+.empty{text-align:center;padding:26px 10px;color:var(--dim);font-size:12.5px}
+.empty div{font-size:32px;margin-bottom:8px;opacity:.6}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tinynote{font-size:10.5px;color:var(--dim);text-align:center;margin-top:9px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<div class="top"><div class="wrap topin">
+  <div class="brand"><div class="logo" id="hlogo">🌱</div><span id="hbrand">Green Earn</span></div>
+  <div class="hicons">
+    <button class="ib" onclick="openSheet('tut')">📖</button>
+    <button class="ib" onclick="openLang()">🌐</button>
+  </div>
+</div></div>
+
+<div class="wrap">
+
+<!-- ================= TAB 1 : MINING ================= -->
+<div id="t1" class="tabp">
+
+  <div class="hero">
+    <div class="hlab">Total wallet balance</div>
+    <div class="hbal"><span id="bal">0.00</span> <small>USDT</small></div>
+    <div class="hsub"><span id="tonrate">1 TON = 7.24 USDT</span> · <span id="energy">0</span> ⚡</div>
+    <div class="vip" id="vipbadge">👑 Level 1: Green Station Manager</div>
+    <div class="hrow">
+      <div class="hstat"><span>Invested</span><b id="invested">0.00</b></div>
+      <div class="hstat"><span>Stations</span><b id="stcount">0</b></div>
+      <div class="hstat"><span>Today</span><b id="todayearn">0.00</b></div>
+    </div>
+  </div>
+
+  <div class="tele">
+    <div class="node">
+      <div class="pulse"></div><div class="pulse"></div><div class="pulse"></div>
+      <div class="core">⚡</div>
+    </div>
+    <div class="tgrid">
+      <div class="tcell"><span><i class="live"></i>Global KW</span><b id="tkw">4,820,190</b></div>
+      <div class="tcell"><span>Active nodes</span><b id="tnodes">12,490</b></div>
+      <div class="tcell"><span>Countries</span><b id="tcountries">128</b></div>
+      <div class="tcell"><span>Network</span><b style="color:#00E676">ONLINE</b></div>
+    </div>
+  </div>
+
+  <div id="dailybar" class="card g hide" style="border-color:rgba(255,179,0,.4)">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="font-size:26px">🎁</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:800" id="dailytitle">Daily login bonus</div>
+        <div style="font-size:11.5px;color:var(--dim)" id="dailysub">Claim once every 24 hours</div>
+      </div>
+      <button class="btn gold sm" onclick="claimDaily()" id="dailybtn">Claim</button>
+    </div>
+  </div>
+
+  <div id="evts"></div>
+
+  <div class="sec"><h2>⚡ Activate a station</h2><small id="planmin">min 10 USDT</small></div>
+
+  <div class="chips" id="termchips"></div>
+
+  <div id="plans"></div>
+
+  <div class="sec"><h2>🏗 Your active stations</h2><small id="hcount">0</small></div>
+  <div id="holdings"></div>
+
+  <div class="sec"><h2>🪙 Crypto assets</h2><small>spot symbols</small></div>
+  <div class="card" style="padding:10px">
+    <div id="coins" class="chips" style="padding-bottom:2px"></div>
+  </div>
+
+  <div class="trust">
+    <span>🔒 256-BIT ENCRYPTED</span>
+    <span>⛓ SMART CONTRACT VALIDATED</span>
+    <span>🏭 ASSET-BACKED REVENUE</span>
+  </div>
+  <div class="tinynote">Capital at risk. Yields depend on real charging and mining revenue. Only invest what you can afford.</div>
+</div>
+
+<!-- ================= TAB 2 : TASKS ================= -->
+<div id="t2" class="tabp hide">
+  <div class="card g" style="border-color:rgba(0,230,118,.3)">
+    <div style="display:flex;align-items:center;gap:11px">
+      <div style="font-size:27px">✅</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:800">Task-to-Earn hub</div>
+        <div style="font-size:11.5px;color:var(--dim)">Complete, verify and claim instantly</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:16px;font-weight:800;color:var(--green)" id="taskearned">0.00</div>
+        <div style="font-size:9.5px;color:var(--dim);font-weight:700">EARNED</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chips" id="taskchips"></div>
+  <div id="tasklist"></div>
+
+  <div class="card">
+    <div style="font-size:12px;font-weight:800;margin-bottom:7px">🏆 Investment milestones</div>
+    <div class="kv"><span>Stations activated (unique)</span><b id="msInvest">0 / 5</b></div>
+    <div class="kv"><span>Silver Miner badge</span><b id="msSilver">locked</b></div>
+    <div class="kv"><span>Pro Miner status</span><b id="msPro">locked</b></div>
+  </div>
+
+  <div class="card">
+    <div style="font-size:12px;font-weight:800;margin-bottom:6px">🤝 Partner campaigns</div>
+    <div class="note">Partner bot and tap-game tasks appear here. Each campaign is verified by the partner before your reward is released.</div>
+    <button class="btn ghost" style="margin-top:10px" onclick="openSheet('support')">Contact support</button>
+  </div>
+</div>
+
+<!-- ================= TAB 3 : TREE ================= -->
+<div id="t3" class="tabp hide">
+  <div class="card g">
+    <div class="tree">
+      <div class="tnode">🌳</div>
+      <div class="tstem"></div>
+      <div class="tlv">
+        <div class="tcard"><b id="tl1">0</b><span>Level 1</span><em id="tl1pct">10%</em></div>
+        <div class="tcard"><b id="tl2">0</b><span>Level 2</span><em id="tl2pct">5%</em></div>
+        <div class="tcard"><b id="tl3">0</b><span>Level 3</span><em id="tl3pct">2%</em></div>
+      </div>
+    </div>
+    <div class="row2" style="margin-top:14px">
+      <div class="hstat"><span>Team size</span><b id="ttotal">0</b></div>
+      <div class="hstat"><span>Passive earned</span><b id="tearned">0.00</b></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-size:12.5px;font-weight:800;margin-bottom:9px">🔗 Your referral link</div>
+    <div class="tlink">
+      <input id="reflink" readonly value="">
+      <button class="btn pri sm" onclick="copyRef()">Copy</button>
+    </div>
+    <div class="row2" style="margin-top:9px">
+      <button class="btn ghost sm" style="width:100%" onclick="shareRef()">Share on Telegram</button>
+      <button class="btn ghost sm" style="width:100%" onclick="openSheet('treeinfo')">How it works</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-size:12.5px;font-weight:800;margin-bottom:8px">💸 Commission rules</div>
+    <div class="kv"><span>Level 1 · direct invites</span><b id="rl1">10%</b></div>
+    <div class="kv"><span>Level 2 · friends of friends</span><b id="rl2">5%</b></div>
+    <div class="kv"><span>Level 3 · team node</span><b id="rl3">2%</b></div>
+    <div class="note" style="margin-top:9px">Commission is paid every time someone in your tree receives a yield credit. Level 3 unlocks once your team passes <b id="rl3need">50</b> active miners.</div>
+  </div>
+
+  <div class="card">
+    <div style="font-size:12.5px;font-weight:800;margin-bottom:8px">📈 Network growth</div>
+    <div id="growth"></div>
+  </div>
+</div>
+
+<!-- ================= TAB 4 : GIFTS ================= -->
+<div id="t4" class="tabp hide">
+  <div class="card g" style="text-align:center;border-color:rgba(255,179,0,.35)">
+    <div style="font-size:44px;line-height:1" id="bigbox">🎁</div>
+    <div style="font-size:15px;font-weight:800;margin-top:8px">Mystery gift boxes</div>
+    <div class="note" style="margin-top:4px">Bronze from your daily streak, Silver after 5 investments, Gold as a top referrer.</div>
+  </div>
+
+  <div class="boxes" id="boxgrid"></div>
+
+  <div class="card" style="margin-top:12px">
+    <div style="font-size:12.5px;font-weight:800;margin-bottom:8px">🎰 Reward pool</div>
+    <div class="kv"><span>Bonus USDT</span><b style="color:var(--green)">instant credit</b></div>
+    <div class="kv"><span>24h yield booster</span><b style="color:var(--gold)">+<span id="boostpct">50</span>%</b></div>
+    <div class="kv"><span>Brand gift hampers</span><b>power banks, EV gear, merch</b></div>
+  </div>
+
+  <div class="card">
+    <div style="font-size:12.5px;font-weight:800;margin-bottom:6px">🔎 Trust & proof</div>
+    <div class="note">Payout receipts and unboxing proof are published on our official channel.</div>
+    <button class="btn ghost" style="margin-top:10px" onclick="openChannel()">Open official channel</button>
+  </div>
+
+  <div class="card">
+    <div style="font-size:12.5px;font-weight:800;margin-bottom:8px">📜 Transaction history</div>
+    <div id="txlist"></div>
+    <button class="btn ghost" style="margin-top:10px" onclick="openSheet('history')">Full history</button>
+  </div>
+</div>
+
+<!-- ================= WALLET (sheet content is built by JS) ================= -->
+</div><!-- /wrap -->
+
+<!-- ================= TAB BAR ================= -->
+<div class="tabs"><div class="tabsin">
+  <button class="tab on" data-t="1" onclick="go(1)"><span class="ti">⚡</span>Mining<span class="dot" id="dot1"></span></button>
+  <button class="tab" data-t="2" onclick="go(2)"><span class="ti">✅</span>Tasks<span class="dot" id="dot2"></span></button>
+  <button class="tab" data-t="3" onclick="go(3)"><span class="ti">🌳</span>Tree</button>
+  <button class="tab" data-t="4" onclick="go(4)"><span class="ti">🎁</span>Gifts<span class="dot" id="dot4"></span></button>
+</div></div>
+
+<!-- ================= SHEETS ================= -->
+<div class="sheet" id="sh">
+  <div class="bg" onclick="closeSheet()"></div>
+  <div class="pan"><div class="handle"></div><div id="shbody"></div></div>
+</div>
+
+<div id="toast" style="position:fixed;left:50%;bottom:86px;transform:translateX(-50%) translateY(20px);
+background:#1f2630;border:1px solid var(--bd);color:#fff;padding:11px 17px;border-radius:13px;font-size:12.5px;
+font-weight:700;z-index:200;opacity:0;transition:all .25s;pointer-events:none;max-width:88vw;text-align:center"></div>
+
+<script>
+
+/* ============================================================
+   CONFIG  —  paste your bot endpoint between the quotes below
+   Get it by sending /apiurl to your bot.
+   ============================================================ */
+const API = "https://api.telebotcreator.com/new-webhook?data=gAAAAABq42QIKphCdBKpyIDfCPqLSNMVCJL48XgXkllm10zDzMl76ofH_1lmRA3i8hmPax9-JHsvpwvmayeDn5kVawbMZiHsryZLkzQ8diNLFb8UFWOxpdLiGKsvp-CWgiz8u_fl2U0UbEo2fgfMJaEg75V_EBsDSz5GkJMtyi4Pc1pgir7A-1SG-S27Yb-jXQQC2z6sfCxv";
+
+/* Your bot's @username without the @ — used to build referral links */
+const BOTUSER = "greenearnevbot";
+
+var TG = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+var INIT = TG && TG.initData ? TG.initData : "";
+var S = {cfg:null, u:null, tab:1, term:"1m", cat:"all", admin:false, pw:"", amt:{}, busy:false, boxes:[]};
+
+/* ---------- helpers ---------- */
+function $(id){ return document.getElementById(id); }
+function esc(v){ return String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function money(v){ var n = parseFloat(v||0); return n.toFixed(2); }
+function num(v){ var n = parseFloat(v||0); return n.toLocaleString("en-US"); }
+function H(){ try{ if(TG) TG.HapticFeedback.impactOccurred("medium"); }catch(e){} }
+function HN(){ try{ if(TG) TG.HapticFeedback.notificationOccurred("success"); }catch(e){} }
+function HW(){ try{ if(TG) TG.HapticFeedback.notificationOccurred("warning"); }catch(e){} }
+function toast(msg,bad){
+  var t = $("toast"); if(!t) return;
+  t.textContent = msg;
+  t.style.borderColor = bad ? "rgba(255,82,82,.5)" : "rgba(0,230,118,.45)";
+  t.style.opacity = "1"; t.style.transform = "translateX(-50%) translateY(0)";
+  clearTimeout(window._tt);
+  window._tt = setTimeout(function(){ t.style.opacity="0"; t.style.transform="translateX(-50%) translateY(20px)"; }, 2600);
+}
+function b64(str){
+  try{
+    var bytes = new TextEncoder().encode(str), bin = "";
+    for(var i=0;i<bytes.length;i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }catch(e){
+    try{ return btoa(unescape(encodeURIComponent(str))); }catch(e2){ return str; }
+  }
+}
+
+/* ---------- api ---------- */
+function api(a, d, cb){
+  if(!API){
+    toast("API endpoint is not set in index.html", true);
+    if(cb) cb({ok:false, e:"API endpoint missing"});
+    return;
+  }
+  var inner = {};
+  inner["a"] = a;
+  inner["init"] = INIT;
+  inner["d"] = d || {};
+  var body;
+  try{
+    var outer = {};
+    outer["p"] = b64(JSON.stringify(inner));
+    body = JSON.stringify(outer);
+  }catch(e){ body = JSON.stringify(inner); }
+  var done = false;
+  fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body:body})
+    .then(function(r){ return r.text(); })
+    .then(function(txt){
+      if(done) return; done = true;
+      var j = null;
+      try{ j = JSON.parse(txt); }catch(e){ j = null; }
+      if(!j || typeof j !== "object"){
+        if(cb) cb({ok:false, e:"Server returned an unexpected answer. Try again."});
+        return;
+      }
+      if(cb) cb(j);
+    })
+    .catch(function(){
+      if(done) return; done = true;
+      if(cb) cb({ok:false, e:"Network error. Check your connection and try again."});
+    });
+}
+
+function applyState(u){
+  if(!u) return;
+  S.u = u;
+  if(u.is_admin === 1) S.admin = true;
+  renderAll();
+}
+
+function load(cb){
+  var bd = {};
+  if(S.ref) bd["ref"] = S.ref;
+  api("boot", bd, function(j){
+    if(!j.ok){
+      showFatal(j.e || "Could not load your account.");
+      return;
+    }
+    S.cfg = j.r.cfg; S.u = j.r.u;
+    if(S.u.lang) document.documentElement.lang = S.u.lang;
+    renderAll();
+    if(cb) cb();
+  });
+}
+
+function run(a, d, okMsg){
+  if(S.busy) return;
+  S.busy = true;
+  api(a, d, function(j){
+    S.busy = false;
+    if(!j.ok){ HW(); toast(j.e || "Something went wrong", true); return; }
+    if(j.r && j.r.u) applyState(j.r.u);
+    else if(j.r && j.r.tx) {}
+    if(okMsg) toast(okMsg);
+    if(j.r && j.r.msg) toast(j.r.msg);
+  });
+}
+
+/* ---------- boot ---------- */
+function boot(){
+  if(TG){
+    try{ TG.ready(); }catch(e){}
+    try{ TG.expand(); }catch(e){}
+    try{ TG.setHeaderColor("#0B0E14"); }catch(e){}
+    try{ TG.setBackgroundColor("#0B0E14"); }catch(e){}
+    try{ TG.enableClosingConfirmation(); }catch(e){}
+  }
+  if(!INIT){
+    showFatal("Please open this app from inside Telegram — tap the button in your bot chat.");
+    return;
+  }
+  if(!API){
+    showFatal("Setup needed: open index.html and paste your bot endpoint into const API. Send /apiurl to your bot to get it.");
+    return;
+  }
+  var ref = "";
+  try{ ref = (TG && TG.initDataUnsafe && TG.initDataUnsafe.start_param) ? TG.initDataUnsafe.start_param : ""; }catch(e){ ref = ""; }
+  if(ref){
+    var saved = "";
+    try{ saved = localStorage.getItem("ref") || ""; }catch(e){}
+    if(!saved){ try{ localStorage.setItem("ref", ref); }catch(e){} }
+    S.ref = ref;
+  } else {
+    try{ S.ref = localStorage.getItem("ref") || ""; }catch(e){ S.ref = ""; }
+  }
+  load();
+}
+
+function showFatal(msg){
+  var b = document.createElement("div");
+  b.style.cssText = "position:fixed;inset:0;background:#0B0E14;z-index:500;display:flex;align-items:center;justify-content:center;padding:26px;text-align:center";
+  b.innerHTML = "<div><div style='font-size:44px;margin-bottom:14px'>🔒</div>" +
+    "<div style='font-size:15px;font-weight:800;margin-bottom:8px'>Cannot open the app</div>" +
+    "<div style='font-size:12.5px;color:#8B949E;line-height:1.6'>" + esc(msg) + "</div></div>";
+  document.body.appendChild(b);
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderAll(){
+  if(!S.cfg || !S.u) return;
+  renderHead(); renderHero(); renderTele(); renderDaily(); renderEvents();
+  renderTerms(); renderPlans(); renderHoldings(); renderCoins();
+  renderTasks(); renderMilestones(); renderTree(); renderBoxes(); renderTx();
+  renderWalletHint();
+}
+
+function renderHead(){
+  var c = S.cfg;
+  $("hbrand").textContent = c.brand || "Green Earn";
+  $("hlogo").textContent = c.logo || "🌱";
+  $("rl1").textContent = (c.ref?c.ref.l1:10) + "%";
+  $("rl2").textContent = (c.ref?c.ref.l2:5) + "%";
+  $("rl3").textContent = (c.ref?c.ref.l3:2) + "%";
+  $("rl3need").textContent = c.ref?c.ref.l3_team:50;
+  $("boostpct").textContent = c.boost_percent || 50;
+  $("tl1pct").textContent = (c.ref?c.ref.l1:10) + "%";
+  $("tl2pct").textContent = (c.ref?c.ref.l2:5) + "%";
+  $("tl3pct").textContent = (c.ref?c.ref.l3:2) + "%";
+}
+
+function renderHero(){
+  var u = S.u;
+  countTo($("bal"), parseFloat(u.bal||0), 2);
+  $("energy").textContent = num(u.energy);
+  $("invested").textContent = money(u.invest);
+  $("stcount").textContent = u.invests;
+  var today = 0;
+  if(u.holdings){ for(var i=0;i<u.holdings.length;i++){ if(u.holdings[i].done===0) today += (u.holdings[i].amount*u.holdings[i].rate/100); } }
+  $("todayearn").textContent = money(today);
+  $("vipbadge").textContent = "👑 " + (u.vip || "Level 1");
+  var tonPrice = 7.24;
+  try{
+    var cached = localStorage.getItem("ton");
+    if(cached){ tonPrice = parseFloat(cached) || 7.24; }
+  }catch(e){}
+  $("tonrate").textContent = "1 TON = " + tonPrice.toFixed(2) + " USDT";
+  if(u.booster > 0){
+    var h = Math.floor(u.booster/3600), m = Math.floor((u.booster%3600)/60);
+    $("tonrate").textContent += " · 🚀 +" + (S.cfg.boost_percent||50) + "% " + h + "h" + m + "m";
+  }
+}
+
+var _countTimers = {};
+function countTo(node, target, dec){
+  if(!node) return;
+  var from = parseFloat(node.getAttribute("data-v") || "0");
+  node.setAttribute("data-v", target);
+  if(from === target){ node.textContent = target.toFixed(dec); return; }
+  var steps = 16, i = 0;
+  clearInterval(_countTimers[node.id]);
+  _countTimers[node.id] = setInterval(function(){
+    i++;
+    var v = from + (target-from)*(i/steps);
+    node.textContent = v.toFixed(dec);
+    if(i >= steps){ clearInterval(_countTimers[node.id]); node.textContent = target.toFixed(dec); }
+  }, 28);
+}
+
+function renderTele(){
+  var t = S.cfg.telemetry || {};
+  $("tkw").textContent = num(t.kw || 4820190);
+  $("tnodes").textContent = num(t.nodes || 12490);
+  $("tcountries").textContent = num(t.countries || 128);
+}
+
+function renderDaily(){
+  var u = S.u, c = S.cfg;
+  var bar = $("dailybar"), btn = $("dailybtn"), sub = $("dailysub");
+  if(!(c.daily_bonus > 0)){ bar.classList.add("hide"); return; }
+  bar.classList.remove("hide");
+  $("dailytitle").textContent = "Daily login bonus · " + money(c.daily_bonus) + " USDT";
+  if(u.daily_done === 1){
+    btn.disabled = true; btn.textContent = "Claimed";
+    sub.textContent = "Come back tomorrow for the next one";
+  } else {
+    btn.disabled = false; btn.textContent = "Claim " + money(c.daily_bonus);
+    sub.textContent = "Available now · resets every 24 hours";
+  }
+}
+
+function claimDaily(){
+  H();
+  var b = $("dailybtn"); b.disabled = true;
+  api("claim_daily", {}, function(j){
+    if(!j.ok){ b.disabled = false; HW(); toast(j.e, true); return; }
+    HN();
+    toast("+" + money(j.r.gain) + " USDT added to your wallet");
+    spawnSparks(window.innerWidth/2, 180, 14);
+    applyState(j.r.u);
+  });
+}
+
+function renderEvents(){
+  var box = $("evts"), evs = S.cfg.events || [], out = "";
+  for(var i=0;i<evs.length;i++){
+    var e = evs[i];
+    if(parseInt(e.active||1) !== 1) continue;
+    out += "<div class='card g' style='border-color:rgba(255,179,0,.3);padding:12px'>" +
+      "<div class='evt'><b>🎉 " + esc(e.title) + "</b><span>" + esc(e.text) + "</span></div></div>";
+  }
+  box.innerHTML = out;
+}
+
+function renderTerms(){
+  var box = $("termchips"), ts = S.cfg.terms || [], out = "";
+  for(var i=0;i<ts.length;i++){
+    var t = ts[i];
+    var on = (t.id === S.term) ? " on" : "";
+    out += "<button class='chip" + on + "' onclick="setTerm('" + esc(t.id) + "')">" + esc(t.label) + "</button>";
+  }
+  box.innerHTML = out;
+}
+
+function setTerm(id){ H(); S.term = id; renderTerms(); renderPlans(); }
+
+function planRate(p){
+  var y = p.yields || {};
+  var v = y[S.term];
+  if(v === undefined || v === null) return 0;
+  return parseFloat(v);
+}
+
+function termDays(){
+  var ts = S.cfg.terms || [];
+  for(var i=0;i<ts.length;i++){ if(ts[i].id === S.term) return parseInt(ts[i].days||1); }
+  return 1;
+}
+
+function defaultAmt(p){
+  var mn = parseFloat(p.min || 10);
+  var bal = parseFloat(S.u.bal || 0);
+  var v = bal >= mn ? Math.min(bal, mn*5) : mn;
+  return Math.max(mn, Math.round(v*100)/100);
+}
+
+function renderPlans(){
+  var box = $("plans"), ps = S.cfg.plans || [], out = "";
+  if(ps.length === 0){ box.innerHTML = "<div class='empty'><div>🏗</div>No stations configured yet.</div>"; return; }
+  var minAll = 1e9;
+  for(var m=0;m<ps.length;m++){ minAll = Math.min(minAll, parseFloat(ps[m].min||10)); }
+  $("planmin").textContent = "min " + minAll + " USDT";
+  for(var i=0;i<ps.length;i++){
+    var p = ps[i];
+    var rate = planRate(p);
+    var mn = parseFloat(p.min || 10);
+    var max = Math.max(mn*20, 500);
+    var amt = S.amt[p.id] !== undefined ? S.amt[p.id] : defaultAmt(p);
+    if(amt < mn) amt = mn;
+    var fill = Math.min(100, Math.max(6, ((amt-mn)/(max-mn))*100));
+    var days = termDays();
+    var daily = amt*rate/100;
+    var total = daily*days;
+    var sym = p.sym || "⚡";
+    var col = p.color || "#00E676";
+    out += "<div class='plan'>" +
+      "<div class='ptop'>" +
+        "<div class='pico' style='color:" + esc(col) + ";border-color:" + esc(col) + "44'>" + esc(sym) + "</div>" +
+        "<div style='min-width:0'><div class='pname'>" + esc(p.name) + "</div>" +
+        "<div class='pmeta'>" + (p.type==="ev"?"EV charging":"Crypto pool") + " · min " + mn + " USDT</div></div>" +
+        "<div class='pyield'><b>" + rate.toFixed(1) + "%</b><span>per day</span></div>" +
+      "</div>" +
+      "<div class='pbar'><input type='range' class='sld' style='--fill:" + fill.toFixed(1) + "%' min='" + mn + "' max='" + max + "' step='1' value='" + amt + "' oninput="amtMove('" + esc(p.id) + "',this)"></div>" +
+      "<div class='pin'><input id='in_" + esc(p.id) + "' type='number' inputmode='decimal' step='0.01' min='" + mn + "' value='" + amt.toFixed(2) + "' oninput="amtType('" + esc(p.id) + "',this)">" +
+      "<button class='btn pri' style='width:auto;flex:0 0 auto;padding:11px 15px' onclick="invest('" + esc(p.id) + "')">Activate</button></div>" +
+      "<div class='pout'><span>Daily <b id='d_" + esc(p.id) + "'>" + money(daily) + "</b> USDT</span>" +
+      "<span>" + days + "d total <b id='t_" + esc(p.id) + "'>" + money(total) + "</b></span></div>" +
+    "</div>";
+  }
+  box.innerHTML = out;
+}
+
+function amtMove(pid, el){
+  S.amt[pid] = parseFloat(el.value);
+  var f = el;
+  var mn = parseFloat(el.min), mx = parseFloat(el.max);
+  f.style.setProperty("--fill", Math.min(100, Math.max(6, ((el.value-mn)/(mx-mn))*100)).toFixed(1) + "%");
+  var inp = $("in_" + pid); if(inp) inp.value = parseFloat(el.value).toFixed(2);
+  updateProj(pid);
+}
+function amtType(pid, el){
+  S.amt[pid] = parseFloat(el.value);
+  var r = document.querySelector(".sld[oninput*="" + pid + ""]");
+  if(r){ r.value = el.value; var mn=parseFloat(r.min), mx=parseFloat(r.max);
+    r.style.setProperty("--fill", Math.min(100, Math.max(6, ((el.value-mn)/(mx-mn))*100)).toFixed(1) + "%"); }
+  updateProj(pid);
+}
+function updateProj(pid){
+  var ps = S.cfg.plans || [], p = null;
+  for(var i=0;i<ps.length;i++){ if(ps[i].id === pid) p = ps[i]; }
+  if(!p) return;
+  var amt = parseFloat(S.amt[pid] || 0);
+  var rate = planRate(p), days = termDays();
+  var d = $("d_" + pid), t = $("t_" + pid);
+  if(d) d.textContent = money(amt*rate/100);
+  if(t) t.textContent = money(amt*rate/100*days);
+}
+
+function invest(pid){
+  H();
+  var amt = parseFloat(S.amt[pid] || 0);
+  if(!(amt > 0)){ toast("Choose an amount first", true); return; }
+  if(amt > parseFloat(S.u.bal||0)){ HW(); toast("Not enough balance — deposit first", true); openWallet(); return; }
+  run("invest", {pid:pid, tid:S.term, amount:amt}, "");
+}
+
+function renderHoldings(){
+  var box = $("holdings"), hs = S.u.holdings || [], out = "", active = 0;
+  var now = Math.floor(Date.now()/1000);
+  for(var i=0;i<hs.length;i++){
+    var h = hs[i];
+    var p = null, ps = S.cfg.plans||[];
+    for(var j=0;j<ps.length;j++){ if(ps[j].id === h.pid) p = ps[j]; }
+    var nm = p ? p.name : h.pid;
+    var sym = p ? (p.sym||"⚡") : "⚡";
+    var col = p ? (p.color||"#00E676") : "#00E676";
+    if(h.done === 1){
+      out += "<div class='plan done'><div class='ptop'><div class='pico' style='color:" + esc(col) + "'>" + esc(sym) + "</div>" +
+        "<div><div class='pname'>" + esc(nm) + "</div><div class='pmeta'>completed · earned " + money(h.earned) + " USDT</div></div>" +
+        "<div class='pyield'><b style='color:#8B949E'>done</b></div></div></div>";
+    } else {
+      active++;
+      var prog = Math.min(100, Math.max(0, ((now-h.start)/Math.max(1,(h.end-h.start)))*100));
+      var left = Math.max(0, Math.ceil((h.end-now)/86400));
+      out += "<div class='plan'><div class='ptop'><div class='pico' style='color:" + esc(col) + "'>" + esc(sym) + "</div>" +
+        "<div style='min-width:0'><div class='pname'>" + esc(nm) + "</div>" +
+        "<div class='pmeta'>" + money(h.amount) + " USDT · " + h.rate.toFixed(1) + "%/day · " + left + "d left</div></div>" +
+        "<div class='pyield'><b>+" + money(h.earned) + "</b><span>earned</span></div></div>" +
+        "<div style='height:5px;border-radius:99px;background:#242b33;margin-top:10px;overflow:hidden'>" +
+        "<div style='height:5px;width:" + prog.toFixed(0) + "%;background:linear-gradient(90deg,#00E676,#0088CC);border-radius:99px'></div></div></div>";
+    }
+  }
+  if(out === "") out = "<div class='empty'><div>🏗</div>No active station yet.<br>Activate one above to start earning daily.</div>";
+  box.innerHTML = out;
+  $("hcount").textContent = active + " active";
+}
+
+function renderCoins(){
+  var box = $("coins"), cs = S.cfg.coins || [], out = "";
+  for(var i=0;i<cs.length;i++){
+    var c = cs[i];
+    out += "<div class='chip' style='color:" + esc(c.color) + ";border-color:" + esc(c.color) + "44'>" +
+      esc(c.sym) + " <span style='color:#8B949E;font-weight:600'>" + esc(c.name) + "</span></div>";
+  }
+  box.innerHTML = out;
+}
+
+/* ---------- tasks ---------- */
+function renderTasks(){
+  var box = $("tasklist"), ts = S.cfg.tasks || [], done = S.u.tasks || {};
+  var cats = [["all","All"],["community","Community"],["invest","Investment"],["partner","Partner"]];
+  var ch = "";
+  for(var i=0;i<cats.length;i++){
+    ch += "<button class='chip" + (S.cat===cats[i][0]?" on":"") + "' onclick="setCat('" + cats[i][0] + "')">" + cats[i][1] + "</button>";
+  }
+  $("taskchips").innerHTML = ch;
+
+  var out = "", earned = 0, shown = 0;
+  for(var k=0;k<ts.length;k++){
+    var t = ts[k];
+    if(S.cat !== "all" && t.cat !== S.cat) continue;
+    var isDone = done[t.id] !== undefined;
+    if(isDone) earned += parseFloat(t.reward||0);
+    var icon = t.cat === "invest" ? "📈" : (t.cat === "partner" ? "🤝" : "🌐");
+    var btn;
+    if(isDone){
+      btn = "<span class='badge a'>claimed</span>";
+    } else if(t.type === "soon"){
+      btn = "<span class='badge p'>soon</span>";
+    } else {
+      btn = "<button class='btn pri sm' onclick="claimTask('" + esc(t.id) + "','" + esc(t.url||"") + "')">Claim</button>";
+    }
+    var rew = parseFloat(t.reward||0) > 0 ? "<div class='trew'>+" + money(t.reward) + " USDT" + (parseFloat(t.energy||0)>0 ? " · <em>+" + num(t.energy) + " ⚡</em>" : "") + "</div>" : "<div class='trew' style='color:#8B949E'>reward coming soon</div>";
+    var reqTxt = "";
+    if(t.need > 0 && (t.type === "refs" || t.type === "invests")){
+      var have = t.type === "refs" ? (S.u.team?S.u.team.l1:0) : (S.u.invests||0);
+      reqTxt = "<div style='font-size:10.5px;color:var(--gold);font-weight:700;margin-top:3px'>" + have + " / " + t.need + " completed</div>";
+    }
+    out += "<div class='task" + (isDone?" done":"") + "'><div class='tico'>" + icon + "</div>" +
+      "<div style='flex:1;min-width:0'><div class='ttitle'>" + esc(t.title) + "</div>" +
+      "<div class='tdesc'>" + esc(t.desc) + "</div>" + rew + reqTxt + "</div>" +
+      "<div class='tbtn'>" + btn + "</div></div>";
+    shown++;
+  }
+  if(shown === 0) out = "<div class='empty'><div>✅</div>No tasks in this category yet.</div>";
+  box.innerHTML = out;
+  $("taskearned").textContent = money(earned);
+  var badges = document.getElementById("dot2");
+  if(badges){ if(!S.u.daily_done) badges.classList.add("show"); else badges.classList.remove("show"); }
+}
+
+function setCat(c){ H(); S.cat = c; renderTasks(); }
+
+function claimTask(id, url){
+  H();
+  var open = function(){
+    if(url){ try{ if(TG) TG.openTelegramLink(url); else window.open(url,"_blank"); }catch(e){ try{ window.open(url,"_blank"); }catch(e2){} } }
+    api("task_claim", {id:id}, function(j){
+      if(!j.ok){ HW(); toast(j.e, true); return; }
+      HN(); toast(j.r && j.r.msg ? j.r.msg : "Task claimed");
+      if(j.r && j.r.u) applyState(j.r.u);
+    });
+  };
+  if(url){
+    openSheet("confirm", "You will be taken to the task page. Come back and tap Claim again once you have completed it.", open);
+  } else {
+    open();
+  }
+}
+
+function renderMilestones(){
+  var u = S.u;
+  $("msInvest").textContent = (u.invests||0) + " / 5";
+  $("msSilver").innerHTML = (u.invests||0) >= 1 ? "<span class='badge a'>unlocked</span>" : "<span class='badge p'>locked</span>";
+  $("msPro").innerHTML = (u.invests||0) >= 5 ? "<span class='badge a'>unlocked</span>" : "<span class='badge p'>locked</span>";
+}
+
+/* ---------- tree ---------- */
+function renderTree(){
+  var u = S.u, t = u.team || {l1:0,l2:0,l3:0,total:0};
+  $("tl1").textContent = t.l1; $("tl2").textContent = t.l2; $("tl3").textContent = t.l3;
+  $("ttotal").textContent = t.total;
+  $("tearned").textContent = money(u.ref_earned);
+  var link = "https://t.me/" + BOTUSER + "?startapp=" + (u.ref_code || "");
+  $("reflink").value = link;
+  var g = "";
+  g += bar("Level 1", t.l1, Math.max(10, t.l1));
+  g += bar("Level 2", t.l2, Math.max(10, t.l2));
+  g += bar("Level 3", t.l3, Math.max(10, t.l3));
+  $("growth").innerHTML = g;
+}
+function bar(label, v, mx){
+  var p = Math.min(100, (v/Math.max(1,mx))*100);
+  return "<div style='margin-bottom:9px'><div style='display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px'>" +
+    "<span style='color:#8B949E;font-weight:700'>" + label + "</span><span style='font-weight:800'>" + v + "</span></div>" +
+    "<div style='height:6px;border-radius:99px;background:#242b33;overflow:hidden'>" +
+    "<div style='height:6px;width:" + p.toFixed(0) + "%;background:linear-gradient(90deg,#00E676,#0088CC);border-radius:99px'></div></div></div>";
+}
+function copyRef(){
+  H();
+  var v = $("reflink").value;
+  try{ navigator.clipboard.writeText(v); }catch(e){}
+  try{
+    var ta = document.createElement("textarea");
+    ta.value = v; document.body.appendChild(ta); ta.select();
+    document.execCommand("copy"); document.body.removeChild(ta);
+  }catch(e){}
+  toast("Referral link copied");
+}
+function shareRef(){
+  H();
+  var v = $("reflink").value;
+  var txt = "Join me on Green Earn - I earn daily from EV stations and crypto mining:";
+  var sh = "https://t.me/share/url?url=" + encodeURIComponent(v) + "&text=" + encodeURIComponent(txt);
+  try{ if(TG) TG.openTelegramLink(sh); else window.open(sh,"_blank"); }catch(e){ window.open(sh,"_blank"); }
+}
+
+/* ---------- gift boxes ---------- */
+function todayStr(){
+  var d = new Date();
+  return d.getUTCFullYear() + "-" + String(d.getUTCMonth()+1).padStart(2,"0") + "-" + String(d.getUTCDate()).padStart(2,"0");
+}
+function renderBoxes(){
+  var box = $("boxgrid"), bs = S.cfg.boxes || [], opened = S.u.boxes || {}, out = "";
+  S.boxes = bs;
+  for(var i=0;i<bs.length;i++){
+    var b = bs[i];
+    var rec = opened[b.id] || null;
+    var isOpen = rec && rec.d === todayStr();
+    var locked = false;
+    if(b.req === "invests" && (S.u.invests||0) < parseInt(b.need||5)) locked = true;
+    if(b.req === "refs" && (S.u.team?S.u.team.l1:0) < parseInt(b.need||10)) locked = true;
+    if(b.req === "daily" && S.u.daily_done !== 1) locked = true;
+    var cls = "box";
+    if(isOpen || locked) cls += " lock";
+    else cls += " ready";
+    var label = isOpen ? "opened" : (locked ? "locked" : "tap to open");
+    out += "<div class='" + cls + "' id='bx_" + esc(b.id) + "' onclick=\"openBox('" + esc(b.id) + "')\">" +
+      "<span class='bemic'>" + esc(b.emoji||"🎁") + "</span>" +
+      "<b>" + esc(b.name) + "</b><small>" + label + "</small></div>";
+  }
+  box.innerHTML = out;
+}
+function openBox(id){
+  H();
+  var el = $("bx_" + id);
+  if(el && el.classList.contains("lock")){ HW(); toast("This box is locked or already opened today", true); return; }
+  if(el){ el.classList.add("shake"); setTimeout(function(){ el.classList.remove("shake"); }, 620); }
+  api("unbox", {bid:id}, function(j){
+    if(!j.ok){ HW(); toast(j.e, true); return; }
+    HN();
+    var r = el ? el.getBoundingClientRect() : null;
+    if(r) spawnSparks(r.left + r.width/2, r.top + r.height/2, 22);
+    var extra = j.r.bonus === "booster" ? " plus a +" + (S.cfg.boost_percent||50) + "% yield booster!" : "";
+    setTimeout(function(){
+      toast("You won " + money(j.r.win) + " USDT" + extra);
+      if(j.r.u) applyState(j.r.u);
+    }, 380);
+  });
+}
+function spawnSparks(x, y, n){
+  for(var i=0;i<n;i++){
+    var s = document.createElement("div");
+    s.className = "spark";
+    var ang = Math.random()*Math.PI*2, dist = 40 + Math.random()*90;
+    s.style.left = x + "px"; s.style.top = y + "px";
+    s.style.setProperty("--dx", (Math.cos(ang)*dist).toFixed(0) + "px");
+    s.style.setProperty("--dy", (Math.sin(ang)*dist).toFixed(0) + "px");
+    s.style.background = Math.random() > .5 ? "#FFB300" : "#00E676";
+    document.body.appendChild(s);
+    (function(node){ setTimeout(function(){ if(node.parentNode) node.parentNode.removeChild(node); }, 950); })(s);
+  }
+}
+
+/* ---------- history rows ---------- */
+function txRow(k, a, n, t){
+  var names = {signup_bonus:"Sign-up bonus", daily_bonus:"Daily bonus", yield:"Yield credit", invest:"Station activated",
+    deposit:"Deposit", withdraw_hold:"Withdrawal", withdraw_paid:"Payout", withdraw_refund:"Refund",
+    task:"Task reward", gift:"Gift box", booster:"Booster", admin_adjust:"Adjustment", ref_l1:"L1 commission",
+    ref_l2:"L2 commission", ref_l3:"L3 commission", ref_signup:"Referral bonus"};
+  var nm = names[k] || k;
+  var pos = parseFloat(a||0) >= 0;
+  var dt = "";
+  if(t){ try{ dt = new Date(t*1000).toLocaleDateString(); }catch(e){} }
+  return "<div class='kv'><span>" + esc(nm) + (dt?" - "+esc(dt):"") + "<br><span style='font-size:10px;color:#6A737D'>" + esc(n||"") + "</span></span>" +
+    "<b style='color:" + (pos?"#00E676":"#FF8A8A") + "'>" + (pos?"+":"") + money(a) + "</b></div>";
+}
+function renderTx(){
+  var box = $("txlist"), tx = S.u.tx || [], out = "";
+  for(var i=0;i<Math.min(5,tx.length);i++){ out += txRow(tx[i].k, tx[i].a, tx[i].n, tx[i].t); }
+  if(out === "") out = "<div class='empty'><div>📜</div>No transactions yet.</div>";
+  box.innerHTML = out;
+}
+
+/* ============================================================
+   SHEETS
+   ============================================================ */
+var _sheetCb = null;
+function openSheet(name, extra, cb){
+  H();
+  _sheetCb = cb || null;
+  var b = $("shbody");
+  if(name === "wallet") b.innerHTML = walletHTML();
+  else if(name === "history") b.innerHTML = historyHTML();
+  else if(name === "tut") b.innerHTML = tutHTML();
+  else if(name === "support") b.innerHTML = supportHTML();
+  else if(name === "treeinfo") b.innerHTML = treeInfoHTML();
+  else if(name === "admin") b.innerHTML = adminHTML();
+  else if(name === "confirm") b.innerHTML = "<h3>Confirm</h3><p class='sub'>" + esc(extra||"") + "</p>" +
+    "<div class='row2'><button class='btn ghost' onclick='closeSheet()'>Cancel</button>" +
+    "<button class='btn pri' onclick='doConfirm()'>Continue</button></div>";
+  $("sh").classList.add("open");
+}
+function doConfirm(){ var cb = _sheetCb; closeSheet(); if(cb) cb(); }
+function closeSheet(){ $("sh").classList.remove("open"); }
+function openLang(){
+  H();
+  var ls = S.cfg.langs || [], out = "<h3>🌐 Language</h3><p class='sub'>Choose the language for the app</p><div class='split'>";
+  for(var i=0;i<ls.length;i++){
+    var l = ls[i];
+    var on = (S.u && S.u.lang === l.c) ? "border-color:rgba(0,230,118,.6)" : "";
+    out += "<button class='btn ghost' style='" + on + "' onclick=\"setLang('" + esc(l.c) + "')\">" + esc(l.f) + " " + esc(l.n) + "</button>";
+  }
+  out += "</div>";
+  $("shbody").innerHTML = out;
+  $("sh").classList.add("open");
+}
+function setLang(lc){
+  H();
+  var dd = {};
+  dd["lang"] = lc;
+  api("lang", dd, function(j){
+    if(!j.ok){ toast(j.e, true); return; }
+    toast("Language saved");
+    closeSheet();
+    if(j.r && j.r.u) applyState(j.r.u);
+  });
+}
+function openChannel(){
+  H();
+  var c = (S.cfg.channel || "");
+  if(!c){ toast("No channel set", true); return; }
+  try{ if(TG) TG.openTelegramLink(c); else window.open(c,"_blank"); }catch(e){ window.open(c,"_blank"); }
+}
+
+/* ---------- wallet / deposit / withdraw sheets ---------- */
+function historyHTML(){
+  var tx = S.u.tx || [], out = "<h3>📜 Transaction history</h3><p class='sub'>Everything that moved in your wallet</p>";
+  if(tx.length === 0) out += "<div class='empty'><div>📜</div>Nothing yet.</div>";
+  for(var i=0;i<tx.length;i++){ out += txRow(tx[i].k, tx[i].a, tx[i].n, tx[i].t); }
+
+  var deps = S.u.deposits || [];
+  out += "<div class='sec' style='margin-top:16px'><h2>📥 Deposits</h2></div>";
+  if(deps.length === 0) out += "<div class='note'>No deposit requests yet.</div>";
+  for(var k=0;k<deps.length;k++){
+    var d = deps[k];
+    var st = d.status === "approved" ? "<span class='badge a'>approved</span>" : (d.status === "rejected" ? "<span class='badge r'>rejected</span>" : "<span class='badge p'>pending</span>");
+    out += "<div class='kv'><span>" + esc(d.id) + " - " + esc(d.wname||"") + "</span><b>" + money(d.amount) + " " + st + "</b></div>";
+  }
+  var wd = S.u.withdrawals || [];
+  out += "<div class='sec' style='margin-top:16px'><h2>💸 Withdrawals</h2></div>";
+  if(wd.length === 0) out += "<div class='note'>No withdrawal requests yet.</div>";
+  for(var w=0;w<wd.length;w++){
+    var x = wd[w];
+    var st2 = x.status === "paid" ? "<span class='badge a'>paid</span>" : (x.status === "rejected" ? "<span class='badge r'>rejected</span>" : "<span class='badge p'>pending</span>");
+    out += "<div class='kv'><span>" + esc(x.id) + " - " + esc(String(x.addr||"").slice(0,10)) + "</span><b>" + money(x.amount) + " " + st2 + "</b></div>";
+  }
+  return out + "<div style='height:20px'></div>";
+}
+
+function walletHTML(){
+  var u = S.u, c = S.cfg;
+  var out = "<h3>💳 Wallet</h3><p class='sub'>Balance " + money(u.bal) + " USDT - " + num(u.energy) + " energy</p>";
+  out += "<div class='row2'><button class='btn pri' onclick='showDeposit()'>📥 Deposit</button>" +
+         "<button class='btn gold' onclick='showWithdraw()'>💸 Withdraw</button></div>";
+  out += "<div style='height:10px'></div><button class='btn ghost' onclick=\"openSheet('history')\">📜 Transaction history</button>";
+  var wl = c.wallets || [];
+  out += "<div class='sec' style='margin-top:16px'><h2>Deposit networks</h2></div>";
+  for(var i=0;i<wl.length;i++){
+    out += "<div class='card' style='margin-bottom:8px'><div style='font-size:12px;font-weight:800;color:" + esc(wl[i].color||"#00E676") + "'>" + esc(wl[i].name) + "</div>" +
+      "<div style='font-family:monospace;font-size:10.5px;color:#8B949E;word-break:break-all;margin-top:4px'>" + esc(wl[i].address) + "</div></div>";
+  }
+  out += "<div class='note'>Minimum deposit " + money(c.min_deposit) + " USDT. Minimum withdrawal " + money(c.min_withdraw) +
+    " USDT with a " + (c.withdraw_fee||0) + "% fee. Deposits are reviewed by an admin after you upload proof.</div>";
+  out += "<div style='height:14px'></div><button class='btn red' onclick='doLogout()'>Log out</button>";
+  out += "<div class='tinynote'>Logging out only clears this device. Your balance stays on your account.</div>";
+  return out;
+}
+function doLogout(){
+  H();
+  try{ localStorage.clear(); }catch(e){}
+  if(TG){ try{ TG.close(); }catch(e){} }
+  document.body.innerHTML = "<div style='padding:40px 24px;text-align:center'><div style='font-size:40px'>👋</div>" +
+    "<div style='font-size:15px;font-weight:800;margin-top:10px'>You are logged out</div>" +
+    "<div style='font-size:12.5px;color:#8B949E;margin-top:8px'>Open the app again from your bot chat to come back.</div></div>";
+}
+
+function showDeposit(){
+  var c = S.cfg, wl = c.wallets || [];
+  var out = "<h3>📥 Deposit USDT</h3><p class='sub'>Step 1 - choose the network you will send on</p>";
+  if(wl.length === 0){ out += "<div class='empty'><div>🏦</div>No deposit address configured yet.</div>"; $("shbody").innerHTML = out; return; }
+  out += "<div class='field'><label>Network</label><select class='inp' id='dw'>";
+  for(var i=0;i<wl.length;i++){ out += "<option value='" + esc(wl[i].id) + "'>" + esc(wl[i].name) + "</option>"; }
+  out += "</select></div>";
+  out += "<div class='field'><label>Amount (USDT)</label><input class='inp' id='da' type='number' inputmode='decimal' min='" + money(c.min_deposit) + "' value='" + money(c.min_deposit) + "'></div>";
+  out += "<button class='btn pri' onclick='makeDeposit()'>Create deposit request</button>";
+  out += "<div class='note' style='margin-top:10px'>Send the exact amount to the address shown, then upload the transaction hash or a screenshot as proof.</div>";
+  $("shbody").innerHTML = out;
+}
+function makeDeposit(){
+  H();
+  var wid = $("dw").value, amt = parseFloat($("da").value||0);
+  var dd = {};
+  dd["wid"] = wid;
+  dd["amount"] = amt;
+  api("deposit_new", dd, function(j){
+    if(!j.ok){ HW(); toast(j.e, true); return; }
+    var out = "<h3>📥 Send your deposit</h3><p class='sub'>Request " + esc(j.r.id) + " - " + money(amt) + " USDT</p>";
+    out += "<div class='card' style='border-color:rgba(0,230,118,.4)'><div style='font-size:11px;color:#8B949E;font-weight:700'>" + esc(j.r.wname) + "</div>" +
+      "<div style='font-family:monospace;font-size:12px;word-break:break-all;margin-top:6px'>" + esc(j.r.addr) + "</div>" +
+      "<button class='btn ghost sm' style='margin-top:9px' onclick='copyAddr()'>Copy address</button>" +
+      "<input type='hidden' id='addr' value='" + esc(j.r.addr) + "'></div>";
+    out += "<div class='field'><label>Proof (transaction hash or screenshot link)</label>" +
+      "<input class='inp' id='pf' placeholder='paste your tx hash or screenshot link'></div>";
+    out += "<button class='btn pri' onclick=\"sendProof('" + esc(j.r.id) + "')\">Submit proof</button>";
+    out += "<div class='note' style='margin-top:10px'>You can also send the screenshot to the bot chat - it is attached automatically.</div>";
+    $("shbody").innerHTML = out;
+    if(j.r.u) applyState(j.r.u);
+  });
+}
+function copyAddr(){
+  var v = $("addr").value;
+  try{ navigator.clipboard.writeText(v); }catch(e){}
+  toast("Address copied");
+}
+function sendProof(id){
+  H();
+  var p = $("pf").value || "";
+  if(p.length < 4){ toast("Paste the transaction hash first", true); return; }
+  var dd = {};
+  dd["id"] = id;
+  dd["proof"] = p;
+  api("deposit_proof", dd, function(j){
+    if(!j.ok){ HW(); toast(j.e, true); return; }
+    HN(); toast("Proof sent - waiting for admin confirmation");
+    if(j.r.u) applyState(j.r.u);
+    closeSheet();
+  });
+}
+function showWithdraw(){
+  var c = S.cfg;
+  var out = "<h3>💸 Withdraw USDT</h3><p class='sub'>Available " + money(S.u.bal) + " USDT</p>";
+  out += "<div class='field'><label>Amount (USDT)</label><input class='inp' id='wa' type='number' inputmode='decimal' min='" + money(c.min_withdraw) + "' value='" + money(c.min_withdraw) + "'></div>";
+  out += "<div class='field'><label>Network</label><select class='inp' id='wn'>";
+  var wl = c.wallets || [];
+  for(var i=0;i<wl.length;i++){ out += "<option value='" + esc(wl[i].name) + "'>" + esc(wl[i].name) + "</option>"; }
+  out += "</select></div>";
+  out += "<div class='field'><label>Your wallet address</label><input class='inp' id='waddr' placeholder='paste your address' value='" + esc(S.u.wallet||"") + "'></div>";
+  out += "<button class='btn pri' onclick='doWithdraw()'>Request withdrawal</button>";
+  out += "<div class='note' style='margin-top:10px'>Minimum " + money(c.min_withdraw) + " USDT - fee " + (c.withdraw_fee||0) + "%. Payouts are reviewed and sent by an admin. The amount is held from your balance while it is reviewed and returned if it is rejected.</div>";
+  $("shbody").innerHTML = out;
+}
+function doWithdraw(){
+  H();
+  var amt = parseFloat($("wa").value||0), addr = $("waddr").value||"", net = $("wn").value||"";
+  if(!(amt > 0)){ toast("Enter an amount", true); return; }
+  if(addr.length < 10){ toast("Enter a valid wallet address", true); return; }
+  var dd = {};
+  dd["amount"] = amt;
+  dd["addr"] = addr;
+  dd["net"] = net;
+  api("withdraw", dd, function(j){
+    if(!j.ok){ HW(); toast(j.e, true); return; }
+    HN(); toast("Request submitted for review");
+    if(j.r.u) applyState(j.r.u);
+    closeSheet();
+  });
+}
+function openWallet(){ openSheet("wallet"); }
+
+/* ---------- info sheets ---------- */
+function tutHTML(){
+  var c = S.cfg;
+  return "<h3>📖 How to earn here</h3><p class='sub'>Read this once - it explains everything</p>" + (c.earn_html || "") +
+  "<div style='height:10px'></div><button class='btn ghost' onclick='closeSheet()'>Got it</button>";
+}
+function treeInfoHTML(){
+  var c = S.cfg, r = c.ref || {l1:10,l2:5,l3:2,l3_team:50};
+  return "<h3>🌳 Tree network</h3><p class='sub'>Three levels of commission</p>" +
+  "<div class='kv'><span>Level 1 - direct invites</span><b>" + r.l1 + "%</b></div>" +
+  "<div class='kv'><span>Level 2 - friends of friends</span><b>" + r.l2 + "%</b></div>" +
+  "<div class='kv'><span>Level 3 - team node</span><b>" + r.l3 + "%</b></div>" +
+  "<div class='note' style='margin-top:12px'>Level 1 pays on every yield your direct invites receive. Level 2 pays on the yields of the people they invited. Level 3 unlocks once your total team passes " + r.l3_team + " active miners. Commission is credited automatically - there is nothing to claim.</div>" +
+  "<div style='height:12px'></div><button class='btn ghost' onclick='closeSheet()'>Close</button>";
+}
+function supportHTML(){
+  var c = S.cfg;
+  return "<h3>🤝 Support</h3><p class='sub'>We answer as fast as we can</p>" +
+  "<div class='note'>Channel: " + esc(c.channel||"-") + "<br>Support: " + esc(c.support||"-") + "</div>" +
+  "<div style='height:12px'></div><button class='btn ghost' onclick='closeSheet()'>Close</button>";
+}
+function renderWalletHint(){}
+
+/* ============================================================
+   ADMIN PANEL  (inside the app, password protected)
+   ============================================================ */
+var A = {cfg:null, deps:[], wds:[], tks:[], extras:{}, users:0, sec:"home"};
+
+function adminHTML(){
+  if(!A.pw) return adminLoginHTML();
+  if(!A.cfg) return "<h3>🛠 Admin</h3><div class='empty'><div class='skel sk-line' style='width:70%'></div><div class='skel sk-line' style='width:90%'></div></div>";
+  var s = A.sec;
+  var head = "<h3>🛠 Admin panel</h3><p class='sub'>" + A.users + " users - everything below saves instantly</p>";
+  var nav = "<div class='chips' style='padding-bottom:10px'>" +
+    chipAdmin("home","Overview") + chipAdmin("econ","Economy") + chipAdmin("plans","Stations") +
+    chipAdmin("terms","Terms") + chipAdmin("tasks","Tasks") + chipAdmin("boxes","Gift boxes") +
+    chipAdmin("events","Events") + chipAdmin("wallet","Deposits") + chipAdmin("texts","Branding") +
+    chipAdmin("review","Review") + "</div>";
+  var body = "";
+  if(s === "home") body = adminHome();
+  else if(s === "econ") body = adminEcon();
+  else if(s === "plans") body = adminPlans();
+  else if(s === "terms") body = adminTerms();
+  else if(s === "tasks") body = adminTasks();
+  else if(s === "boxes") body = adminBoxes();
+  else if(s === "events") body = adminEvents();
+  else if(s === "wallet") body = adminWallets();
+  else if(s === "texts") body = adminTexts();
+  else if(s === "review") body = adminReview();
+  return head + nav + body;
+}
+function chipAdmin(id, label){
+  var on = (A.sec === id) ? " on" : "";
+  return "<button class='chip" + on + "' onclick=\"adminSec('" + id + "')\">" + label + "</button>";
+}
+function adminSec(id){ H(); A.sec = id; $("shbody").innerHTML = adminHTML(); }
+
+function adminLoginHTML(){
+  return "<h3>🛠 Admin login</h3><p class='sub'>Enter the admin password from your bot (/install shows it)</p>" +
+    "<div class='field'><label>Password</label><input class='inp' id='apw' type='password' placeholder='admin password'></div>" +
+    "<button class='btn pri' onclick='adminLogin()'>Unlock</button>" +
+    "<div class='note' style='margin-top:10px'>Only the bot owner's Telegram account can open this panel, even with the password.</div>";
+}
+function adminLogin(){
+  H();
+  var pw = $("apw").value || "";
+  if(pw.length < 3){ toast("Enter the password", true); return; }
+  var dd = {};
+  dd["pw"] = pw;
+  api("admin_login", dd, function(j){
+    if(!j.ok){ HW(); toast(j.e || "Wrong password", true); return; }
+    A.pw = pw; A.cfg = j.r.cfg; A.deps = j.r.deps || []; A.wds = j.r.wds || [];
+    A.tks = j.r.tks || []; A.extras = j.r.admin_extras || {}; A.users = j.r.users || 0; A.sec = "home";
+    HN(); toast("Admin unlocked");
+    $("shbody").innerHTML = adminHTML();
+  });
+}
+function adminReload(){
+  var dd = {};
+  dd["pw"] = A.pw;
+  api("admin_login", dd, function(j){
+    if(!j.ok){ toast(j.e, true); return; }
+    A.cfg = j.r.cfg; A.deps = j.r.deps || []; A.wds = j.r.wds || [];
+    A.tks = j.r.tks || []; A.extras = j.r.admin_extras || {}; A.users = j.r.users || 0;
+    $("shbody").innerHTML = adminHTML();
+    toast("Saved");
+  });
+}
+function adminSave(sec, val){
+  H();
+  var dd = {};
+  dd["pw"] = A.pw;
+  dd["sec"] = sec;
+  dd["val"] = val;
+  api("admin_save", dd, function(j){
+    if(!j.ok){ HW(); toast(j.e, true); return; }
+    HN(); toast(j.r.msg || "Saved");
+    adminReload();
+  });
+}
+
+function adminHome(){
+  var e = A.extras, c = A.cfg;
+  var out = "<div class='split' style='margin-bottom:10px'>" +
+    "<div class='hstat'><span>Users</span><b>" + A.users + "</b></div>" +
+    "<div class='hstat'><span>Pending</span><b>" + (A.deps.length + A.wds.length + A.tks.length) + "</b></div></div>";
+  out += "<div class='kv'><span>Signup bonus</span><b>" + money(e.signup_bonus) + " USDT</b></div>";
+  out += "<div class='kv'><span>Daily bonus</span><b>" + money(e.daily_bonus) + " USDT</b></div>";
+  out += "<div class='kv'><span>Referral signup bonus</span><b>" + money(e.ref_signup) + " USDT</b></div>";
+  out += "<div class='kv'><span>Minimum deposit</span><b>" + money(e.min_deposit) + " USDT</b></div>";
+  out += "<div class='kv'><span>System paused</span><b>" + (parseInt(e.paused||0)===1 ? "YES" : "no") + "</b></div>";
+  out += "<div class='kv'><span>Mini app</span><b style='font-size:10px'>" + esc(e.miniapp||"not set") + "</b></div>";
+  out += "<button class='btn ghost' style='margin-top:12px' onclick='adminFindUser()'>🔍 Look up a user</button>";
+  out += "<div id='ufind' style='margin-top:8px'></div>";
+  out += "<div class='sec' style='margin-top:14px'><h2>Quick actions</h2></div>";
+  out += "<div class='row2'>" +
+    "<button class='btn ghost' onclick=\"adminToggle('paused')\">" + (parseInt(e.paused||0)===1 ? "▶️ Resume system" : "⏸ Pause system") + "</button>" +
+    "<button class='btn ghost' onclick='adminReload()'>🔄 Refresh</button></div>";
+  return out;
+}
+function adminToggle(key){
+  var v = parseInt(A.extras[key]||0) === 1 ? 0 : 1;
+  var o = {};
+  o[key] = v;
+  adminSave("econ", o);
+}
+function adminFindUser(){
+  var q = prompt("Telegram username (without @) or numeric id:");
+  if(!q) return;
+  api("admin_save", (function(){ var d={}; d.pw=A.pw; d.sec="user_find"; d.val=q; return d; })(), function(j){
+    if(!j.ok){ toast(j.e, true); return; }
+    var u = j.r.user;
+    var html = "<div class='card' style='margin-top:8px'><div style='font-size:12px;font-weight:800'>User " + esc(u.uid) + "</div>" +
+      "<div class='kv'><span>Balance</span><b>" + money(u.bal) + " USDT</b></div>" +
+      "<div class='kv'><span>Energy</span><b>" + num(u.energy) + "</b></div>" +
+      "<div class='kv'><span>Invested</span><b>" + money(u.invest) + " USDT</b></div>" +
+      "<div class='kv'><span>Team</span><b>" + u.team.total + " (L1 " + u.team.l1 + ")</b></div>" +
+      "<div class='kv'><span>Referral earned</span><b>" + money(u.ref_earned) + "</b></div>" +
+      "<div class='row2' style='margin-top:9px'>" +
+      "<button class='btn pri sm' style='width:100%' onclick=\"adjBal('" + esc(u.uid) + "',1)\">Credit</button>" +
+      "<button class='btn red sm' style='width:100%' onclick=\"adjBal('" + esc(u.uid) + "',-1)\">Debit</button></div></div>";
+    $("ufind").innerHTML = html;
+  });
+}
+function adjBal(uid, sign){
+  var a = parseFloat(prompt("Amount in USDT:") || "0");
+  if(!(a > 0)) return;
+  var dd = {};
+  dd["pw"] = A.pw;
+  dd["sec"] = "user_setbal";
+  dd["user"] = uid;
+  dd["amount"] = sign * a;
+  api("admin_save", dd, function(j){
+    if(!j.ok){ HW(); toast(j.e, true); return; }
+    HN(); toast(j.r.msg || "Balance updated");
+  });
+}
+
+function adminEcon(){
+  var e = A.extras;
+  var f = function(id, label, val, step){
+    return "<div class='field'><label>" + label + "</label><input class='inp' id='" + id + "' type='number' inputmode='decimal' step='" + (step||"0.01") + "' value='" + (val==null?0:val) + "'></div>";
+  };
+  var out = "<div class='row2'>" + f("e_signup","Signup bonus", e.signup_bonus) + f("e_daily","Daily bonus", e.daily_bonus) + "</div>";
+  out += "<div class='row2'>" + f("e_senergy","Signup energy", e.signup_energy, "1") + f("e_denergy","Daily energy", e.daily_energy, "1") + "</div>";
+  out += "<div class='row2'>" + f("e_r1","Ref L1 %", A.cfg.ref?A.cfg.ref.l1:10) + f("e_r2","Ref L2 %", A.cfg.ref?A.cfg.ref.l2:5) + "</div>";
+  out += "<div class='row2'>" + f("e_r3","Ref L3 %", A.cfg.ref?A.cfg.ref.l3:2) + f("e_r3t","L3 team need", A.cfg.ref?A.cfg.ref.l3_team:50, "1") + "</div>";
+  out += "<div class='row2'>" + f("e_refsb","Ref signup bonus", e.ref_signup) + f("e_mindep","Min deposit", e.min_deposit) + "</div>";
+  out += "<div class='row2'>" + f("e_minwd","Min withdraw", e.min_withdraw) + f("e_fee","Withdraw fee %", e.withdraw_fee) + "</div>";
+  out += "<div class='row2'>" + f("e_boostp","Booster %", e.boost_percent, "1") + f("e_boosth","Booster hours", e.boost_hours, "1") + "</div>";
+  out += "<div class='field'><label>Energy per USDT (display)</label><input class='inp' id='e_epu' type='number' value='" + (e.energy_per_usdt||1000) + "'></div>";
+  out += "<div class='row2'><button class='btn ghost' onclick=\"adminToggle('task_auto_approve')\">Tasks auto approve: " + (parseInt(e.task_auto_approve||0)===1?"ON":"OFF") + "</button>" +
+    "<button class='btn ghost' onclick=\"adminToggle('principal_back')\">Principal back: " + (parseInt(e.principal_back||0)===1?"ON":"OFF") + "</button></div>";
+  out += "<div style='height:10px'></div><button class='btn pri' onclick='saveEcon()'>Save economy</button>";
+  out += "<div class='note' style='margin-top:9px'>These values control the whole economy: what new users get, what the daily bonus pays, how much referral commission flows and the entry thresholds for deposits and withdrawals.</div>";
+  return out;
+}
+function saveEcon(){
+  var o = {};
+  o["signup_bonus"] = parseFloat($("e_signup").value||0);
+  o["daily_bonus"] = parseFloat($("e_daily").value||0);
+  o["signup_energy"] = parseFloat($("e_senergy").value||0);
+  o["daily_energy"] = parseFloat($("e_denergy").value||0);
+  o["ref_l1"] = parseFloat($("e_r1").value||0);
+  o["ref_l2"] = parseFloat($("e_r2").value||0);
+  o["ref_l3"] = parseFloat($("e_r3").value||0);
+  o["ref_l3_team"] = parseFloat($("e_r3t").value||50);
+  o["ref_signup"] = parseFloat($("e_refsb").value||0);
+  o["min_deposit"] = parseFloat($("e_mindep").value||0);
+  o["min_withdraw"] = parseFloat($("e_minwd").value||0);
+  o["withdraw_fee"] = parseFloat($("e_fee").value||0);
+  o["boost_percent"] = parseFloat($("e_boostp").value||0);
+  o["boost_hours"] = parseFloat($("e_boosth").value||0);
+  o["energy_per_usdt"] = parseFloat($("e_epu").value||0);
+  o["task_auto_approve"] = parseInt(A.extras.task_auto_approve||0);
+  o["principal_back"] = parseInt(A.extras.principal_back||0);
+  o["paused"] = parseInt(A.extras.paused||0);
+  adminSave("econ", o);
+}
+
+/* ---------- admin: stations ---------- */
+function adminPlans(){
+  var ps = A.cfg.plans || [];
+  if(!A.pid && ps.length) A.pid = ps[0].id;
+  var out = "<div class='field'><label>Select station</label><select class='inp' onchange='pickPlan(this.value)'>";
+  for(var i=0;i<ps.length;i++){
+    out += "<option value='" + esc(ps[i].id) + "'" + (ps[i].id===A.pid?" selected":"") + ">" + esc(ps[i].name) + "</option>";
+  }
+  out += "<option value='__new'" + (A.pid==="__new"?" selected":"") + ">+ Create new station</option>";
+  out += "</select></div>";
+  var p = null;
+  for(var k=0;k<ps.length;k++){ if(ps[k].id === A.pid) p = ps[k]; }
+  var isNew = (A.pid === "__new") || !p;
+  if(isNew) p = {id:"", name:"", short:"", type:"ev", sym:"⚡", color:"#00E676", min:10, yields:{}};
+  out += "<div class='row2'><div class='field'><label>ID (no spaces)</label><input class='inp' id='p_id' value='" + esc(p.id) + "' " + (isNew?"":"readonly") + "></div>";
+  out += "<div class='field'><label>Symbol / emoji</label><input class='inp' id='p_sym' value='" + esc(p.sym||"⚡") + "'></div></div>";
+  out += "<div class='field'><label>Name</label><input class='inp' id='p_name' value='" + esc(p.name) + "' placeholder='Tesla Supercharger Network'></div>";
+  out += "<div class='row2'><div class='field'><label>Short label</label><input class='inp' id='p_short' value='" + esc(p.short||"") + "'></div>";
+  out += "<div class='field'><label>Minimum USDT</label><input class='inp' id='p_min' type='number' value='" + (p.min||10) + "'></div></div>";
+  out += "<div class='row2'><div class='field'><label>Type</label><select class='inp' id='p_type'>" +
+    "<option value='ev'" + (p.type==="ev"?" selected":"") + ">EV charging</option>" +
+    "<option value='crypto'" + (p.type==="crypto"?" selected":"") + ">Crypto pool</option></select></div>";
+  out += "<div class='field'><label>Colour</label><input class='inp' id='p_color' value='" + esc(p.color||"#00E676") + "'></div></div>";
+  out += "<div class='sec'><h2>Daily yield % per term</h2></div>";
+  var ts = A.cfg.terms || [];
+  for(var t=0;t<ts.length;t++){
+    var yv = (p.yields && p.yields[ts[t].id] !== undefined) ? p.yields[ts[t].id] : 1.0;
+    out += "<div class='kv'><span>" + esc(ts[t].label) + " (" + ts[t].days + "d)</span>" +
+      "<input class='inp' id='y_" + esc(ts[t].id) + "' type='number' step='0.1' value='" + yv + "' style='width:90px;padding:7px;text-align:right'></div>";
+  }
+  out += "<div style='height:10px'></div><button class='btn pri' onclick='savePlan()'>Save station</button>";
+  if(!isNew) out += "<div style='height:8px'></div><button class='btn red' onclick=\"delPlan('" + esc(p.id) + "')\">Delete this station</button>";
+  out += "<div class='note' style='margin-top:9px'>Daily yield % is what a user earns per day on their invested amount. The term only changes how long the contract runs.</div>";
+  return out;
+}
+function pickPlan(id){ H(); A.pid = id; $("shbody").innerHTML = adminHTML(); }
+function savePlan(){
+  var ts = A.cfg.terms || [], y = {};
+  for(var i=0;i<ts.length;i++){
+    var el = $("y_" + ts[i].id);
+    if(el) y[ts[i].id] = parseFloat(el.value||0);
+  }
+  var o = {};
+  o["id"] = $("p_id").value.trim();
+  o["name"] = $("p_name").value.trim();
+  o["short"] = $("p_short").value.trim();
+  o["type"] = $("p_type").value;
+  o["sym"] = $("p_sym").value;
+  o["color"] = $("p_color").value;
+  o["min"] = parseFloat($("p_min").value||10);
+  o["yields"] = y;
+  if(o["id"] === ""){ toast("ID is required", true); return; }
+  if(o["name"] === ""){ toast("Name is required", true); return; }
+  adminSave("plan", o);
+}
+function delPlan(id){
+  if(!confirm("Delete station " + id + "? Users keep their active contracts.")) return;
+  adminSave("plan_del", id);
+}
+
+/* ---------- admin: terms ---------- */
+function adminTerms(){
+  var ts = A.cfg.terms || [];
+  var out = "<div class='note' style='margin-bottom:10px'>These are the term chips users pick from. Days is the contract length.</div>";
+  for(var i=0;i<ts.length;i++){
+    out += "<div class='card'><div class='row2'><div class='field'><label>Label</label><input class='inp' id='tm_l_" + i + "' value='" + esc(ts[i].label) + "'></div>" +
+      "<div class='field'><label>Days</label><input class='inp' id='tm_d_" + i + "' type='number' value='" + ts[i].days + "'></div></div></div>";
+  }
+  out += "<button class='btn pri' onclick='saveTerms()'>Save terms</button>";
+  return out;
+}
+function saveTerms(){
+  var ts = A.cfg.terms || [], out = [];
+  for(var i=0;i<ts.length;i++){
+    var o = {};
+    o["id"] = ts[i].id;
+    o["label"] = $("tm_l_" + i).value.trim();
+    o["days"] = parseInt($("tm_d_" + i).value||1);
+    out.push(o);
+  }
+  adminSave("terms", out);
+}
+
+/* ---------- admin: tasks ---------- */
+function adminTasks(){
+  var tl = A.cfg.tasks || [];
+  if(!A.tid && tl.length) A.tid = tl[0].id;
+  var out = "<div class='field'><label>Select task</label><select class='inp' onchange='pickTask(this.value)'>";
+  for(var i=0;i<tl.length;i++){
+    out += "<option value='" + esc(tl[i].id) + "'" + (tl[i].id===A.tid?" selected":"") + ">" + esc(tl[i].title) + "</option>";
+  }
+  out += "<option value='__new'" + (A.tid==="__new"?" selected":"") + ">+ Create new task</option></select></div>";
+  var t = null;
+  for(var k=0;k<tl.length;k++){ if(tl[k].id === A.tid) t = tl[k]; }
+  var isNew = (A.tid === "__new") || !t;
+  if(isNew) t = {id:"", cat:"community", title:"", desc:"", type:"link", url:"", reward:1, energy:0, need:0, repeat:0};
+  out += "<div class='row2'><div class='field'><label>ID</label><input class='inp' id='t_id' value='" + esc(t.id) + "' " + (isNew?"":"readonly") + "></div>" +
+    "<div class='field'><label>Reward USDT</label><input class='inp' id='t_rew' type='number' step='0.1' value='" + (t.reward||0) + "'></div></div>";
+  out += "<div class='field'><label>Title</label><input class='inp' id='t_title' value='" + esc(t.title) + "'></div>";
+  out += "<div class='field'><label>Description</label><textarea class='inp' id='t_desc'>" + esc(t.desc) + "</textarea></div>";
+  out += "<div class='row2'><div class='field'><label>Category</label><select class='inp' id='t_cat'>" +
+    "<option value='community'" + (t.cat==="community"?" selected":"") + ">Community</option>" +
+    "<option value='invest'" + (t.cat==="invest"?" selected":"") + ">Investment</option>" +
+    "<option value='partner'" + (t.cat==="partner"?" selected":"") + ">Partner</option></select></div>";
+  out += "<div class='field'><label>Verify by</label><select class='inp' id='t_type'>" +
+    "<option value='link'" + (t.type==="link"?" selected":"") + ">Link click</option>" +
+    "<option value='channel'" + (t.type==="channel"?" selected":"") + ">Channel join</option>" +
+    "<option value='refs'" + (t.type==="refs"?" selected":"") + ">Referral count</option>" +
+    "<option value='invests'" + (t.type==="invests"?" selected":"") + ">Investment count</option>" +
+    "<option value='soon'" + (t.type==="soon"?" selected":"") + ">Coming soon</option></select></div></div>";
+  out += "<div class='row2'><div class='field'><label>Needed count</label><input class='inp' id='t_need' type='number' value='" + (t.need||0) + "'></div>" +
+    "<div class='field'><label>Energy reward</label><input class='inp' id='t_en' type='number' value='" + (t.energy||0) + "'></div></div>";
+  out += "<div class='field'><label>Button / target URL</label><input class='inp' id='t_url' value='" + esc(t.url||"") + "' placeholder='https://t.me/yourchannel'></div>";
+  out += "<button class='btn pri' onclick='saveTask()'>Save task</button>";
+  if(!isNew) out += "<div style='height:8px'></div><button class='btn red' onclick=\"delTask('" + esc(t.id) + "')\">Delete this task</button>";
+  return out;
+}
+function pickTask(id){ H(); A.tid = id; $("shbody").innerHTML = adminHTML(); }
+function saveTask(){
+  var o = {};
+  o["id"] = $("t_id").value.trim();
+  o["cat"] = $("t_cat").value;
+  o["title"] = $("t_title").value.trim();
+  o["desc"] = $("t_desc").value.trim();
+  o["type"] = $("t_type").value;
+  o["url"] = $("t_url").value.trim();
+  o["reward"] = parseFloat($("t_rew").value||0);
+  o["energy"] = parseFloat($("t_en").value||0);
+  o["need"] = parseInt($("t_need").value||0);
+  o["repeat"] = 0;
+  if(o["id"] === ""){ toast("ID is required", true); return; }
+  if(o["title"] === ""){ toast("Title is required", true); return; }
+  adminSave("task", o);
+}
+function delTask(id){
+  if(!confirm("Delete task " + id + "?")) return;
+  adminSave("task_del", id);
+}
+
+/* ---------- admin: gift boxes ---------- */
+function adminBoxes(){
+  var bs = A.cfg.boxes || [];
+  var out = "";
+  for(var i=0;i<bs.length;i++){
+    var b = bs[i];
+    out += "<div class='card'><div style='font-size:12.5px;font-weight:800;margin-bottom:8px'>" + esc(b.emoji||"🎁") + " " + esc(b.name) + "</div>" +
+      "<div class='row2'><div class='field'><label>Min USDT</label><input class='inp' id='b_min_" + i + "' type='number' step='0.01' value='" + b.min + "'></div>" +
+      "<div class='field'><label>Max USDT</label><input class='inp' id='b_max_" + i + "' type='number' step='0.01' value='" + b.max + "'></div></div>" +
+      "<div class='row2'><div class='field'><label>Unlock by</label><select class='inp' id='b_req_" + i + "'>" +
+      "<option value='daily'" + (b.req==="daily"?" selected":"") + ">Daily bonus claimed</option>" +
+      "<option value='invests'" + (b.req==="invests"?" selected":"") + ">Investments</option>" +
+      "<option value='refs'" + (b.req==="refs"?" selected":"") + ">Referrals</option></select></div>" +
+      "<div class='field'><label>Needed</label><input class='inp' id='b_need_" + i + "' type='number' value='" + (b.need||1) + "'></div></div>" +
+      "<button class='btn ghost sm' onclick=\"saveBox(" + i + ")\">Save " + esc(b.name) + "</button></div>";
+  }
+  out += "<div class='note'>Every box can be opened once per day. Rewards are random between min and max, and there is a 25% chance of a yield booster.</div>";
+  return out;
+}
+function saveBox(i){
+  var bs = A.cfg.boxes || [], b = bs[i];
+  var o = {};
+  o["id"] = b.id;
+  o["min"] = parseFloat($("b_min_" + i).value||0);
+  o["max"] = parseFloat($("b_max_" + i).value||0);
+  o["req"] = $("b_req_" + i).value;
+  o["need"] = parseInt($("b_need_" + i).value||1);
+  adminSave("box", o);
+}
+
+/* ---------- admin: events ---------- */
+function adminEvents(){
+  var evs = A.cfg.events || [];
+  var out = "<div class='note' style='margin-bottom:10px'>Events appear as a banner on the Mining tab. Set active to 0 to hide one without deleting it.</div>";
+  for(var i=0;i<evs.length;i++){
+    var e = evs[i];
+    out += "<div class='card'><div class='field'><label>Title</label><input class='inp' id='ev_t_" + i + "' value='" + esc(e.title) + "'></div>" +
+      "<div class='field'><label>Text</label><textarea class='inp' id='ev_x_" + i + "'>" + esc(e.text) + "</textarea></div>" +
+      "<div class='row2'><button class='btn ghost' onclick=\"saveEvents()\">Save all</button>" +
+      "<button class='btn red' onclick=\"delEvent(" + i + ")\">Delete</button></div></div>";
+  }
+  out += "<div class='field'><label>New event title</label><input class='inp' id='ev_new_t' placeholder='Double yield weekend'></div>";
+  out += "<div class='field'><label>New event text</label><textarea class='inp' id='ev_new_x' placeholder='Describe the reward...'></textarea></div>";
+  out += "<button class='btn pri' onclick='addEvent()'>Add event</button>";
+  return out;
+}
+function saveEvents(){
+  var evs = A.cfg.events || [], out = [];
+  for(var i=0;i<evs.length;i++){
+    var o = {};
+    o["id"] = evs[i].id;
+    o["title"] = $("ev_t_" + i).value;
+    o["text"] = $("ev_x_" + i).value;
+    o["active"] = parseInt(evs[i].active||1);
+    out.push(o);
+  }
+  adminSave("events", out);
+}
+function addEvent(){
+  var evs = A.cfg.events || [], out = [];
+  for(var i=0;i<evs.length;i++){ out.push(evs[i]); }
+  var t = $("ev_new_t").value.trim(), x = $("ev_new_x").value.trim();
+  if(t === ""){ toast("Title required", true); return; }
+  var o = {};
+  o["id"] = "e" + (Date.now());
+  o["title"] = t;
+  o["text"] = x;
+  o["active"] = 1;
+  out.push(o);
+  adminSave("events", out);
+}
+function delEvent(i){
+  var evs = A.cfg.events || [], out = [];
+  for(var k=0;k<evs.length;k++){ if(k !== i) out.push(evs[k]); }
+  adminSave("events", out);
+}
+
+/* ---------- admin: deposit addresses ---------- */
+function adminWallets(){
+  var wl = A.cfg.wallets || [];
+  var out = "";
+  for(var i=0;i<wl.length;i++){
+    out += "<div class='card'><div class='field'><label>Label</label><input class='inp' id='w_n_" + i + "' value='" + esc(wl[i].name) + "'></div>" +
+      "<div class='field'><label>Address</label><input class='inp' id='w_a_" + i + "' value='" + esc(wl[i].address) + "' style='font-family:monospace;font-size:11.5px'></div>" +
+      "<div class='row2'><button class='btn ghost' onclick=\"saveWallet(" + i + ")\">Save</button>" +
+      "<button class='btn red' onclick=\"delWallet('" + esc(wl[i].id) + "')\">Delete</button></div></div>";
+  }
+  out += "<div class='card'><div style='font-size:12px;font-weight:800;margin-bottom:8px'>Add a network</div>" +
+    "<div class='field'><label>ID (no spaces)</label><input class='inp' id='w_new_id' placeholder='usdt_trc'></div>" +
+    "<div class='field'><label>Label</label><input class='inp' id='w_new_n' placeholder='USDT - TRC20'></div>" +
+    "<div class='field'><label>Address</label><input class='inp' id='w_new_a' placeholder='T...'></div>" +
+    "<button class='btn pri' onclick='addWallet()'>Add network</button></div>";
+  out += "<div class='note'>Users see these addresses on the Deposit screen. Every deposit is created as a pending request that you confirm in Review.</div>";
+  return out;
+}
+function saveWallet(i){
+  var wl = A.cfg.wallets || [], w = wl[i];
+  var o = {};
+  o["id"] = w.id;
+  o["name"] = $("w_n_" + i).value;
+  o["address"] = $("w_a_" + i).value;
+  o["color"] = w.color || "#26A17B";
+  adminSave("wallet", o);
+}
+function addWallet(){
+  var o = {};
+  o["id"] = $("w_new_id").value.trim();
+  o["name"] = $("w_new_n").value.trim();
+  o["address"] = $("w_new_a").value.trim();
+  if(o["id"] === "" || o["name"] === ""){ toast("ID and label required", true); return; }
+  adminSave("wallet", o);
+}
+function delWallet(id){
+  if(!confirm("Delete this deposit network?")) return;
+  adminSave("wallet_del", id);
+}
+
+/* ---------- admin: branding & texts ---------- */
+function adminTexts(){
+  var c = A.cfg, e = A.extras;
+  var out = "<div class='row2'><div class='field'><label>Logo emoji</label><input class='inp' id='x_logo' value='" + esc(c.logo||"🌱") + "'></div>" +
+    "<div class='field'><label>Brand name</label><input class='inp' id='x_brand' value='" + esc(c.brand||"") + "'></div></div>";
+  out += "<div class='field'><label>Tagline</label><input class='inp' id='x_tag' value='" + esc(c.tagline||"") + "'></div>";
+  out += "<div class='field'><label>Official channel link</label><input class='inp' id='x_chan' value='" + esc(c.channel||"") + "'></div>";
+  out += "<div class='field'><label>Support link</label><input class='inp' id='x_sup' value='" + esc(c.support||"") + "'></div>";
+  out += "<div class='field'><label>Payout proof channel</label><input class='inp' id='x_pay' value='" + esc(c.payouts_channel||"") + "'></div>";
+  out += "<div class='field'><label>Mini app link (used by the bot buttons)</label><input class='inp' id='x_app' value='" + esc(e.miniapp||"") + "'></div>";
+  out += "<div class='field'><label>How to earn (HTML shown in the app)</label><textarea class='inp' id='x_earn' style='min-height:150px'>" + esc(c.earn_html||"") + "</textarea></div>";
+  out += "<button class='btn pri' onclick='saveTexts()'>Save branding</button>";
+  return out;
+}
+function saveTexts(){
+  var o = {};
+  o["logo"] = $("x_logo").value;
+  o["brand"] = $("x_brand").value;
+  o["tagline"] = $("x_tag").value;
+  o["channel"] = $("x_chan").value;
+  o["support"] = $("x_sup").value;
+  o["payouts_channel"] = $("x_pay").value;
+  o["miniapp"] = $("x_app").value;
+  o["earn_html"] = $("x_earn").value;
+  adminSave("texts", o);
+}
+
+/* ---------- admin: review queue ---------- */
+function adminReview(){
+  var out = "";
+  var mk = function(kind, list, title){
+    var s = "<div class='sec'><h2>" + title + " (" + list.length + ")</h2></div>";
+    if(list.length === 0) s += "<div class='note'>Nothing waiting.</div>";
+    for(var i=0;i<list.length;i++){
+      var d = list[i];
+      var sub = "";
+      if(kind === "dep") sub = money(d.amount) + " USDT - " + esc(d.wname||"");
+      if(kind === "wd") sub = money(d.amount) + " USDT -> " + esc(String(d.addr||"").slice(0,14));
+      if(kind === "task") sub = esc(d.title||"") + " - " + money(d.reward) + " USDT";
+      s += "<div class='card'><div style='display:flex;justify-content:space-between;gap:8px'>" +
+        "<div style='min-width:0'><div style='font-size:12px;font-weight:800'>" + esc(d.rid) + "</div>" +
+        "<div class='note' style='word-break:break-all'>user " + esc(d.u) + "<br>" + sub + "</div></div></div>" +
+        (d.proof ? "<div class='note' style='word-break:break-all;margin-top:4px'>proof: " + esc(String(d.proof).slice(0,80)) + "</div>" : "") +
+        "<div class='row2' style='margin-top:8px'>" +
+        "<button class='btn pri sm' style='width:100%' onclick=\"decide('" + kind + "','" + esc(d.rid) + "',1)\">" + (kind==="wd"?"Mark paid":"Approve") + "</button>" +
+        "<button class='btn red sm' style='width:100%' onclick=\"decide('" + kind + "','" + esc(d.rid) + "',0)\">Reject</button></div></div>";
+    }
+    return s;
+  };
+  out += mk("dep", A.deps, "📥 Deposits");
+  out += mk("wd", A.wds, "💸 Withdrawals");
+  out += mk("task", A.tks, "✅ Task claims");
+  return out;
+}
+function decide(kind, rid, ok){
+  H();
+  var dd = {};
+  dd["pw"] = A.pw;
+  dd["kind"] = kind;
+  dd["id"] = rid;
+  dd["ok"] = ok;
+  api("admin_decide", dd, function(j){
+    if(!j.ok){ HW(); toast(j.e, true); return; }
+    HN(); toast("Done");
+    adminReload();
+  });
+}
+
+/* ============================================================
+   TABS + START
+   ============================================================ */
+function go(n){
+  H();
+  S.tab = n;
+  for(var i=1;i<=4;i++){
+    var p = $("t" + i);
+    if(p){ if(i === n) p.classList.remove("hide"); else p.classList.add("hide"); }
+  }
+  var tabs = document.querySelectorAll(".tab");
+  for(var k=0;k<tabs.length;k++){
+    if(parseInt(tabs[k].getAttribute("data-t")) === n) tabs[k].classList.add("on");
+    else tabs[k].classList.remove("on");
+  }
+  window.scrollTo(0,0);
+  if(n === 4 && S.cfg && S.cfg.boxes) renderBoxes();
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  boot();
+  var wb = document.getElementById("walletbtn");
+  if(!wb){
+    var b = document.createElement("button");
+    b.className = "ib";
+    b.id = "walletbtn";
+    b.innerHTML = "💳";
+    b.onclick = openWallet;
+    var host = document.querySelector(".hicons");
+    if(host) host.insertBefore(b, host.firstChild);
+  }
+  var adm = document.getElementById("adminbtn");
+  if(!adm){
+    var a = document.createElement("button");
+    a.className = "ib";
+    a.id = "adminbtn";
+    a.innerHTML = "🛠";
+    a.style.display = "none";
+    a.onclick = function(){ openSheet("admin"); };
+    var h2 = document.querySelector(".hicons");
+    if(h2) h2.appendChild(a);
+  }
+});
+setInterval(function(){
+  var a = document.getElementById("adminbtn");
+  if(a && S.u) a.style.display = (S.u.is_admin === 1 || S.admin) ? "grid" : "none";
+}, 1200);
+</script>
+</body>
+</html>
