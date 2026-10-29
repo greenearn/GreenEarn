@@ -131,6 +131,9 @@
       news: [
         { id: 1, headline: 'Green Asset Nodes Synced Successfully', text: 'Catalog updated with solar, EV charging, crypto mining, AI platforms, and EV car projects.', img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80' }
       ],
+      events: [
+        { id: 1, title: 'Global Green Energy Summit 2026', date: 'June 15, 2026 • 14:00 UTC', desc: 'Join international solar & EV leaders for the annual green investment keynote.', rsvp: null }
+      ],
       tasks: [
         { id: 1, title: 'Join GREENEARN Telegram Channel', reward: 5.0, icon: 'fa-telegram', link: 'https://t.me/GreenEarnOfficial', img: '', done: false, verifying: false },
         { id: 2, title: 'Retweet Official Announcement', reward: 3.0, icon: 'fa-retweet', link: 'https://twitter.com', img: '', done: false, verifying: false },
@@ -772,43 +775,38 @@
       document.getElementById('admNewsImagePreviewContainer').classList.add('hidden');
     }
 
-    function adminCreateTask() {
-      const title = document.getElementById('admTaskTitle').value.trim();
-      const reward = parseFloat(document.getElementById('admTaskReward').value) || 0;
-      const link = document.getElementById('admTaskLink').value.trim();
-      const img = document.getElementById('admTaskImg').value.trim();
-
-      if (!title || reward <= 0) {
-        showToast('Please enter task title and valid reward amount!');
+    function adminCreateEvent() {
+      const title = document.getElementById('admEventTitle').value.trim();
+      const date = document.getElementById('admEventDate').value.trim();
+      const desc = document.getElementById('admEventDesc').value.trim();
+      if (!title || !date) {
+        showToast('Please enter event title and date!');
         return;
       }
-
-      state.tasks.push({
-        id: Date.now(),
-        title,
-        reward,
-        link: link || 'https://t.me/GreenEarnOfficial',
-        img: img || '',
-        icon: 'fa-bullhorn',
-        done: false,
-        verifying: false
-      });
-
+      state.events.unshift({ id: Date.now(), title, date, desc, rsvp: null });
       saveState();
       renderApp();
-      showToast('Task added successfully!');
-      document.getElementById('admTaskTitle').value = '';
-      document.getElementById('admTaskReward').value = '';
-      document.getElementById('admTaskLink').value = '';
-      document.getElementById('admTaskImg').value = '';
-      document.getElementById('admTaskImagePreviewContainer').classList.add('hidden');
+      showToast('Event published successfully!');
+      document.getElementById('admEventTitle').value = '';
+      document.getElementById('admEventDate').value = '';
+      document.getElementById('admEventDesc').value = '';
     }
 
-    function adminDeleteTask(id) {
-      state.tasks = state.tasks.filter(t => t.id !== id);
+    function adminDeleteEvent(id) {
+      state.events = state.events.filter(e => e.id !== id);
       saveState();
       renderApp();
-      showToast('Task removed.');
+      showToast('Event removed.');
+    }
+
+    function rsvpEvent(eventId, status) {
+      const ev = state.events.find(e => e.id === eventId);
+      if (ev) {
+        ev.rsvp = status;
+        saveState();
+        renderApp();
+        showToast(`RSVP updated: ${status === 'attending' ? 'Attending' : 'Not Attending'}`);
+      }
     }
 
     function adminSavePaymentMethods() {
@@ -936,6 +934,9 @@
       if (!state.currentUser) return;
 
       document.getElementById('homeDisplayBalance').innerText = '$' + state.balance.toFixed(2);
+      document.getElementById('homeDailyEarnings').innerText = '+$' + state.dailyYield.toFixed(2) + '/day';
+      document.getElementById('homeTotalEarnings').innerText = '+$' + state.totalProfit.toFixed(2) + ' Est.';
+
       document.getElementById('profileUsernameDisplay').innerText = state.currentUser.username;
       document.getElementById('headerRoleBadge').innerText = state.currentUser.role === 'Admin' ? 'MAIN_ADMIN' : 'MEMBER';
 
@@ -973,6 +974,47 @@
               <img src="${n.img}" class="w-full h-32 object-cover rounded-xl">
               <h3 class="text-xs font-bold text-emerald-100">${n.headline}</h3>
               <p class="text-[11px] text-emerald-300/80">${n.text}</p>
+            </div>
+          `;
+        });
+      }
+
+      const eventsContainer = document.getElementById('homeEventsContainer');
+      if (eventsContainer) {
+        eventsContainer.innerHTML = '';
+        state.events.forEach(ev => {
+          eventsContainer.innerHTML += `
+            <div class="glass-card p-3.5 rounded-2xl border border-emerald-800/40 space-y-2">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h4 class="text-xs font-bold text-emerald-100">${ev.title}</h4>
+                  <p class="text-[10px] text-emerald-400 font-mono">${ev.date}</p>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[9px] font-bold ${ev.rsvp === 'attending' ? 'bg-emerald-500 text-black' : ev.rsvp === 'declined' ? 'bg-red-900/40 text-red-300' : 'bg-emerald-950 text-emerald-300 border border-emerald-800'}">
+                  ${ev.rsvp === 'attending' ? 'Attending ✓' : ev.rsvp === 'declined' ? 'Not Attending' : 'RSVP Open'}
+                </span>
+              </div>
+              <p class="text-[11px] text-emerald-300/80">${ev.desc}</p>
+              <div class="flex gap-2 pt-1">
+                <button onclick="rsvpEvent(${ev.id}, 'attending')" class="flex-1 py-1.5 text-[10px] font-bold rounded-lg ${ev.rsvp === 'attending' ? 'btn-emerald' : 'bg-emerald-950 text-emerald-300 border border-emerald-800'}">Attend</button>
+                <button onclick="rsvpEvent(${ev.id}, 'declined')" class="flex-1 py-1.5 text-[10px] font-bold rounded-lg ${ev.rsvp === 'declined' ? 'bg-red-600 text-white' : 'bg-emerald-950 text-emerald-300 border border-emerald-800'}">Not Attend</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      const adminEventsList = document.getElementById('adminEventsManagerList');
+      if (adminEventsList) {
+        adminEventsList.innerHTML = '';
+        state.events.forEach(ev => {
+          adminEventsList.innerHTML += `
+            <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 flex justify-between items-center text-[11px]">
+              <div>
+                <p class="font-bold text-purple-200">${ev.title}</p>
+                <p class="text-[10px] text-purple-300">${ev.date}</p>
+              </div>
+              <button onclick="adminDeleteEvent(${ev.id})" class="px-2.5 py-1 text-[10px] font-bold bg-red-600 text-white rounded-lg">Delete</button>
             </div>
           `;
         });
@@ -1147,7 +1189,7 @@
     <main class="flex-1 p-3.5 space-y-4 overflow-y-auto">
 
       <section id="tab-home" class="space-y-3.5">
-        <div class="glass-card-glow rounded-2xl p-4 relative overflow-hidden">
+        <div class="glass-card-glow rounded-2xl p-4 relative overflow-hidden space-y-3">
           <div class="flex justify-between items-start">
             <div>
               <p class="text-[10px] uppercase tracking-wider text-emerald-400/80 font-semibold">Total Portfolio Balance</p>
@@ -1155,11 +1197,26 @@
             </div>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Active Protocol</span>
           </div>
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-emerald-800/40">
+            <div class="bg-black/30 p-2.5 rounded-xl border border-emerald-900/40">
+              <p class="text-[9px] text-emerald-400/80 uppercase font-bold">Daily Earnings</p>
+              <p id="homeDailyEarnings" class="text-xs font-extrabold text-emerald-200 mt-0.5">+$18.75/day</p>
+            </div>
+            <div class="bg-black/30 p-2.5 rounded-xl border border-emerald-900/40">
+              <p class="text-[9px] text-emerald-400/80 uppercase font-bold">Total Return Est.</p>
+              <p id="homeTotalEarnings" class="text-xs font-extrabold text-amber-300 mt-0.5">+$340.50 Est.</p>
+            </div>
+          </div>
         </div>
 
         <div>
           <h2 class="text-xs font-bold text-emerald-200 mb-2 uppercase tracking-wide">News & Bulletin Announcements</h2>
           <div id="homeNewsContainer" class="space-y-3"></div>
+        </div>
+
+        <div class="pt-2">
+          <h2 class="text-xs font-bold text-emerald-200 mb-2 uppercase tracking-wide">Upcoming Company Events & RSVPs</h2>
+          <div id="homeEventsContainer" class="space-y-3"></div>
         </div>
       </section>
 
@@ -1376,19 +1433,26 @@
 
           <div id="adm-sub-news" class="space-y-2.5 mt-2 hidden">
             <h3 class="text-xs font-bold text-purple-200">Publish News & Events (Max 4)</h3>
-            <input id="admNewsHeadline" type="text" placeholder="News Headline" class="w-full p-2 text-xs rounded-lg">
-            <textarea id="admNewsText" rows="2" placeholder="News or Event Content" class="w-full p-2 text-xs rounded-lg"></textarea>
+            <input id="admNewsHeadline" type="text" placeholder="News Headline" class="w-full p-2 text-xs rounded-lg mb-2">
+            <textarea id="admNewsText" rows="2" placeholder="News or Event Content" class="w-full p-2 text-xs rounded-lg mb-2"></textarea>
             
-            <div class="space-y-1">
+            <div class="space-y-1 mb-2">
               <label class="text-[10px] text-purple-300 font-bold block">Upload Banner Image or Enter URL</label>
-              <input type="file" accept="image/*" onchange="handleNewsImageUpload(event)" class="w-full p-1.5 text-xs rounded-lg file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white">
+              <input type="file" accept="image/*" onchange="handleNewsImageUpload(event)" class="w-full p-1.5 text-xs rounded-lg file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white mb-1">
               <input id="admNewsImg" type="text" placeholder="Banner Image URL" class="w-full p-2 text-xs rounded-lg">
             </div>
-            <div id="admNewsImagePreviewContainer" class="hidden pt-1">
+            <div id="admNewsImagePreviewContainer" class="hidden pt-1 mb-2">
               <img id="admNewsImagePreview" src="" class="w-full h-24 object-cover rounded-lg border border-purple-800">
             </div>
 
-            <button onclick="adminPublishNews()" class="w-full py-2 text-xs font-bold btn-emerald">Publish News & Event</button>
+            <button onclick="adminPublishNews()" class="w-full py-2 text-xs font-bold btn-emerald mb-4">Publish News & Event</button>
+
+            <h3 class="text-xs font-bold text-purple-200 border-t border-purple-900/40 pt-3 mb-2">Create Attendable Events</h3>
+            <input id="admEventTitle" type="text" placeholder="Event Title (e.g. Green Summit)" class="w-full p-2 text-xs rounded-lg mb-2">
+            <input id="admEventDate" type="text" placeholder="Event Date & Time" class="w-full p-2 text-xs rounded-lg mb-2">
+            <textarea id="admEventDesc" rows="2" placeholder="Event Description" class="w-full p-2 text-xs rounded-lg mb-2"></textarea>
+            <button onclick="adminCreateEvent()" class="w-full py-2 text-xs font-bold btn-emerald mb-3">Publish Event</button>
+            <div id="adminEventsManagerList" class="space-y-2 max-h-36 overflow-y-auto no-scrollbar"></div>
           </div>
 
           <div id="adm-sub-support" class="space-y-2.5 mt-2 hidden">
