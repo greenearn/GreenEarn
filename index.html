@@ -43,6 +43,13 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     input, select, textarea { background: rgba(6, 22, 14, 0.9) !important; border: 1px solid rgba(34, 197, 94, 0.3) !important; color: #ecfdf5 !important; outline: none !important; }
 
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(52, 211, 153, 0.6); }
+      100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
+    }
+    .animate-glow { animation: pulseGlow 3s infinite ease-in-out; }
+
     @keyframes toastSlide {
       0% { transform: translateY(-100%) translateX(-50%); opacity: 0; }
       15% { transform: translateY(0) translateX(-50%); opacity: 1; }
@@ -55,7 +62,6 @@
   <!-- JavaScript Engine Hoisted to Head -->
   <script>
     let activeInvestCompId = null;
-    let selectedDurationKey = "1 Day";
 
     let state = {
       currentUser: null,
@@ -93,7 +99,7 @@
         { id: 1, name: 'MIDONG Solar Farm', amount: 100.00, duration: '1 Day', daysLeft: 1, payout: 101.50, icon: 'fa-sun', color: 'text-amber-400' }
       ],
       supportMessages: [
-        { id: 1, sender: 'admin', text: 'Welcome to GREENEARN! Please complete your KYC profile to begin investing.', time: '09:00' }
+        { id: 1, sender: 'admin', text: 'Welcome to GREENEARN! You can now invest freely and complete tasks for bonuses.', time: '09:00' }
       ],
       transactions: [
         { id: 101, type: 'Deposit', amount: 500.00, status: 'Completed', date: '2026-06-01 14:20', proof: '' }
@@ -113,8 +119,9 @@
         { id: 1, title: 'Global Green Energy Summit 2026', date: 'June 15, 2026 • 14:00 UTC', desc: 'Join international solar & EV leaders for the annual green investment keynote.', rsvp: null }
       ],
       tasks: [
-        { id: 1, title: 'Join GREENEARN Telegram Channel', reward: 5.0, icon: 'fa-telegram', link: 'https://t.me/GreenEarnOfficial', img: '', done: false, verifying: false },
-        { id: 2, title: 'Retweet Official Announcement', reward: 3.0, icon: 'fa-retweet', link: 'https://twitter.com', img: '', done: false, verifying: false }
+        { id: 99, title: 'Verify Profile & Get $20 Bonus', reward: 20.0, icon: 'fa-id-card', link: '#profile', img: '', done: false, isKycTask: true },
+        { id: 1, title: 'Join GREENEARN Telegram Channel', reward: 5.0, icon: 'fa-telegram', link: 'https://t.me/GreenEarnOfficial', img: '', done: false, isKycTask: false },
+        { id: 2, title: 'Retweet Official Announcement', reward: 3.0, icon: 'fa-retweet', link: 'https://twitter.com', img: '', done: false, isKycTask: false }
       ]
     };
 
@@ -139,7 +146,6 @@
     function switchAuthTab(mode) {
       document.getElementById('authCardSignin').classList.toggle('hidden', mode !== 'signin');
       document.getElementById('authCardSignup').classList.toggle('hidden', mode !== 'signup');
-      document.getElementById('authCardForgot').classList.toggle('hidden', mode !== 'forgot');
     }
 
     function handleSignIn() {
@@ -210,7 +216,6 @@
       showToast('Account created successfully! +$50 Welcome Bonus added.');
     }
 
-    // ROBUST KYC IMAGE UPLOAD HANDLER
     function handleKycImageUpload(event, slot) {
       const file = event.target.files[0];
       if (file) {
@@ -219,12 +224,14 @@
           if (!state.currentUser) return;
           if (slot === 1) {
             state.currentUser.idDocUrl = e.target.result;
-            document.getElementById('kycIdPreviewImg1').src = e.target.result;
-            document.getElementById('kycIdPreviewContainer1').classList.remove('hidden');
+            const prev1 = document.getElementById('kycIdPreviewImg1');
+            const cont1 = document.getElementById('kycIdPreviewContainer1');
+            if (prev1 && cont1) { prev1.src = e.target.result; cont1.classList.remove('hidden'); }
           } else {
             state.currentUser.idDocUrlBack = e.target.result;
-            document.getElementById('kycIdPreviewImg2').src = e.target.result;
-            document.getElementById('kycIdPreviewContainer2').classList.remove('hidden');
+            const prev2 = document.getElementById('kycIdPreviewImg2');
+            const cont2 = document.getElementById('kycIdPreviewContainer2');
+            if (prev2 && cont2) { prev2.src = e.target.result; cont2.classList.remove('hidden'); }
           }
           const regUser = state.registeredUsers.find(u => u.id === state.currentUser.id);
           if (regUser) {
@@ -238,7 +245,6 @@
       }
     }
 
-    // ROBUST KYC SUBMISSION HANDLER
     function submitKycProfileForm() {
       if (!state.currentUser) return;
       state.currentUser.fullName = document.getElementById('kycFullName').value;
@@ -262,16 +268,16 @@
 
       saveState();
       renderApp();
-      showToast('KYC & Employment details submitted for admin verification!');
+      showToast('KYC details submitted for admin review!');
     }
 
-    // PERMANENT ADMIN KYC VERIFICATION
     function adminVerifyKyc(userId) {
       const u = state.registeredUsers.find(x => x.id === userId);
       if (u) {
         u.kycStatus = 'Verified';
         if (state.currentUser && (state.currentUser.id === u.id || state.currentUser.email === u.email)) {
           state.currentUser.kycStatus = 'Verified';
+          state.balance += 20; // Automatically grant $20 bonus when verified
         }
         saveState();
         renderApp();
@@ -328,18 +334,19 @@
 
       items.forEach(comp => {
         container.innerHTML += `
-          <div class="glass-card p-3 rounded-2xl flex items-center justify-between border border-emerald-800/30">
+          <div class="glass-card animate-glow p-3.5 rounded-2xl flex items-center justify-between border border-emerald-500/30">
             <div class="flex items-center space-x-3">
-              <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg border ${comp.colorBg}">
+              <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg border ${comp.colorBg} shadow-lg">
                 <i class="fa-solid ${comp.icon}"></i>
               </div>
               <div>
                 <h3 class="text-xs font-bold text-emerald-100">${comp.name}</h3>
                 <p class="text-[10px] text-emerald-400 font-medium">Rate: ${comp.rate} (${comp.days}d lock)</p>
+                <p class="text-[9px] text-amber-300 font-mono mt-0.5">${comp.yieldText}</p>
               </div>
             </div>
             <div class="flex space-x-1.5">
-              <button onclick="openInvestModal('${comp.id}')" class="px-3 py-1.5 text-xs font-bold rounded-lg btn-emerald">Invest</button>
+              <button onclick="openInvestModal('${comp.id}')" class="px-3.5 py-2 text-xs font-bold rounded-xl btn-emerald">Invest</button>
             </div>
           </div>
         `;
@@ -347,11 +354,6 @@
     }
 
     function openInvestModal(id) {
-      if (state.currentUser && state.currentUser.role !== 'Admin' && (!state.currentUser.kycStatus || state.currentUser.kycStatus !== 'Verified')) {
-        showToast('⚠️ Please verify your KYC in Profile before investing!');
-        switchTab('profile');
-        return;
-      }
       activeInvestCompId = id;
       document.getElementById('investConfirmModal').classList.remove('hidden');
     }
@@ -372,6 +374,7 @@
         name: 'Green Asset Yield',
         amount: amt,
         daysLeft: 1,
+        payout: amt * 1.5,
         icon: 'fa-sun'
       });
       saveState();
@@ -459,6 +462,14 @@
     function startTaskVerification(id) {
       const t = state.tasks.find(x => x.id === id);
       if (!t || t.done) return;
+      if (t.isKycTask) {
+        switchTab('profile');
+        showToast('Please fill out your KYC form below to claim your $20 bonus!');
+        return;
+      }
+      if (t.link) {
+        window.open(t.link, '_blank');
+      }
       t.done = true;
       state.balance += t.reward;
       saveState();
@@ -497,16 +508,18 @@
     function adminPublishNews() {
       const headline = document.getElementById('admNewsHeadline').value.trim();
       const text = document.getElementById('admNewsText').value.trim();
+      const img = document.getElementById('admNewsImgUrl').value.trim() || 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80';
       if (!headline || !text) {
         showToast('Please enter headline and content!');
         return;
       }
-      state.news.unshift({ id: Date.now(), headline, text, img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80' });
+      state.news.unshift({ id: Date.now(), headline, text, img });
       saveState();
       renderApp();
       showToast('News published!');
       document.getElementById('admNewsHeadline').value = '';
       document.getElementById('admNewsText').value = '';
+      document.getElementById('admNewsImgUrl').value = '';
     }
 
     function adminCreateEvent() {
@@ -517,6 +530,32 @@
       saveState();
       renderApp();
       showToast('Event published!');
+      document.getElementById('admEventTitle').value = '';
+      document.getElementById('admEventDate').value = '';
+    }
+
+    function adminAddTask() {
+      const title = document.getElementById('admTaskTitle').value.trim();
+      const reward = parseFloat(document.getElementById('admTaskReward').value) || 5;
+      const link = document.getElementById('admTaskLink').value.trim();
+      if (!title) {
+        showToast('Please enter task title!');
+        return;
+      }
+      state.tasks.push({ id: Date.now(), title, reward, link, icon: 'fa-bullhorn', done: false, isKycTask: false });
+      saveState();
+      renderApp();
+      showToast('Task added successfully!');
+      document.getElementById('admTaskTitle').value = '';
+      document.getElementById('admTaskReward').value = '';
+      document.getElementById('admTaskLink').value = '';
+    }
+
+    function adminDeleteTask(id) {
+      state.tasks = state.tasks.filter(t => t.id !== id);
+      saveState();
+      renderApp();
+      showToast('Task deleted.');
     }
 
     function rsvpEvent(eventId, status) {
@@ -534,6 +573,7 @@
       const listDiv = document.getElementById('adminUsersDetailList');
       const kycListDiv = document.getElementById('adminKycVerifyList');
       const supportContainer = document.getElementById('adminSupportChatContainer');
+      const admTasksList = document.getElementById('adminTasksManagerList');
 
       if (!sel || !listDiv) return;
 
@@ -548,6 +588,7 @@
               <span>👤 ${u.username}</span>
               <span class="text-amber-300 font-mono">$${u.balance.toFixed(2)}</span>
             </div>
+            <div class="text-[10px] text-purple-300">Email: ${u.email} | KYC: <strong class="${u.kycStatus === 'Verified' ? 'text-emerald-400' : 'text-amber-400'}">${u.kycStatus}</strong></div>
           </div>
         `;
       });
@@ -574,11 +615,11 @@
               <div class="grid grid-cols-2 gap-2 pt-1">
                 <div>
                   <p class="text-[9px] font-bold text-purple-300 mb-1">Document Front:</p>
-                  ${u.idDocUrl ? `<img src="${u.idDocUrl}" class="w-full h-24 object-cover rounded-lg border border-purple-800">` : '<p class="text-[9px] text-amber-400 italic">Not uploaded</p>'}
+                  ${u.idDocUrl ? `<a href="${u.idDocUrl}" target="_blank"><img src="${u.idDocUrl}" class="w-full h-24 object-cover rounded-lg border border-purple-800 hover:opacity-90"></a>` : '<p class="text-[9px] text-amber-400 italic">Not uploaded</p>'}
                 </div>
                 <div>
                   <p class="text-[9px] font-bold text-purple-300 mb-1">Document Back / Selfie:</p>
-                  ${u.idDocUrlBack ? `<img src="${u.idDocUrlBack}" class="w-full h-24 object-cover rounded-lg border border-purple-800">` : '<p class="text-[9px] text-amber-400 italic">Not uploaded</p>'}
+                  ${u.idDocUrlBack ? `<a href="${u.idDocUrlBack}" target="_blank"><img src="${u.idDocUrlBack}" class="w-full h-24 object-cover rounded-lg border border-purple-800 hover:opacity-90"></a>` : '<p class="text-[9px] text-amber-400 italic">Not uploaded</p>'}
                 </div>
               </div>
 
@@ -586,6 +627,21 @@
                 <button onclick="adminVerifyKyc(${u.id})" class="px-3 py-1 text-[10px] font-bold bg-emerald-600 text-white rounded-lg">Verify Permanently</button>
                 <button onclick="adminRejectKyc(${u.id})" class="px-3 py-1 text-[10px] font-bold bg-red-600 text-white rounded-lg">Reject</button>
               </div>
+            </div>
+          `;
+        });
+      }
+
+      if (admTasksList) {
+        admTasksList.innerHTML = '';
+        state.tasks.forEach(t => {
+          admTasksList.innerHTML += `
+            <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 text-[11px] flex justify-between items-center">
+              <div>
+                <h4 class="font-bold text-purple-200">${t.title}</h4>
+                <p class="text-[10px] text-amber-300">Reward: $${t.reward.toFixed(2)} | Link: ${t.link || 'None'}</p>
+              </div>
+              ${!t.isKycTask ? `<button onclick="adminDeleteTask(${t.id})" class="px-2.5 py-1 text-[10px] font-bold bg-red-600 text-white rounded-lg">Delete</button>` : '<span class="text-[9px] text-emerald-400 font-bold">System Task</span>'}
             </div>
           `;
         });
@@ -618,9 +674,10 @@
       if (!state.currentUser) return;
 
       document.getElementById('homeDisplayBalance').innerText = '$' + state.balance.toFixed(2);
+      document.getElementById('homeDailyYieldDisplay').innerText = '$' + state.dailyYield.toFixed(2) + ' / day';
+      document.getElementById('homeTotalEarnDisplay').innerText = '$' + (state.balance * 1.5).toFixed(2);
       document.getElementById('profileUsernameDisplay').innerText = state.currentUser.username;
 
-      // SYNC REGISTERED USER & CURRENT USER KYC STATUS
       const regMatch = state.registeredUsers.find(u => u.email === state.currentUser.email || u.id === state.currentUser.id);
       const currentKycStatus = regMatch ? regMatch.kycStatus : (state.currentUser.kycStatus || 'Unverified');
       const isVer = currentKycStatus === 'Verified';
@@ -631,13 +688,21 @@
         kycBadge.innerText = currentKycStatus.toUpperCase() + (isVer ? ' KYC ✓' : ' KYC');
       }
 
+      // Check if user task for KYC is completed
+      const kycTask = state.tasks.find(t => t.isKycTask);
+      if (kycTask) {
+        if (isVer) {
+          kycTask.done = true;
+        }
+      }
+
       const tasksListContainer = document.getElementById('tasksListContainer');
       if (tasksListContainer) {
         tasksListContainer.innerHTML = '';
         state.tasks.forEach(t => {
           tasksListContainer.innerHTML += `
-            <div class="glass-card p-3 rounded-2xl flex items-center justify-between border border-emerald-800/30 gap-2">
-              <div class="flex items-center space-x-2.5">
+            <div class="glass-card p-3.5 rounded-2xl flex items-center justify-between border border-emerald-800/30 gap-2">
+              <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-300 text-sm">
                   <i class="fa-solid ${t.icon || 'fa-bullhorn'}"></i>
                 </div>
@@ -647,7 +712,7 @@
                 </div>
               </div>
               <button onclick="startTaskVerification(${t.id})" class="px-3 py-1.5 text-xs font-bold rounded-lg ${t.done ? 'bg-emerald-950 text-emerald-400 border border-emerald-800 cursor-not-allowed' : 'bg-amber-500 text-black'}" ${t.done ? 'disabled' : ''}>
-                ${t.done ? 'Claimed ✓' : 'Complete & Claim'}
+                ${t.done ? 'Claimed ✓' : (t.isKycTask ? 'Verify KYC' : 'Complete')}
               </button>
             </div>
           `;
@@ -801,6 +866,16 @@
             </div>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Active Protocol</span>
           </div>
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-emerald-800/40">
+            <div>
+              <p class="text-[9px] text-emerald-400 font-bold uppercase">Daily Earning</p>
+              <p id="homeDailyYieldDisplay" class="text-sm font-extrabold text-emerald-200">$18.75 / day</p>
+            </div>
+            <div>
+              <p class="text-[9px] text-emerald-400 font-bold uppercase">Total Earning Projection</p>
+              <p id="homeTotalEarnDisplay" class="text-sm font-extrabold text-amber-300">$1,875.00</p>
+            </div>
+          </div>
         </div>
 
         <div>
@@ -819,13 +894,13 @@
           <h2 class="text-sm font-bold text-emerald-100">Green Asset Catalog</h2>
           <p class="text-[11px] text-emerald-400/70">Select project category & choose duration plan</p>
         </div>
-        <div id="investCatalogList" class="space-y-2.5"></div>
+        <div id="investCatalogList" class="space-y-3"></div>
       </section>
 
       <section id="tab-tasks" class="space-y-3 hidden">
-        <div class="glass-card p-3 rounded-2xl bg-gradient-to-r from-emerald-950/60 to-emerald-900/30">
-          <h2 class="text-sm font-bold text-amber-200">Daily Gift Center</h2>
-          <p class="text-[10px] text-emerald-300/80">Complete verified tasks to receive instant wallet bonuses!</p>
+        <div class="glass-card p-3.5 rounded-2xl bg-gradient-to-r from-emerald-950/60 to-emerald-900/30 border border-emerald-500/30">
+          <h2 class="text-sm font-bold text-amber-200">Daily Gift & Bonus Center</h2>
+          <p class="text-[10px] text-emerald-300/80">Verify your profile for a $20 bonus or complete social tasks!</p>
         </div>
         <div id="tasksListContainer" class="space-y-2.5"></div>
       </section>
@@ -916,7 +991,7 @@
               </div>
             </div>
 
-            <button onclick="submitKycProfileForm()" class="w-full py-2 text-xs font-bold btn-emerald mt-2">Submit KYC & Legal Information</button>
+            <button onclick="submitKycProfileForm()" class="w-full py-2 text-xs font-bold btn-emerald mt-2">Submit KYC & Get $20 Bonus</button>
           </div>
 
           <div class="p-3 bg-black/50 rounded-xl border border-emerald-800/50 space-y-2.5">
@@ -939,6 +1014,7 @@
             <button onclick="switchAdminSubTab('users')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-purple-700 text-white whitespace-nowrap">Balances</button>
             <button onclick="switchAdminSubTab('kyc')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">KYC Verify</button>
             <button onclick="switchAdminSubTab('news')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">News & Events</button>
+            <button onclick="switchAdminSubTab('tasks')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">Tasks</button>
             <button onclick="switchAdminSubTab('support')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">Support Chat</button>
           </div>
 
@@ -960,10 +1036,20 @@
             <h3 class="text-xs font-bold text-purple-200">Publish News & Events</h3>
             <input id="admNewsHeadline" type="text" placeholder="News Headline" class="w-full p-2 text-xs rounded-lg mb-2">
             <textarea id="admNewsText" rows="2" placeholder="News Content" class="w-full p-2 text-xs rounded-lg mb-2"></textarea>
+            <input id="admNewsImgUrl" type="text" placeholder="Banner Image URL (optional)" class="w-full p-2 text-xs rounded-lg mb-2">
             <button onclick="adminPublishNews()" class="w-full py-2 text-xs font-bold btn-emerald mb-3">Publish News</button>
             <input id="admEventTitle" type="text" placeholder="Event Title" class="w-full p-2 text-xs rounded-lg mb-2">
             <input id="admEventDate" type="text" placeholder="Event Date" class="w-full p-2 text-xs rounded-lg mb-2">
             <button onclick="adminCreateEvent()" class="w-full py-2 text-xs font-bold btn-emerald">Publish Event</button>
+          </div>
+
+          <div id="adm-sub-tasks" class="space-y-2.5 mt-2 hidden">
+            <h3 class="text-xs font-bold text-purple-200">Add New Task</h3>
+            <input id="admTaskTitle" type="text" placeholder="Task Title" class="w-full p-2 text-xs rounded-lg mb-2">
+            <input id="admTaskReward" type="number" placeholder="Reward Amount ($)" class="w-full p-2 text-xs rounded-lg mb-2">
+            <input id="admTaskLink" type="text" placeholder="Redirect Link URL" class="w-full p-2 text-xs rounded-lg mb-2">
+            <button onclick="adminAddTask()" class="w-full py-2 text-xs font-bold btn-emerald mb-3">Add Task</button>
+            <div id="adminTasksManagerList" class="space-y-2 max-h-40 overflow-y-auto no-scrollbar"></div>
           </div>
 
           <div id="adm-sub-support" class="space-y-2.5 mt-2 hidden">
