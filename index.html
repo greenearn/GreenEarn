@@ -1,790 +1,622 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GREENEARN - Eco-Luxury Investment Protocol</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Confetti Particle FX -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- FontAwesome Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            bg: '#040d08',
-                            card: '#0a1d12',
-                            panel: '#0c2316',
-                            border: '#153e26',
-                            primary: '#10b981',
-                            accent: '#34d399',
-                            gold: '#fbbf24',
-                            purple: '#a855f7'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #020805; color: #e2f1e8; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
-        .glass-panel { background: rgba(10, 29, 18, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(21, 62, 38, 0.8); }
-        .glass-panel-glow { background: rgba(12, 35, 22, 0.9); backdrop-filter: blur(20px); border: 1px solid rgba(52, 211, 153, 0.4); box-shadow: 0 0 25px rgba(16, 185, 129, 0.2); }
-        .btn-emerald { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-weight: 700; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-        .btn-emerald:hover { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45); transform: translateY(-1px); }
-        .btn-purple { background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); color: #ffffff; font-weight: 700; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35); }
-        .btn-purple:hover { background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5); }
-        .text-gradient-emerald { background: linear-gradient(135deg, #6ee7b7 0%, #10b981 50%, #059669 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .text-gradient-purple { background: linear-gradient(135deg, #e9d5ff 0%, #c084fc 50%, #a855f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        input, select, textarea { background: rgba(4, 13, 8, 0.9) !important; border: 1px solid rgba(21, 62, 38, 0.9) !important; color: #ecfdf5 !important; outline: none !important; }
-        input:focus, select:focus, textarea:focus { border-color: #10b981 !important; box-shadow: 0 0 12px rgba(16, 185, 129, 0.3) !important; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GREENEARN - Eco-Luxury Investment & Mining Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #040d08; color: #e2f1e8; margin: 0; padding: 0; min-height: 100vh; }
+    .glass-card { background: rgba(12, 31, 20, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(34, 197, 94, 0.2); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+    .glass-card-glow { background: rgba(12, 35, 22, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(52, 211, 153, 0.35); box-shadow: 0 0 25px rgba(16, 185, 129, 0.2); }
+    .btn-emerald { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-weight: 700; transition: all 0.25s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-emerald:hover { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45); }
+    .text-gradient-emerald { background: linear-gradient(135deg, #6ee7b7 0%, #10b981 50%, #059669 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    input, select, textarea { background: rgba(6, 22, 14, 0.9) !important; border: 1px solid rgba(34, 197, 94, 0.3) !important; color: #ecfdf5 !important; outline: none !important; }
+  </style>
 </head>
 <body class="flex justify-center bg-black min-h-screen">
 
-    <!-- Mobile App Container -->
-    <div class="w-full max-w-md bg-brand-bg min-h-screen flex flex-col justify-between relative pb-20 shadow-2xl border-x border-brand-border">
+  <div class="w-full max-w-md bg-[#040d08] min-h-screen flex flex-col justify-between relative pb-20 shadow-2xl border-x border-emerald-900/30">
 
-        <!-- Top Header Navigation Bar with Admin Controls -->
-        <header class="sticky top-0 z-40 bg-brand-bg/95 backdrop-blur-md px-3.5 py-3 border-b border-brand-border space-y-2">
-            <!-- Top Branding & Profile Info -->
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-accent to-brand-primary flex items-center justify-center text-slate-950 font-black shadow-md shadow-brand-accent/20">
-                        <i class="fa-solid fa-leaf text-base"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-black text-sm tracking-tight text-gradient-emerald leading-none">GREENEARN</h1>
-                        <span id="headerRoleBadge" class="text-[9px] text-brand-primary font-bold flex items-center gap-1 mt-0.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-primary animate-pulse"></span>
-                            <span id="userRoleText">Standard User</span>
-                        </span>
-                    </div>
-                </div>
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 bg-[#040d08]/90 backdrop-blur-md px-3 py-2.5 border-b border-emerald-900/30 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-900/50">
+          <i class="fa-solid fa-leaf text-black text-sm"></i>
+        </div>
+        <div>
+          <h1 class="text-base font-extrabold tracking-wider text-gradient-emerald leading-tight">GREENEARN</h1>
+          <p id="userRoleBadge" class="text-[9px] text-emerald-400/80 font-mono">MAIN_ADMIN</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center space-x-1.5">
+        <button onclick="switchTab('profile')" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-900/40 text-emerald-300 border border-emerald-700/50 flex items-center gap-1">
+          <i class="fa-solid fa-user text-[10px]"></i> Account
+        </button>
+        <button onclick="switchTab('admin')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-purple-600/30 text-purple-300 border border-purple-500/50 flex items-center gap-1 shadow-md shadow-purple-900/30">
+          <i class="fa-solid fa-crown text-[10px] text-amber-300"></i> ADMIN
+        </button>
+      </div>
+    </header>
 
-                <div class="flex items-center space-x-2">
-                    <button onclick="openAuthModal()" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-brand-panel text-brand-accent border border-brand-border hover:bg-brand-card">
-                        <i class="fa-solid fa-user-check mr-1"></i> Account
-                    </button>
-                    <button onclick="switchTab('admin')" class="px-3 py-1 text-xs font-black rounded-lg btn-purple flex items-center space-x-1">
-                        <i class="fa-solid fa-crown text-[10px]"></i>
-                        <span>ADMIN</span>
-                    </button>
-                </div>
+    <!-- Main Views Container -->
+    <main class="flex-1 p-3.5 space-y-4 overflow-y-auto">
+
+      <!-- 1. HOME TAB -->
+      <section id="tab-home" class="space-y-3.5">
+        <div class="glass-card-glow rounded-2xl p-4 relative overflow-hidden">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-[10px] uppercase tracking-wider text-emerald-400/80 font-semibold">Total Portfolio Balance</p>
+              <h2 id="userDisplayBalance" class="text-2xl font-extrabold text-white mt-0.5">$1,250.00</h2>
             </div>
-
-            <!-- Top Horizontal Quick Tab Selector (Matching Reference Header Layout) -->
-            <div class="flex items-center space-x-1 overflow-x-auto hide-scrollbar pt-1 text-[11px] font-bold text-slate-300">
-                <button onclick="switchTab('home')" class="top-nav-btn px-3 py-1 rounded-lg bg-brand-panel border border-brand-border whitespace-nowrap" data-tab="home">Home</button>
-                <button onclick="switchTab('invest')" class="top-nav-btn px-3 py-1 rounded-lg bg-brand-panel border border-brand-border whitespace-nowrap" data-tab="invest">Invest</button>
-                <button onclick="switchTab('tasks')" class="top-nav-btn px-3 py-1 rounded-lg bg-brand-panel border border-brand-border whitespace-nowrap" data-tab="tasks">Tasks</button>
-                <button onclick="switchTab('refer')" class="top-nav-btn px-3 py-1 rounded-lg bg-brand-panel border border-brand-border whitespace-nowrap" data-tab="refer">Refer & VIP</button>
-                <button onclick="switchTab('wallet')" class="top-nav-btn px-3 py-1 rounded-lg bg-brand-panel border border-brand-border whitespace-nowrap" data-tab="wallet">Wallet</button>
-                <button onclick="switchTab('profile')" class="top-nav-btn px-3 py-1 rounded-lg bg-brand-panel border border-brand-border whitespace-nowrap" data-tab="profile">Profile</button>
-                <button onclick="switchTab('admin')" class="top-nav-btn px-3 py-1 rounded-lg bg-purple-900/40 text-purple-300 border border-purple-500/50 font-black whitespace-nowrap" data-tab="admin">ADMIN</button>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              Active Yield
+            </span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-emerald-800/40">
+            <div>
+              <p class="text-[10px] text-emerald-400/70">Daily Yield Rate</p>
+              <p id="userDailyYield" class="text-xs font-bold text-emerald-300">+$18.75 / day</p>
             </div>
-        </header>
-
-        <!-- Main View Router Container -->
-        <main class="flex-1 p-4 space-y-4 overflow-y-auto">
-
-            <!-- ==================== 1. HOME TAB ==================== -->
-            <section id="tab-home" class="space-y-4">
-                <!-- Portfolio Balance Summary -->
-                <div class="glass-panel-glow rounded-3xl p-5 relative overflow-hidden">
-                    <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-brand-primary/10 rounded-full blur-3xl pointer-events-none"></div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-[11px] uppercase tracking-wider text-slate-400 font-bold">Total Portfolio Balance</p>
-                            <h2 id="homeDisplayBalance" class="text-3xl font-black text-white mt-1">$1,000.00</h2>
-                        </div>
-                        <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-brand-primary/20 text-brand-primary border border-brand-primary/30 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-primary animate-ping"></span> Active Protocol
-                        </span>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-brand-border">
-                        <div>
-                            <p class="text-[10px] text-slate-400 font-medium">Daily Active Yield</p>
-                            <p id="homeDailyEarnings" class="text-xs font-bold text-brand-primary">+$15.00 / day</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] text-slate-400 font-medium">Total Profit Claimed</p>
-                            <p id="homeTotalProfit" class="text-xs font-bold text-amber-400">+$250.00</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Daily Login Reward Card -->
-                <div class="glass-panel p-4 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-950/30 via-brand-card to-emerald-950/40 flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-11 h-11 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-xl font-bold shadow-lg">
-                            <i class="fa-solid fa-calendar-check"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-extrabold text-xs text-white">Daily Login Bonus</h3>
-                            <p class="text-[10px] text-amber-300/80 font-medium">Claim free daily reward</p>
-                        </div>
-                    </div>
-                    <button id="dailyClaimBtn" onclick="claimDailyLoginBonus()" class="px-3.5 py-2 rounded-xl text-xs font-black bg-amber-500 text-slate-950 hover:bg-amber-400 shadow-lg shadow-amber-500/20 transition">
-                        Claim +$<span id="dailyBonusVal">5.00</span>
-                    </button>
-                </div>
-
-                <!-- Quick Action Gateways -->
-                <div class="grid grid-cols-3 gap-2">
-                    <button onclick="switchTab('wallet')" class="glass-panel p-3 rounded-2xl flex flex-col items-center justify-center hover:bg-brand-card transition">
-                        <i class="fa-solid fa-wallet text-brand-primary text-base mb-1"></i>
-                        <span class="text-[11px] font-bold text-slate-200">Deposit</span>
-                    </button>
-                    <button onclick="switchTab('invest')" class="glass-panel p-3 rounded-2xl flex flex-col items-center justify-center hover:bg-brand-card transition">
-                        <i class="fa-solid fa-chart-line text-brand-primary text-base mb-1"></i>
-                        <span class="text-[11px] font-bold text-slate-200">Invest</span>
-                    </button>
-                    <button onclick="switchTab('tasks')" class="glass-panel p-3 rounded-2xl flex flex-col items-center justify-center hover:bg-brand-card transition">
-                        <i class="fa-solid fa-gift text-amber-400 text-base mb-1"></i>
-                        <span class="text-[11px] font-bold text-amber-200">Gifts</span>
-                    </button>
-                </div>
-
-                <!-- Protocol Events & News Feed -->
-                <div class="space-y-2">
-                    <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                        <i class="fa-solid fa-bullhorn text-brand-primary"></i> Protocol News & Events
-                    </h3>
-                    <div id="homeNewsFeed" class="space-y-3">
-                        <!-- Dynamic News Rendered Here -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- ==================== 2. INVEST TAB ==================== -->
-            <section id="tab-invest" class="space-y-4 hidden">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="font-black text-sm text-white">Green Asset Catalog</h2>
-                        <p class="text-[10px] text-slate-400">Select project category & choose duration plan</p>
-                    </div>
-                </div>
-
-                <!-- Category Filters -->
-                <div class="flex space-x-1.5 overflow-x-auto hide-scrollbar pb-1 text-xs">
-                    <button onclick="filterInvestCategory('all')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-primary text-slate-950 whitespace-nowrap" data-cat="all">All</button>
-                    <button onclick="filterInvestCategory('Solar Power')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-cat="Solar Power">Solar Power</button>
-                    <button onclick="filterInvestCategory('EV Charging')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-cat="EV Charging">EV Charging</button>
-                    <button onclick="filterInvestCategory('Crypto Mining')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-cat="Crypto Mining">Crypto Mining</button>
-                    <button onclick="filterInvestCategory('AI Platforms')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-cat="AI Platforms">AI Platforms</button>
-                    <button onclick="filterInvestCategory('EV Cars')" class="cat-tab-btn px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-cat="EV Cars">EV Cars</button>
-                </div>
-
-                <!-- Catalog Items -->
-                <div id="investCatalogContainer" class="space-y-3">
-                    <!-- Dynamic Assets Rendered Here -->
-                </div>
-            </section>
-
-            <!-- ==================== 3. TASKS TAB ==================== -->
-            <section id="tab-tasks" class="space-y-4 hidden">
-                <div class="glass-panel p-4 rounded-3xl border border-amber-500/40 bg-gradient-to-r from-amber-950/40 to-emerald-950/60 relative overflow-hidden">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 text-2xl shadow-lg">
-                            🎁
-                        </div>
-                        <div>
-                            <h2 class="text-sm font-black text-amber-200">Daily Task & Gift Center</h2>
-                            <p class="text-[10px] text-amber-300/80 font-medium">Complete daily actions to claim wallet bonuses.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tasksListContainer" class="space-y-3">
-                    <!-- Tasks List Rendered Here -->
-                </div>
-            </section>
-
-            <!-- ==================== 4. REFERRAL & VIP TAB ==================== -->
-            <section id="tab-refer" class="space-y-4 hidden">
-                <div class="glass-panel p-5 rounded-3xl text-center space-y-3">
-                    <div class="w-14 h-14 mx-auto rounded-2xl bg-brand-primary/20 border border-brand-primary/40 flex items-center justify-center text-brand-primary text-2xl shadow-lg">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-base font-black text-white">Invite Friends & Earn 10%</h2>
-                        <p class="text-[11px] text-slate-400 mt-0.5">Receive an instant 10% cash bonus for every referral deposit.</p>
-                    </div>
-
-                    <div class="p-3 bg-brand-bg rounded-xl border border-brand-border flex items-center justify-between">
-                        <span id="referralLinkText" class="text-xs font-mono text-brand-primary truncate mr-2">https://t.me/GreenEarnBot?start=ref102</span>
-                        <button onclick="copyReferralLink()" class="px-3 py-1.5 rounded-lg text-xs font-bold btn-emerald whitespace-nowrap">Copy Link</button>
-                    </div>
-                </div>
-
-                <!-- VIP Level Tracker -->
-                <div class="glass-panel p-4 rounded-2xl space-y-3">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h3 id="currentVipTierTitle" class="font-bold text-xs text-amber-400 flex items-center gap-1.5">
-                                <i class="fa-solid fa-crown"></i> VIP Level 1 Investor
-                            </h3>
-                            <p class="text-[10px] text-slate-400">Higher VIP tiers unlock increased bonus commissions.</p>
-                        </div>
-                        <span id="userVipTag" class="text-xs font-black text-white">VIP 1</span>
-                    </div>
-
-                    <div class="w-full h-2 rounded-full bg-brand-bg overflow-hidden border border-brand-border">
-                        <div class="h-full bg-gradient-to-r from-amber-500 to-brand-primary rounded-full w-1/5"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ==================== 5. WALLET TAB ==================== -->
-            <section id="tab-wallet" class="space-y-4 hidden">
-                <div class="glass-panel p-5 rounded-3xl space-y-4">
-                    <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                        <i class="fa-solid fa-wallet text-brand-primary"></i> Wallet & Transaction Center
-                    </h2>
-
-                    <div class="grid grid-cols-2 gap-2 p-1 bg-brand-bg rounded-xl border border-brand-border">
-                        <button id="tabWalletDeposit" onclick="switchWalletSubTab('deposit')" class="py-2 text-xs font-bold rounded-lg bg-brand-primary text-slate-950">Deposit</button>
-                        <button id="tabWalletWithdraw" onclick="switchWalletSubTab('withdraw')" class="py-2 text-xs font-bold rounded-lg text-slate-400">Withdraw</button>
-                    </div>
-
-                    <!-- Deposit Section -->
-                    <div id="walletSecDeposit" class="space-y-3">
-                        <p class="text-[11px] text-slate-400">Send USDT via TRC-20 network to your platform deposit address below:</p>
-                        <div class="p-3 bg-brand-bg rounded-xl border border-brand-border flex items-center justify-between">
-                            <span class="text-xs font-mono text-brand-primary truncate mr-2">T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB</span>
-                            <button onclick="navigator.clipboard.writeText('T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB'); alert('Address Copied!')" class="px-2 py-1 text-[10px] font-bold bg-brand-card text-slate-200 border border-brand-border rounded">Copy</button>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Deposit Amount ($)</label>
-                            <input type="number" id="depositAmtInput" placeholder="100.00" class="w-full p-2.5 rounded-xl text-xs font-bold">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Upload Payment Proof Screenshot</label>
-                            <input type="file" id="depositProofFile" accept="image/*" onchange="handleProofPreview(this)" class="w-full p-2 rounded-xl text-xs">
-                            <img id="depositProofPreview" class="w-full h-28 object-cover rounded-xl mt-2 hidden border border-brand-border">
-                        </div>
-                        <button onclick="submitDepositRequest()" class="w-full py-2.5 rounded-xl text-xs font-black btn-emerald">
-                            Submit Deposit Verification
-                        </button>
-                    </div>
-
-                    <!-- Withdraw Section -->
-                    <div id="walletSecWithdraw" class="space-y-3 hidden">
-                        <div>
-                            <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Withdrawal Amount ($)</label>
-                            <input type="number" id="withdrawAmtInput" placeholder="Enter USD amount" class="w-full p-2.5 rounded-xl text-xs font-bold">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Payout USDT Address (TRC-20)</label>
-                            <input type="text" id="withdrawAddressInput" placeholder="Paste TRC-20 address" class="w-full p-2.5 rounded-xl text-xs">
-                        </div>
-                        <button onclick="submitWithdrawalRequest()" class="w-full py-2.5 rounded-xl text-xs font-black btn-emerald">
-                            Request Withdrawal
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Active Ledger -->
-                <div class="glass-panel p-4 rounded-2xl space-y-3">
-                    <h3 class="font-bold text-xs text-white flex items-center gap-1.5">
-                        <i class="fa-solid fa-clock-rotate-left text-brand-primary"></i> Investment History & Active Positions
-                    </h3>
-                    <div id="activeInvestmentsHistory" class="space-y-2">
-                        <!-- Dynamic Ledger Records -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- ==================== 6. PROFILE TAB ==================== -->
-            <section id="tab-profile" class="space-y-4 hidden">
-                <div class="glass-panel p-5 rounded-3xl space-y-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 rounded-2xl bg-brand-primary/20 border border-brand-primary/40 flex items-center justify-center text-brand-primary text-xl font-bold">
-                            👤
-                        </div>
-                        <div>
-                            <h2 id="profileUsernameDisplay" class="font-black text-sm text-white">Demo User</h2>
-                            <p id="profileAccountRoleBadge" class="text-[10px] text-brand-primary font-bold">Standard User Account</p>
-                        </div>
-                    </div>
-
-                    <div class="p-3.5 bg-brand-bg rounded-2xl border border-brand-border space-y-2.5">
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="text-slate-400 font-semibold">KYC Verification Status:</span>
-                            <span id="kycBadgeStatus" class="font-extrabold text-amber-400 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">Unverified</span>
-                        </div>
-                        <div class="space-y-2 pt-1 border-t border-brand-border">
-                            <label class="block text-[10px] text-slate-400 font-semibold">Upload ID / Passport Document</label>
-                            <input type="file" id="kycDocFileInput" accept="image/*" class="w-full p-2 rounded-xl text-xs">
-                            <button onclick="submitKycVerification()" class="w-full py-2 rounded-xl text-xs font-bold bg-brand-card text-brand-primary border border-brand-border hover:bg-brand-bg">
-                                Submit Identity Documents
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ==================== 7. ADMIN TAB (INTEGRATED FULL VIEW) ==================== -->
-            <section id="tab-admin" class="space-y-4 hidden">
-                <div class="glass-panel-glow p-4 rounded-3xl border border-purple-500/40 bg-gradient-to-r from-purple-950/40 via-brand-card to-emerald-950/40 space-y-2">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-2">
-                            <div class="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 text-lg font-black">
-                                👑
-                            </div>
-                            <div>
-                                <h2 class="text-sm font-black text-white">ADMIN CONTROL PANEL</h2>
-                                <p id="adminRoleSubTag" class="text-[10px] text-purple-300 font-mono">Role: MAIN ADMIN (Full Unrestricted Access)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Admin Subtab Router Bar -->
-                <div class="flex space-x-1 overflow-x-auto hide-scrollbar pb-1 text-xs">
-                    <button onclick="switchAdminSubTab('global')" class="admin-sub-tab px-3 py-1.5 rounded-xl font-bold bg-purple-600 text-white whitespace-nowrap" data-sub="global">⚡ Global Result</button>
-                    <button onclick="switchAdminSubTab('users')" class="admin-sub-tab px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-sub="users">👥 User Balances</button>
-                    <button onclick="switchAdminSubTab('deposits')" class="admin-sub-tab px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-sub="deposits">💳 Deposits/Withdrawals</button>
-                    <button onclick="switchAdminSubTab('companies')" class="admin-sub-tab px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-sub="companies">🏢 Edit Companies</button>
-                    <button onclick="switchAdminSubTab('roles')" class="admin-sub-tab px-3 py-1.5 rounded-xl font-bold bg-brand-card text-slate-400 border border-brand-border whitespace-nowrap" data-sub="roles">🛡️ Manage Roles</button>
-                </div>
-
-                <!-- Admin Subtab Content Views -->
-                
-                <!-- 1. Global Result Control -->
-                <div id="admin-sub-global" class="admin-sub-sec space-y-3">
-                    <div class="glass-panel p-4 rounded-2xl space-y-3">
-                        <h3 class="font-bold text-xs text-purple-300 uppercase">Global Platform Result Setting</h3>
-                        <p class="text-[10px] text-slate-400">Overrides output logic and returns for every player on the protocol.</p>
-                        <select id="adminGlobalSettingSelect" class="w-full p-2.5 rounded-xl text-xs font-bold">
-                            <option value="normal">Normal (Standard Yield Dynamics)</option>
-                            <option value="always_win">Always Win (Boosted Yield Output)</option>
-                            <option value="high_boost">High Yield Boost (+50% Bonus Profit)</option>
-                            <option value="maintenance">Maintenance Mode (Lock Withdrawals)</option>
-                        </select>
-                        <button onclick="applyGlobalAdminSetting()" class="w-full py-2.5 rounded-xl text-xs font-black bg-brand-primary text-slate-950">
-                            OK - Apply Global Setting
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 2. User Balances & VIP Editor -->
-                <div id="admin-sub-users" class="admin-sub-sec space-y-3 hidden">
-                    <div class="glass-panel p-4 rounded-2xl space-y-3">
-                        <h3 class="font-bold text-xs text-brand-primary uppercase">User Balance & VIP Modifier</h3>
-                        <input type="text" id="adminUserSearchInput" placeholder="Target Username (e.g. Demo User)" class="w-full p-2.5 rounded-xl text-xs font-bold">
-                        <div>
-                            <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Set New Wallet Balance ($)</label>
-                            <input type="number" id="adminUserNewBalance" placeholder="1000.00" class="w-full p-2.5 rounded-xl text-xs font-bold">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Set VIP Tier Level</label>
-                            <select id="adminUserVipSelect" class="w-full p-2.5 rounded-xl text-xs font-bold">
-                                <option value="1">VIP Level 1</option>
-                                <option value="2">VIP Level 2</option>
-                                <option value="3">VIP Level 3</option>
-                                <option value="4">VIP Level 4</option>
-                                <option value="5">VIP Level 5</option>
-                            </select>
-                        </div>
-                        <button onclick="adminApplyUserBalanceAndVip()" class="w-full py-2.5 rounded-xl text-xs font-black btn-emerald">
-                            Update User Account
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 3. Deposits & Withdrawals Reviewer -->
-                <div id="admin-sub-deposits" class="admin-sub-sec space-y-3 hidden">
-                    <div class="glass-panel p-4 rounded-2xl space-y-3">
-                        <h3 class="font-bold text-xs text-amber-400 uppercase">Pending Deposits & Proof Verification</h3>
-                        <div id="adminPendingDepositsList" class="space-y-2">
-                            <!-- Dynamic Deposit Review Cards -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. Companies & Asset Editor -->
-                <div id="admin-sub-companies" class="admin-sub-sec space-y-3 hidden">
-                    <div class="glass-panel p-4 rounded-2xl space-y-3">
-                        <h3 class="font-bold text-xs text-brand-primary uppercase">Asset Content & Image Editor</h3>
-                        <select id="adminSelectAsset" onchange="loadAssetAdminData(this.value)" class="w-full p-2.5 rounded-xl text-xs font-bold">
-                            <!-- Populated Dynamically -->
-                        </select>
-                        <textarea id="adminAssetDesc" rows="2" placeholder="Company Description" class="w-full p-2.5 rounded-xl text-xs"></textarea>
-                        <textarea id="adminAssetWhy" rows="2" placeholder="Why Invest Rationale" class="w-full p-2.5 rounded-xl text-xs"></textarea>
-                        <input type="text" id="adminAssetImg" placeholder="Banner Image URL" class="w-full p-2.5 rounded-xl text-xs">
-                        <button onclick="saveAssetAdminData()" class="w-full py-2.5 rounded-xl text-xs font-black btn-emerald">
-                            Save Asset Details
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 5. Sub-Admin Role & Permissions Manager -->
-                <div id="admin-sub-roles" class="admin-sub-sec space-y-3 hidden">
-                    <div class="glass-panel p-4 rounded-2xl space-y-3">
-                        <h3 class="font-bold text-xs text-purple-300 uppercase">Create Sub-Admin & Delegate Rights</h3>
-                        <input type="text" id="adminRoleUsername" placeholder="New Sub-Admin Username" class="w-full p-2.5 rounded-xl text-xs">
-                        <input type="password" id="adminRolePassword" placeholder="Password" class="w-full p-2.5 rounded-xl text-xs">
-                        <select id="adminRoleTypeSelect" class="w-full p-2.5 rounded-xl text-xs font-bold">
-                            <option value="co_admin">👑 Equal Co-Admin (Full Rights)</option>
-                            <option value="sub_admin">🛡️ Custom Sub-Admin (Granular Rights)</option>
-                        </select>
-                        <div class="space-y-1.5 text-xs text-slate-300 pt-1">
-                            <p class="font-bold text-brand-accent text-[11px]">Granular Permissions:</p>
-                            <label class="flex items-center space-x-2"><input type="checkbox" id="permBalances" checked> <span>Edit Balances</span></label>
-                            <label class="flex items-center space-x-2"><input type="checkbox" id="permCompanies" checked> <span>Edit Companies</span></label>
-                            <label class="flex items-center space-x-2"><input type="checkbox" id="permDeposits" checked> <span>Approve Deposits</span></label>
-                        </div>
-                        <button onclick="createNewSubAdminRole()" class="w-full py-2.5 rounded-xl text-xs font-black btn-purple">
-                            Create Administrative User
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- MODAL: INVESTMENT CONFIRMATION -->
-        <div id="investConfirmModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
-            <div class="glass-panel-glow w-full max-w-sm rounded-3xl p-5 space-y-4 relative">
-                <button onclick="closeInvestModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-                <div class="flex items-center space-x-3">
-                    <img id="modalAssetImg" src="" class="w-12 h-12 rounded-2xl object-cover border border-brand-border">
-                    <div>
-                        <h3 id="modalAssetTitle" class="font-black text-sm text-white">Asset Title</h3>
-                        <p id="modalAssetCategory" class="text-[10px] text-brand-primary font-bold uppercase">Category</p>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Investment Amount ($)</label>
-                    <input type="number" id="investAmountInput" value="100" oninput="calculateInvestmentReturn()" class="w-full p-2.5 rounded-xl text-xs font-extrabold">
-                </div>
-
-                <div>
-                    <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Select Lock Duration</label>
-                    <div id="durationSelectorGrid" class="grid grid-cols-3 gap-1.5 text-[10px]">
-                        <!-- Dynamic Duration Buttons -->
-                    </div>
-                </div>
-
-                <div class="p-3 bg-brand-bg rounded-2xl border border-brand-border space-y-1.5 text-xs">
-                    <div class="flex justify-between text-slate-400">
-                        <span>Return Rate:</span>
-                        <span id="summaryRateLabel" class="font-bold text-brand-primary">1.5%/day</span>
-                    </div>
-                    <div class="flex justify-between text-slate-400">
-                        <span>Estimated Total Profit:</span>
-                        <span id="summaryProfitVal" class="font-bold text-amber-400">+$1.50</span>
-                    </div>
-                    <div class="flex justify-between text-white font-black pt-1 border-t border-brand-border">
-                        <span>Total Maturity Payout:</span>
-                        <span id="summaryMaturityPayout" class="text-brand-accent">$101.50</span>
-                    </div>
-                </div>
-
-                <button onclick="executeInvestmentLock()" class="w-full py-3 rounded-xl text-xs font-black btn-emerald">
-                    CONFIRM & LOCK INVESTMENT
-                </button>
+            <div>
+              <p class="text-[10px] text-emerald-400/70">Total Profit Earned</p>
+              <p id="userTotalProfit" class="text-xs font-bold text-amber-300">+$340.50</p>
             </div>
+          </div>
         </div>
 
-        <!-- MODAL: AUTHENTICATION (SIGN IN / SIGN UP) -->
-        <div id="authModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
-            <div class="glass-panel-glow w-full max-w-sm rounded-3xl p-5 space-y-4 relative">
-                <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-                <div class="text-center">
-                    <h3 class="font-black text-base text-white">Account Switcher</h3>
-                    <p class="text-[10px] text-slate-400">Log in as User, Main Admin, or Sub-Admin</p>
-                </div>
-                <div class="space-y-3 text-xs">
-                    <input type="text" id="authUsername" placeholder="Username" class="w-full p-2.5 rounded-xl font-bold">
-                    <input type="password" id="authPassword" placeholder="Password" class="w-full p-2.5 rounded-xl">
-                    <select id="authAccountRole" class="w-full p-2.5 rounded-xl font-bold">
-                        <option value="user">Standard User</option>
-                        <option value="main_admin">Main Admin (Master Key)</option>
-                    </select>
-                    <button onclick="handleAuthSubmit()" class="w-full py-2.5 rounded-xl font-black btn-emerald">
-                        Switch Account
-                    </button>
-                </div>
+        <!-- Daily Claim Gift Card -->
+        <div class="glass-card p-3.5 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-950/30 to-emerald-950/40 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 text-lg">
+              🎁
             </div>
+            <div>
+              <h3 class="text-xs font-bold text-amber-200">Daily Check-In Gift</h3>
+              <p id="dailyBonusDisplay" class="text-[10px] text-amber-300/80">Claim +$2.50 USD bonus</p>
+            </div>
+          </div>
+          <button id="btnClaimDaily" onclick="claimDailyBonus()" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-amber-500 text-black hover:bg-amber-400">Claim</button>
         </div>
 
-        <!-- Bottom Navigation Bar (With Crown Admin Icon Matching Image) -->
-        <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-brand-bg/95 backdrop-blur-xl border-t border-brand-border py-2 px-2 flex justify-around items-center z-40">
-            <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center text-brand-primary" data-tab="home">
-                <i class="fa-solid fa-house text-base"></i>
-                <span class="text-[10px] font-bold mt-1">Home</span>
-            </button>
-            <button onclick="switchTab('invest')" class="nav-btn flex flex-col items-center text-slate-500 hover:text-brand-primary" data-tab="invest">
-                <i class="fa-solid fa-chart-pie text-base"></i>
-                <span class="text-[10px] font-bold mt-1">Invest</span>
-            </button>
-            <button onclick="switchTab('tasks')" class="nav-btn flex flex-col items-center text-slate-500 hover:text-brand-primary" data-tab="tasks">
-                <i class="fa-solid fa-list-check text-base"></i>
-                <span class="text-[10px] font-bold mt-1">Tasks</span>
-            </button>
-            <button onclick="switchTab('refer')" class="nav-btn flex flex-col items-center text-slate-500 hover:text-brand-primary" data-tab="refer">
-                <i class="fa-solid fa-users text-base"></i>
-                <span class="text-[10px] font-bold mt-1">Refer</span>
-            </button>
-            <button onclick="switchTab('wallet')" class="nav-btn flex flex-col items-center text-slate-500 hover:text-brand-primary" data-tab="wallet">
-                <i class="fa-solid fa-wallet text-base"></i>
-                <span class="text-[10px] font-bold mt-1">Wallet</span>
-            </button>
-            <button onclick="switchTab('profile')" class="nav-btn flex flex-col items-center text-slate-500 hover:text-brand-primary" data-tab="profile">
-                <i class="fa-solid fa-user text-base"></i>
-                <span class="text-[10px] font-bold mt-1">Profile</span>
-            </button>
-            <button onclick="switchTab('admin')" class="nav-btn flex flex-col items-center text-amber-400 font-bold" data-tab="admin">
-                <i class="fa-solid fa-crown text-base text-purple-400"></i>
-                <span class="text-[10px] font-black mt-1 text-purple-300">ADMIN</span>
-            </button>
-        </nav>
+        <!-- Dynamic News & Event Posts -->
+        <div>
+          <h3 class="text-xs font-bold text-emerald-200 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+            <i class="fa-solid fa-bullhorn text-emerald-400"></i> Platform News & Events
+          </h3>
+          <div id="homeNewsFeed" class="space-y-2.5"></div>
+        </div>
+      </section>
 
+      <!-- 2. INVEST TAB -->
+      <section id="tab-invest" class="space-y-3.5 hidden">
+        <div>
+          <h2 class="text-sm font-bold text-emerald-100">Green Asset Catalog</h2>
+          <p class="text-[11px] text-emerald-400/70">Select project category & choose duration plan</p>
+        </div>
+
+        <!-- Category Selector -->
+        <div class="flex space-x-1.5 overflow-x-auto no-scrollbar py-1">
+          <button onclick="filterCategory('All')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-500 text-black whitespace-nowrap" data-cat="All">All</button>
+          <button onclick="filterCategory('Solar Power')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap" data-cat="Solar Power">Solar Power</button>
+          <button onclick="filterCategory('EV Charging')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap" data-cat="EV Charging">EV Charging</button>
+          <button onclick="filterCategory('Crypto Mining')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap" data-cat="Crypto Mining">Crypto Mining</button>
+          <button onclick="filterCategory('AI Platforms')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap" data-cat="AI Platforms">AI Platforms</button>
+          <button onclick="filterCategory('EV Cars')" class="cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap" data-cat="EV Cars">EV Cars</button>
+        </div>
+
+        <!-- Asset Catalog List -->
+        <div id="investCatalogList" class="space-y-2.5"></div>
+      </section>
+
+      <!-- 3. TASKS TAB -->
+      <section id="tab-tasks" class="space-y-3 hidden">
+        <h2 class="text-sm font-bold text-amber-200">Earn Rewards & Gifts</h2>
+        <div id="tasksListContainer" class="space-y-2.5"></div>
+      </section>
+
+      <!-- 4. REFERRAL & VIP TAB -->
+      <section id="tab-refer" class="space-y-3.5 hidden">
+        <div class="glass-card p-4 rounded-2xl text-center space-y-2.5">
+          <div class="w-12 h-12 mx-auto rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 text-xl">
+            👑
+          </div>
+          <h2 class="text-sm font-bold text-emerald-100">VIP Level 1 - Referral Program</h2>
+          <p class="text-[11px] text-emerald-300/80">Earn 10% instant commission when your invited users deposit!</p>
+          <div class="bg-black/50 p-2.5 rounded-xl border border-emerald-900/50 flex items-center justify-between">
+            <span class="text-[10px] font-mono text-emerald-300">https://t.me/GreenEarnBot?start=ref9821</span>
+            <button onclick="alert('Referral link copied!')" class="px-2.5 py-1 text-[11px] font-bold rounded btn-emerald">Copy</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. WALLET TAB -->
+      <section id="tab-wallet" class="space-y-3.5 hidden">
+        <div class="glass-card p-4 rounded-2xl space-y-3">
+          <h2 class="text-sm font-bold text-emerald-100">Wallet Management</h2>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="alert('Use TRC-20 Address: T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB')" class="p-3 bg-emerald-900/30 rounded-xl border border-emerald-700/40 text-center">
+              <i class="fa-solid fa-arrow-down text-emerald-400 text-lg mb-1 block"></i>
+              <span class="text-xs font-bold text-emerald-200">Deposit</span>
+            </button>
+            <button onclick="alert('Withdrawal request opened!')" class="p-3 bg-emerald-900/30 rounded-xl border border-emerald-700/40 text-center">
+              <i class="fa-solid fa-arrow-up text-amber-400 text-lg mb-1 block"></i>
+              <span class="text-xs font-bold text-emerald-200">Withdraw</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. PROFILE TAB -->
+      <section id="tab-profile" class="space-y-3.5 hidden">
+        <div class="glass-card p-4 rounded-2xl space-y-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-emerald-600/30 border border-emerald-400/50 flex items-center justify-center text-emerald-300 font-bold">
+              👤
+            </div>
+            <div>
+              <h3 class="text-xs font-bold text-emerald-100">Administrator</h3>
+              <p class="text-[10px] text-emerald-400/70">Main Control Tier</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. ADMIN TAB (Embedded Directly in App Views) -->
+      <section id="tab-admin" class="space-y-3.5 hidden">
+        <div class="glass-card p-3.5 rounded-2xl border border-purple-500/40 bg-purple-950/20">
+          <div class="flex justify-between items-center mb-2">
+            <h2 class="text-xs font-extrabold text-purple-200 uppercase tracking-wide flex items-center gap-1.5">
+              <i class="fa-solid fa-crown text-amber-300"></i> Main Admin Control Center
+            </h2>
+            <span class="text-[9px] bg-purple-900/60 text-purple-200 px-2 py-0.5 rounded font-mono">Full Rights</span>
+          </div>
+          
+          <!-- Admin Controls Tabs -->
+          <div class="flex space-x-1 overflow-x-auto no-scrollbar border-b border-purple-900/40 pb-2">
+            <button onclick="switchAdminSubTab('users')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-purple-700 text-white whitespace-nowrap adm-sub-btn" data-sub="users">Balances</button>
+            <button onclick="switchAdminSubTab('companies')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn" data-sub="companies">Company Details</button>
+            <button onclick="switchAdminSubTab('tasks')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn" data-sub="tasks">Gifts & Bonus</button>
+            <button onclick="switchAdminSubTab('news')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn" data-sub="news">News & Events</button>
+          </div>
+
+          <!-- SubTab: Users -->
+          <div id="adm-sub-users" class="space-y-2 mt-3">
+            <label class="text-[10px] text-purple-300 font-bold block">Modify User Balance ($)</label>
+            <input id="admUserBal" type="number" placeholder="Enter new balance" class="w-full p-2 text-xs rounded-lg">
+            <button onclick="adminSaveBalance()" class="w-full py-1.5 text-xs font-bold btn-emerald">Update Balance</button>
+          </div>
+
+          <!-- SubTab: Company Details Editor -->
+          <div id="adm-sub-companies" class="space-y-2 mt-3 hidden">
+            <label class="text-[10px] text-purple-300 font-bold block">Select Company to Edit</label>
+            <select id="admCompSelect" onchange="loadAdminCompForm()" class="w-full p-2 text-xs rounded-lg"></select>
+            
+            <label class="text-[10px] text-purple-300 font-bold block">Company Overview</label>
+            <textarea id="admCompDesc" rows="2" class="w-full p-2 text-xs rounded-lg"></textarea>
+            
+            <label class="text-[10px] text-purple-300 font-bold block">Why Invest Here?</label>
+            <textarea id="admCompWhy" rows="2" class="w-full p-2 text-xs rounded-lg"></textarea>
+            
+            <label class="text-[10px] text-purple-300 font-bold block">Banner Image URL</label>
+            <input id="admCompImg" type="text" class="w-full p-2 text-xs rounded-lg">
+            
+            <button onclick="adminSaveCompData()" class="w-full py-2 text-xs font-bold btn-emerald">Save Company Details</button>
+          </div>
+
+          <!-- SubTab: Tasks -->
+          <div id="adm-sub-tasks" class="space-y-2 mt-3 hidden">
+            <label class="text-[10px] text-amber-300 font-bold block">Daily Bonus Amount ($)</label>
+            <input id="admBonusAmt" type="number" step="0.5" value="2.50" class="w-full p-2 text-xs rounded-lg">
+            <button onclick="adminSaveBonus()" class="w-full py-1.5 text-xs font-bold bg-amber-500 text-black">Save Bonus Amount</button>
+          </div>
+
+          <!-- SubTab: News -->
+          <div id="adm-sub-news" class="space-y-2 mt-3 hidden">
+            <input id="admNewsHeadline" type="text" placeholder="News Headline" class="w-full p-2 text-xs rounded-lg">
+            <textarea id="admNewsText" rows="2" placeholder="News Content" class="w-full p-2 text-xs rounded-lg"></textarea>
+            <button onclick="adminPublishNews()" class="w-full py-1.5 text-xs font-bold btn-emerald">Publish News</button>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- COMPANY DETAIL MODAL -->
+    <div id="companyDetailModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+      <div class="glass-card-glow w-full max-w-sm rounded-2xl p-4 space-y-3 relative max-h-[85vh] overflow-y-auto">
+        <button onclick="closeCompanyModal()" class="absolute top-3 right-3 text-emerald-400 text-sm">✕</button>
+        
+        <div class="flex items-center space-x-3 pt-1">
+          <div id="modalLogoBadge" class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold shadow-md"></div>
+          <div>
+            <h3 id="modalCompanyTitle" class="text-sm font-bold text-emerald-100"></h3>
+            <p id="modalCompanyType" class="text-[10px] text-emerald-400/80 font-mono"></p>
+          </div>
+        </div>
+
+        <img id="modalCompanyImg" src="" class="w-full h-32 object-cover rounded-xl border border-emerald-800/40">
+
+        <div>
+          <h4 class="text-[11px] font-bold text-emerald-300 uppercase mb-1">Company Overview</h4>
+          <p id="modalCompanyDesc" class="text-xs text-emerald-200/80 leading-relaxed bg-black/40 p-2.5 rounded-xl border border-emerald-900/50"></p>
+        </div>
+
+        <div class="p-3 bg-amber-950/30 rounded-xl border border-amber-500/30">
+          <h4 class="text-[11px] font-bold text-amber-300 uppercase mb-1">Why Invest Here?</h4>
+          <p id="modalCompanyWhy" class="text-xs text-amber-100/90 leading-relaxed"></p>
+        </div>
+
+        <button onclick="closeCompanyModal(); switchTab('invest')" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Invest Now</button>
+      </div>
     </div>
 
-    <!-- Application Script Engine -->
-    <script>
-        let selectedDurationKey = "1 Day";
-        let currentSelectedAssetId = null;
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-[#040d08]/95 backdrop-blur-xl border-t border-emerald-900/40 py-2 px-2 flex justify-around items-center z-40">
+      <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center text-emerald-400" data-tab="home"><i class="fa-solid fa-house text-sm"></i><span class="text-[9px] mt-0.5">Home</span></button>
+      <button onclick="switchTab('invest')" class="nav-btn flex flex-col items-center text-emerald-600/70" data-tab="invest"><i class="fa-solid fa-chart-pie text-sm"></i><span class="text-[9px] mt-0.5">Invest</span></button>
+      <button onclick="switchTab('tasks')" class="nav-btn flex flex-col items-center text-emerald-600/70" data-tab="tasks"><i class="fa-solid fa-list-check text-sm"></i><span class="text-[9px] mt-0.5">Tasks</span></button>
+      <button onclick="switchTab('refer')" class="nav-btn flex flex-col items-center text-emerald-600/70" data-tab="refer"><i class="fa-solid fa-users text-sm"></i><span class="text-[9px] mt-0.5">Refer</span></button>
+      <button onclick="switchTab('wallet')" class="nav-btn flex flex-col items-center text-emerald-600/70" data-tab="wallet"><i class="fa-solid fa-wallet text-sm"></i><span class="text-[9px] mt-0.5">Wallet</span></button>
+      <button onclick="switchTab('admin')" class="nav-btn flex flex-col items-center text-purple-400" data-tab="admin"><i class="fa-solid fa-crown text-sm text-amber-300"></i><span class="text-[9px] mt-0.5 font-bold">ADMIN</span></button>
+    </nav>
 
-        let appState = {
-            currentUser: { username: "Demo User", role: "main_admin", permissions: ["all"] },
-            user: {
-                balance: 1000.00,
-                dailyClaimAmount: 5.00,
-                claimedBonusToday: false,
-                vipLevel: 1,
-                kycStatus: "Unverified",
-                investments: []
-            },
-            pendingDeposits: [
-                { id: 101, username: "Demo User", amount: 250.0, date: "2026-10-29", img: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=400&q=80" }
-            ],
-            assets: [
-                { id: 'midong', name: 'MIDONG Solar Farm', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', desc: 'World class 3.5GW mega solar project.', why: 'State grid power purchase agreements.', img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80' },
-                { id: 'bhadla', name: 'Bhadla Solar Park', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', desc: 'Premier solar park in Rajasthan.', why: 'High photovoltaic solar density.', img: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=600&q=80' },
-                { id: 'huanghe', name: 'Huanghe Hydropower Hainan', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', desc: 'Hydro-solar hybrid renewable giant.', why: '24/7 balanced grid power dispatch.', img: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=600&q=80' },
-                { id: 'chpt', name: 'ChargePoint Holdings (CHPT)', category: 'EV Charging', yieldText: 'Yield: Up to 25000% return', desc: 'Leading EV charging network.', why: 'Rapid commercial fast-charger expansion.', img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80' },
-                { id: 'btcmining', name: 'Bitcoin Green Mining', category: 'Crypto Mining', yieldText: 'Yield: Up to 25000% return', desc: 'Zero-emission hydro BTC data center.', why: 'Next-gen hydro ASIC efficiency.', img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80' }
-            ],
-            tasks: [
-                { id: 1, title: 'Join GREENEARN Telegram Channel', reward: 5.0, icon: 'fa-paper-plane', done: false },
-                { id: 2, title: 'Daily Check-in Reward', reward: 2.5, icon: 'fa-gift', done: false }
-            ],
-            news: [
-                { id: 1, title: '3.5GW Midong Solar Cluster Online', body: 'The largest hydro-solar project node sync completed successfully.', img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80' }
-            ],
-            durationConfigMap: {
-                "1 Day": { days: 1, rate: 0.015, cycle: "daily", label: "1.5%/day" },
-                "15 Days": { days: 15, rate: 0.019, cycle: "daily", label: "1.9%/day" },
-                "1 Month": { days: 30, rate: 0.025, cycle: "daily", label: "2.5%/day" },
-                "6 Months": { days: 180, rate: 0.10, cycle: "15days", label: "10%/15d" },
-                "1 Year": { days: 365, rate: 0.20, cycle: "monthly", label: "20%/mo" },
-                "5 Years": { days: 1825, rate: 100.0, cycle: "lump", label: "10000% Total" },
-                "10 Years": { days: 3650, rate: 250.0, cycle: "lump", label: "25000% Total" }
-            }
-        };
+  </div>
 
-        function saveState() {
-            try { localStorage.setItem('greenearn_state_v4', JSON.stringify(appState)); } catch(e){}
+  <script>
+    let state = {
+      balance: 1250.00,
+      dailyYield: 18.75,
+      totalProfit: 340.50,
+      dailyBonus: 2.50,
+      dailyClaimed: false,
+      activeCategory: 'All',
+      companies: [
+        {
+          id: 'midong',
+          name: 'MIDONG Solar Farm',
+          category: 'Solar Power',
+          yieldText: 'Yield: Up to 25000% return',
+          icon: 'fa-sun',
+          colorBg: 'bg-amber-500/20 text-amber-400 border-amber-500/40',
+          desc: 'World-class 3.5GW mega solar energy station powering over 2 million zero-emission households.',
+          why: 'Backed by state grid PPAs with fixed 20-year yields and certified ESG carbon credits.',
+          img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          id: 'bhadla',
+          name: 'Bhadla Solar Park',
+          category: 'Solar Power',
+          yieldText: 'Yield: Up to 25000% return',
+          icon: 'fa-solar-panel',
+          colorBg: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/40',
+          desc: '14,000-acre mega solar cluster producing reliable high-photovoltaic green electricity.',
+          why: 'Ultra-high solar irradiance region delivering maximum daily megawatt returns.',
+          img: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          id: 'huanghe',
+          name: 'Huanghe Hydropower Hainan',
+          category: 'Solar Power',
+          yieldText: 'Yield: Up to 25000% return',
+          icon: 'fa-bolt',
+          colorBg: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40',
+          desc: 'Hydro-solar hybrid renewable project guaranteeing uninterrupted clean power generation.',
+          why: 'Dual energy source architecture protects against weather variance.',
+          img: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          id: 'chpt',
+          name: 'ChargePoint Holdings (CHPT)',
+          category: 'EV Charging',
+          yieldText: 'Yield: Up to 25000% return',
+          icon: 'fa-charging-station',
+          colorBg: 'bg-teal-500/20 text-teal-300 border-teal-500/40',
+          desc: 'Leading global EV charging infrastructure provider operating over 200,000 ports.',
+          why: 'Rapid EV adoption drives consistent recurring charging revenue streams.',
+          img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          id: 'blnk',
+          name: 'Blink Charging Co. (BLNK)',
+          category: 'EV Charging',
+          yieldText: 'Yield: Up to 25000% return',
+          icon: 'fa-plug-circle-bolt',
+          colorBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
+          desc: 'Next-generation fast-DC charging network deployed across strategic commercial highways.',
+          why: 'Proprietary hardware and cloud connectivity deliver premium usage margins.',
+          img: 'https://images.unsplash.com/photo-1558441719-670b357024bf?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          id: 'btcmining',
+          name: 'Bitcoin Green Mining',
+          category: 'Crypto Mining',
+          yieldText: 'Yield: Up to 25000% return',
+          icon: 'fa-bitcoin-sign',
+          colorBg: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+          desc: 'Hydroelectric zero-emission BTC mining data centers running hydro-cooled ASIC fleets.',
+          why: 'Sub-3 cent kWh energy cost yields industry-leading block reward margins.',
+          img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          id: 'sui',
+          name: 'Sui Network Validator (SUI)',
+          category: 'Crypto Mining',
+          yieldText: 'Yield: Up to 25000% return',
+          icon: 'fa-network-wired',
+          colorBg: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
+          desc: 'High-speed Object-centric Proof-of-Stake validator nodes for Sui network.',
+          why: 'High throughput transaction fee delegation yields automated daily liquid rewards.',
+          img: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          id: 'pltr',
+          name: 'Palantir Technologies (PLTR)',
+          category: 'AI Platforms',
+          yieldText: 'Yield: Up to 25000% return',
+          icon: 'fa-brain',
+          colorBg: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
+          desc: 'Enterprise AI operating system analyzing complex energy grids and defense data.',
+          why: 'Unmatched government and commercial AIP enterprise adoption contracts.',
+          img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          id: 'byd',
+          name: 'BYD Company Ltd.',
+          category: 'EV Cars',
+          yieldText: 'Yield: Up to 25000% return',
+          icon: 'fa-car-side',
+          colorBg: 'bg-red-500/20 text-red-300 border-red-500/40',
+          desc: 'World leader in electric vehicle sales and vertical Blade Battery manufacturing.',
+          why: 'Complete vertical integration guarantees high profit margins per vehicle.',
+          img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=600&q=80'
         }
+      ],
+      news: [
+        { id: 1, headline: 'Midong Solar Farm 3.5GW Node Sync Completed', text: 'All solar sub-stations are online, increasing daily yield payouts for active plans.' }
+      ],
+      tasks: [
+        { id: 1, title: 'Join GREENEARN Telegram Channel', reward: 5.0, icon: 'fa-telegram', done: false },
+        { id: 2, title: 'Retweet Official Announcement', reward: 3.0, icon: 'fa-retweet', done: false }
+      ]
+    };
 
-        function loadState() {
-            try {
-                const saved = localStorage.getItem('greenearn_state_v4');
-                if (saved) appState = { ...appState, ...JSON.parse(saved) };
-            } catch(e){}
+    function saveState() { try { localStorage.setItem('ge_app_state', JSON.stringify(state)); } catch(e){} }
+    function loadState() {
+      try {
+        const saved = localStorage.getItem('ge_app_state');
+        if (saved) state = Object.assign(state, JSON.parse(saved));
+      } catch(e){}
+    }
+
+    // Navigation Switcher
+    function switchTab(tabId) {
+      document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.dataset.tab === tabId) {
+          btn.classList.add('text-emerald-400');
+          btn.classList.remove('text-emerald-600/70');
+        } else {
+          btn.classList.remove('text-emerald-400');
+          btn.classList.add('text-emerald-600/70');
         }
+      });
+    }
 
-        function switchTab(tabId) {
-            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
-            const target = document.getElementById('tab-' + tabId);
-            if (target) target.classList.remove('hidden');
-
-            document.querySelectorAll('.top-nav-btn, .nav-btn').forEach(btn => {
-                if (btn.dataset.tab === tabId) {
-                    btn.classList.add('border-brand-primary', 'text-brand-primary');
-                } else {
-                    btn.classList.remove('border-brand-primary', 'text-brand-primary');
-                }
-            });
+    // Category Filter
+    function filterCategory(cat) {
+      state.activeCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => {
+        if (b.dataset.cat === cat) {
+          b.className = "cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-500 text-black whitespace-nowrap";
+        } else {
+          b.className = "cat-btn px-3 py-1 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap";
         }
+      });
+      renderCatalog();
+    }
 
-        function switchAdminSubTab(subId) {
-            document.querySelectorAll('.admin-sub-sec').forEach(sec => sec.classList.add('hidden'));
-            const active = document.getElementById('admin-sub-' + subId);
-            if (active) active.classList.remove('hidden');
+    // Render Catalog Items
+    function renderCatalog() {
+      const container = document.getElementById('investCatalogList');
+      container.innerHTML = '';
+
+      const items = state.activeCategory === 'All' 
+        ? state.companies 
+        : state.companies.filter(c => c.category === state.activeCategory);
+
+      items.forEach(comp => {
+        container.innerHTML += `
+          <div class="glass-card p-3 rounded-2xl flex items-center justify-between border border-emerald-800/30">
+            <div class="flex items-center space-x-3">
+              <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg border ${comp.colorBg} shadow-sm">
+                <i class="fa-solid ${comp.icon}"></i>
+              </div>
+              <div>
+                <h3 class="text-xs font-bold text-emerald-100">${comp.name}</h3>
+                <p class="text-[10px] text-emerald-400/80 font-medium">${comp.yieldText}</p>
+              </div>
+            </div>
+            <div class="flex space-x-1.5">
+              <button onclick="openCompanyModal('${comp.id}')" class="px-2.5 py-1.5 text-xs font-bold rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 hover:bg-emerald-900">Detail</button>
+              <button onclick="alert('Lock duration plan selected!')" class="px-3 py-1.5 text-xs font-bold rounded-lg btn-emerald">Invest</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Detail Modal
+    function openCompanyModal(id) {
+      const comp = state.companies.find(c => c.id === id);
+      if (!comp) return;
+
+      const badge = document.getElementById('modalLogoBadge');
+      badge.className = `w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold border ${comp.colorBg}`;
+      badge.innerHTML = `<i class="fa-solid ${comp.icon}"></i>`;
+
+      document.getElementById('modalCompanyTitle').innerText = comp.name;
+      document.getElementById('modalCompanyType').innerText = comp.category.toUpperCase();
+      document.getElementById('modalCompanyImg').src = comp.img;
+      document.getElementById('modalCompanyDesc').innerText = comp.desc;
+      document.getElementById('modalCompanyWhy').innerText = comp.why;
+
+      document.getElementById('companyDetailModal').classList.remove('hidden');
+    }
+    function closeCompanyModal() {
+      document.getElementById('companyDetailModal').classList.add('hidden');
+    }
+
+    // Claim Bonus
+    function claimDailyBonus() {
+      if (!state.dailyClaimed) {
+        state.dailyClaimed = true;
+        state.balance += state.dailyBonus;
+        document.getElementById('btnClaimDaily').innerText = 'Claimed ✓';
+        document.getElementById('btnClaimDaily').className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-gray-800 text-gray-500';
+        saveState();
+        renderApp();
+        confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+      }
+    }
+
+    // Admin Functions
+    function switchAdminSubTab(sub) {
+      document.querySelectorAll('[id^="adm-sub-"]').forEach(el => el.classList.add('hidden'));
+      document.getElementById('adm-sub-' + sub).classList.remove('hidden');
+      
+      document.querySelectorAll('.adm-sub-btn').forEach(b => {
+        if (b.dataset.sub === sub) {
+          b.className = "px-2.5 py-1 text-[11px] font-bold rounded-lg bg-purple-700 text-white whitespace-nowrap adm-sub-btn";
+        } else {
+          b.className = "px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap adm-sub-btn";
         }
+      });
+    }
 
-        function renderApp() {
-            document.getElementById('homeDisplayBalance').innerText = '$' + appState.user.balance.toFixed(2);
-            document.getElementById('userVipTag').innerText = 'VIP ' + appState.user.vipLevel;
-            document.getElementById('headerRoleBadge').innerText = appState.currentUser.role.toUpperCase();
+    function populateAdminSelect() {
+      const sel = document.getElementById('admCompSelect');
+      sel.innerHTML = '';
+      state.companies.forEach(c => {
+        sel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+      });
+      loadAdminCompForm();
+    }
 
-            // Render Catalog
-            filterInvestCategory('all');
+    function loadAdminCompForm() {
+      const id = document.getElementById('admCompSelect').value;
+      const comp = state.companies.find(c => c.id === id);
+      if (comp) {
+        document.getElementById('admCompDesc').value = comp.desc;
+        document.getElementById('admCompWhy').value = comp.why;
+        document.getElementById('admCompImg').value = comp.img;
+      }
+    }
 
-            // Render Dynamic Asset Dropdown in Admin
-            const adminAssetSelect = document.getElementById('adminSelectAsset');
-            adminAssetSelect.innerHTML = '';
-            appState.assets.forEach(a => {
-                adminAssetSelect.innerHTML += `<option value="${a.id}">${a.name}</option>`;
-            });
+    function adminSaveCompData() {
+      const id = document.getElementById('admCompSelect').value;
+      const comp = state.companies.find(c => c.id === id);
+      if (comp) {
+        comp.desc = document.getElementById('admCompDesc').value;
+        comp.why = document.getElementById('admCompWhy').value;
+        comp.img = document.getElementById('admCompImg').value;
+        saveState();
+        alert('Company Details Saved Successfully!');
+      }
+    }
 
-            // Render Pending Deposits
-            const depList = document.getElementById('adminPendingDepositsList');
-            depList.innerHTML = '';
-            appState.pendingDeposits.forEach(dep => {
-                depList.innerHTML += `
-                    <div class="p-3 bg-brand-bg rounded-xl border border-brand-border space-y-2">
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="font-bold text-white">${dep.username}</span>
-                            <span class="text-amber-400 font-extrabold">+$${dep.amount.toFixed(2)}</span>
-                        </div>
-                        <img src="${dep.img}" class="w-full h-28 object-cover rounded-lg border border-brand-border">
-                        <div class="flex space-x-2">
-                            <button onclick="approveDeposit(${dep.id})" class="flex-1 py-1.5 rounded-lg text-xs font-bold bg-brand-primary text-slate-950">Approve</button>
-                            <button onclick="rejectDeposit(${dep.id})" class="flex-1 py-1.5 rounded-lg text-xs font-bold bg-red-900/40 text-red-300 border border-red-700/50">Reject</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
+    function adminSaveBalance() {
+      const val = parseFloat(document.getElementById('admUserBal').value);
+      if (!isNaN(val)) {
+        state.balance = val;
+        saveState();
+        renderApp();
+        alert('Balance Updated!');
+      }
+    }
 
-        function filterInvestCategory(cat) {
-            const container = document.getElementById('investCatalogContainer');
-            container.innerHTML = '';
+    function adminSaveBonus() {
+      const val = parseFloat(document.getElementById('admBonusAmt').value);
+      if (!isNaN(val)) {
+        state.dailyBonus = val;
+        saveState();
+        renderApp();
+        alert('Daily Bonus Updated!');
+      }
+    }
 
-            const list = cat === 'all' ? appState.assets : appState.assets.filter(a => a.category === cat);
-            list.forEach(asset => {
-                container.innerHTML += `
-                    <div class="glass-panel p-3.5 rounded-2xl flex items-center justify-between border border-brand-border">
-                        <div class="flex items-center space-x-3">
-                            <img src="${asset.img}" class="w-12 h-12 rounded-xl object-cover border border-brand-border">
-                            <div>
-                                <h3 class="font-bold text-xs text-white">${asset.name}</h3>
-                                <p class="text-[10px] text-brand-primary font-semibold">${asset.yieldText}</p>
-                            </div>
-                        </div>
-                        <button onclick="openInvestModal('${asset.id}')" class="px-3 py-1.5 rounded-xl text-xs font-black btn-emerald">Invest</button>
-                    </div>
-                `;
-            });
-        }
+    function adminPublishNews() {
+      const headline = document.getElementById('admNewsHeadline').value;
+      const text = document.getElementById('admNewsText').value;
+      if (headline && text) {
+        state.news.unshift({ id: Date.now(), headline, text });
+        saveState();
+        renderApp();
+        alert('News Published!');
+      }
+    }
 
-        function openInvestModal(assetId) {
-            currentSelectedAssetId = assetId;
-            const asset = appState.assets.find(a => a.id === assetId);
-            if (!asset) return;
+    // Main App Renderer
+    function renderApp() {
+      document.getElementById('userDisplayBalance').innerText = '$' + state.balance.toFixed(2);
+      document.getElementById('userDailyYield').innerText = '+$' + state.dailyYield.toFixed(2) + ' / day';
+      document.getElementById('userTotalProfit').innerText = '+$' + state.totalProfit.toFixed(2);
+      document.getElementById('dailyBonusDisplay').innerText = `Claim +$${state.dailyBonus.toFixed(2)} USD bonus`;
 
-            document.getElementById('modalAssetTitle').innerText = asset.name;
-            document.getElementById('modalAssetCategory').innerText = asset.category;
-            document.getElementById('modalAssetImg').src = asset.img;
+      // News Feed
+      const newsFeed = document.getElementById('homeNewsFeed');
+      newsFeed.innerHTML = '';
+      state.news.forEach(n => {
+        newsFeed.innerHTML += `
+          <div class="glass-card p-3 rounded-xl space-y-1 border border-emerald-800/30">
+            <h4 class="text-xs font-bold text-emerald-200">${n.headline}</h4>
+            <p class="text-[11px] text-emerald-400/80 leading-relaxed">${n.text}</p>
+          </div>
+        `;
+      });
 
-            const durationGrid = document.getElementById('durationSelectorGrid');
-            durationGrid.innerHTML = '';
-            Object.keys(appState.durationConfigMap).forEach(key => {
-                const conf = appState.durationConfigMap[key];
-                durationGrid.innerHTML += `
-                    <button onclick="selectDurationPlan('${key}')" class="p-2 rounded-xl text-center border ${key === selectedDurationKey ? 'bg-brand-primary text-slate-950 font-black border-brand-primary' : 'bg-brand-bg text-slate-400 border-brand-border'}">
-                        <div class="font-bold">${key}</div>
-                        <div class="text-[9px]">${conf.label}</div>
-                    </button>
-                `;
-            });
+      // Tasks
+      const taskContainer = document.getElementById('tasksListContainer');
+      taskContainer.innerHTML = '';
+      state.tasks.forEach(t => {
+        taskContainer.innerHTML += `
+          <div class="glass-card p-3 rounded-2xl flex items-center justify-between border border-emerald-800/30">
+            <div class="flex items-center space-x-3">
+              <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-300">
+                <i class="fa-solid ${t.icon}"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-emerald-100">${t.title}</h4>
+                <p class="text-[10px] font-bold text-amber-300">+$${t.reward.toFixed(2)} USD</p>
+              </div>
+            </div>
+            <button onclick="alert('Task Completed!')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-amber-500 text-black">Claim</button>
+          </div>
+        `;
+      });
 
-            calculateInvestmentReturn();
-            document.getElementById('investConfirmModal').classList.remove('hidden');
-        }
+      renderCatalog();
+    }
 
-        function closeInvestModal() { document.getElementById('investConfirmModal').classList.add('hidden'); }
-        function selectDurationPlan(key) { selectedDurationKey = key; openInvestModal(currentSelectedAssetId); }
-
-        function calculateInvestmentReturn() {
-            const amt = parseFloat(document.getElementById('investAmountInput').value) || 0;
-            const conf = appState.durationConfigMap[selectedDurationKey];
-            if (!conf) return;
-
-            let profit = conf.cycle === "lump" ? amt * conf.rate : amt * conf.rate * conf.days;
-            document.getElementById('summaryRateLabel').innerText = conf.label;
-            document.getElementById('summaryProfitVal').innerText = '+$' + profit.toFixed(2);
-            document.getElementById('summaryMaturityPayout').innerText = '$' + (amt + profit).toFixed(2);
-        }
-
-        function executeInvestmentLock() {
-            const amt = parseFloat(document.getElementById('investAmountInput').value) || 0;
-            if (amt <= 0 || amt > appState.user.balance) { alert("Insufficient balance!"); return; }
-
-            appState.user.balance -= amt;
-            saveState();
-            renderApp();
-            closeInvestModal();
-            confetti({ particleCount: 60, spread: 60, origin: { y: 0.8 } });
-            alert("Investment locked successfully!");
-        }
-
-        function approveDeposit(depId) {
-            const dep = appState.pendingDeposits.find(d => d.id === depId);
-            if (dep) {
-                appState.user.balance += dep.amount;
-                appState.pendingDeposits = appState.pendingDeposits.filter(d => d.id !== depId);
-                saveState();
-                renderApp();
-                alert("Deposit approved & credited!");
-            }
-        }
-
-        function rejectDeposit(depId) {
-            appState.pendingDeposits = appState.pendingDeposits.filter(d => d.id !== depId);
-            saveState();
-            renderApp();
-            alert("Deposit rejected.");
-        }
-
-        function adminApplyUserBalanceAndVip() {
-            const newBal = parseFloat(document.getElementById('adminUserNewBalance').value);
-            const newVip = parseInt(document.getElementById('adminUserVipSelect').value);
-
-            if (!isNaN(newBal)) appState.user.balance = newBal;
-            if (!isNaN(newVip)) appState.user.vipLevel = newVip;
-
-            saveState();
-            renderApp();
-            alert("User account updated!");
-        }
-
-        function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
-        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
-        function handleAuthSubmit() {
-            const user = document.getElementById('authUsername').value || 'Demo User';
-            const role = document.getElementById('authAccountRole').value;
-            appState.currentUser = { username: user, role: role, permissions: ['all'] };
-            saveState();
-            renderApp();
-            closeAuthModal();
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadState();
-            renderApp();
-        });
-    </script>
+    // Initializer
+    document.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      populateAdminSelect();
+      renderApp();
+    });
+  </script>
 </body>
 </html>
