@@ -44,9 +44,9 @@
     input, select, textarea { background: rgba(6, 22, 14, 0.9) !important; border: 1px solid rgba(34, 197, 94, 0.3) !important; color: #ecfdf5 !important; outline: none !important; }
 
     @keyframes pulseGlow {
-      0% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
-      50% { box-shadow: 0 0 20px rgba(52, 211, 153, 0.6); }
-      100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
+      0% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); border-color: rgba(16, 185, 129, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(52, 211, 153, 0.8); border-color: rgba(52, 211, 153, 0.8); }
+      100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); border-color: rgba(16, 185, 129, 0.3); }
     }
     .animate-glow { animation: pulseGlow 3s infinite ease-in-out; }
 
@@ -66,9 +66,9 @@
     let state = {
       currentUser: null,
       balance: 1250.00,
-      dailyYield: 18.75,
-      totalProfit: 340.50,
-      activeCategory: 'All',
+      dailyBonusAmount: 5.00,
+      claimedToday: false,
+      activeCategory: 'Solar Power',
       registeredUsers: [
         { 
           id: 1, 
@@ -95,33 +95,66 @@
         { id: 1, name: 'USDT (TRC-20)', detail: 'T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB' },
         { id: 2, name: 'Bitcoin (BTC)', detail: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh' }
       ],
+      yieldPlans: [
+        { label: '1 Day', rate: 1.5 },
+        { label: '15 Days', rate: 1.9 },
+        { label: '1 Month', rate: 2.5 },
+        { label: '6 Months', rate: 4.0 },
+        { label: '1 Year', rate: 15.0 },
+        { label: '5 Years', rate: 35.0 },
+        { label: '10 Years', rate: 90.0 }
+      ],
       activeInvestments: [
-        { id: 1, name: 'MIDONG Solar Farm', amount: 100.00, duration: '1 Day', daysLeft: 1, payout: 101.50, icon: 'fa-sun', color: 'text-amber-400' }
+        { id: 1, name: 'MIDONG Solar Farm', amount: 100.00, plan: '1 Day', dailyRate: 1.5, profit: 1.50, status: 'Active Yielding', date: '2026-06-01' }
       ],
       supportMessages: [
-        { id: 1, sender: 'admin', text: 'Welcome to GREENEARN! You can now invest freely and complete tasks for bonuses.', time: '09:00' }
+        { id: 1, sender: 'admin', text: 'Welcome to GREENEARN! Explore sustainable assets and daily rewards.', time: '09:00' }
       ],
       transactions: [
-        { id: 101, type: 'Deposit', amount: 500.00, status: 'Completed', date: '2026-06-01 14:20', proof: '' }
+        { id: 101, type: 'Deposit', amount: 500.00, status: 'Completed', date: '2026-06-01 14:20', proof: 'USDT TRC20 TX #98821' }
       ],
-      companies: [
-        { id: 'midong', name: 'MIDONG Solar Farm', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', icon: 'fa-sun', colorBg: 'bg-amber-500/20 text-amber-400 border-amber-500/40', desc: 'World-class 3.5GW mega solar energy station.', why: 'Backed by state grid PPAs.', rate: '1.5%/day', days: 1, img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80' },
-        { id: 'bhadla', name: 'Bhadla Solar Park', category: 'Solar Power', yieldText: 'Yield: Up to 25000% return', icon: 'fa-solar-panel', colorBg: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/40', desc: '14,000-acre mega solar cluster.', why: 'High solar irradiance.', rate: '1.9%/day', days: 15, img: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=600&q=80' },
-        { id: 'chpt', name: 'ChargePoint Holdings (CHPT)', category: 'EV Charging', yieldText: 'Yield: Up to 25000% return', icon: 'fa-charging-station', colorBg: 'bg-teal-500/20 text-teal-300 border-teal-500/40', desc: 'Leading global EV charging infrastructure.', why: 'Rapid EV adoption.', rate: '4%/day', days: 180, img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80' },
-        { id: 'btcmining', name: 'Bitcoin Green Mining', category: 'Crypto Mining', yieldText: 'Yield: Up to 25000% return', icon: 'fa-bitcoin-sign', colorBg: 'bg-amber-500/20 text-amber-300 border-amber-500/40', desc: 'Hydroelectric zero-emission BTC mining.', why: 'Low energy cost.', rate: '35%/total', days: 1825, img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80' },
-        { id: 'pltr', name: 'Palantir Technologies (PLTR)', category: 'AI Platforms', yieldText: 'Yield: Up to 25000% return', icon: 'fa-brain', colorBg: 'bg-purple-500/20 text-purple-300 border-purple-500/40', desc: 'Enterprise AI operating system.', why: 'High growth AIP contracts.', rate: '2.5%/day', days: 30, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80' },
-        { id: 'byd', name: 'BYD Company Ltd.', category: 'EV Cars', yieldText: 'Yield: Up to 25000% return', icon: 'fa-car-side', colorBg: 'bg-red-500/20 text-red-300 border-red-500/40', desc: 'World leader in electric vehicles.', why: 'Complete vertical integration.', rate: '1.9%/day', days: 15, img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=600&q=80' }
-      ],
+      categories: ['Solar Power', 'EV Charging', 'Crypto Mining', 'AI Platforms', 'EV Cars'],
+      companies: {
+        'Solar Power': [
+          { id: 'midong', name: 'MIDONG Solar Farm', desc: 'World-class 3.5GW mega solar energy station with peak grid integration.', why: 'Backed by guaranteed government power purchase agreements.', img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'bhadla', name: 'Bhadla Solar Park', desc: '14,000-acre mega solar cluster in high irradiation desert zone.', why: 'Highest solar photovoltaic conversion efficiency worldwide.', img: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'huanghe', name: 'Huanghe Hydropower Hainan Solar Park', desc: 'Ultra-large hydro-solar hybrid clean energy plant.', why: 'Combined hydro and solar stability eliminates intermittency.', img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80', status: 'Coming Soon' }
+        ],
+        'EV Charging': [
+          { id: 'chpt', name: 'ChargePoint Holdings (CHPT)', desc: 'Leading global EV charging network with 250,000+ ports.', why: 'Dominant market share in North American commercial fleet charging.', img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'blink', name: 'Blink Charging Co. (BLNK)', desc: 'Rapid DC fast-charging deployment across major metropolitan hubs.', why: 'Strategic municipal partnerships and federal subsidies.', img: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'wallbox', name: 'Wallbox N.V. (WBX)', desc: 'Advanced bidirectional smart EV chargers and energy management.', why: 'Pioneering vehicle-to-grid (V2G) home energy storage.', img: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'decharge', name: 'DeCharge (Solana Network)', desc: 'Decentralized peer-to-peer electric vehicle charging protocol.', why: 'Web3 tokenized energy rewards for station hosts.', img: 'https://images.unsplash.com/photo-1558449040-643b03a8c64d?auto=format&fit=crop&w=600&q=80', status: 'Coming Soon' }
+        ],
+        'Crypto Mining': [
+          { id: 'btcmin', name: 'Bitcoin Green Mining', desc: 'Eco-friendly ASIC mining powered 100% by geothermal and hydro energy.', why: 'Lowest operational cost per mined Bitcoin globally.', img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'sui', name: 'Sui (SUI) Staking & Validator Node', desc: 'High-throughput Layer 1 blockchain validation infrastructure.', why: 'Exceptional delegated proof-of-stake APY rewards.', img: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'bittensor', name: 'Bittensor (TAO) AI Subnet', desc: 'Decentralized machine learning network pooling GPU compute.', why: 'Pioneering open-source artificial intelligence incentives.', img: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'arbitrum', name: 'Arbitrum (ARB) Sequencer Yield', desc: 'Ethereum Layer 2 scaling infrastructure revenue sharing.', why: 'High transaction volume fee accrual mechanism.', img: 'https://images.unsplash.com/photo-1622979135225-d2ba269bc1df?auto=format&fit=crop&w=600&q=80', status: 'Active' }
+        ],
+        'AI Platforms': [
+          { id: 'pltr', name: 'Palantir Technologies (PLTR)', desc: 'Enterprise Artificial Intelligence Platform (AIP) for global operations.', why: 'Unrivaled defense and Fortune 500 enterprise contracts.', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'msft', name: 'Microsoft Corp. (MSFT)', desc: 'Cloud computing and Azure OpenAI infrastructure leadership.', why: 'Exclusive partnership with OpenAI and Copilot ecosystem.', img: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'googl', name: 'Alphabet Inc. (GOOGL)', desc: 'Google DeepMind AI research and Gemini cloud infrastructure.', why: 'Proprietary TPU chips and global search dominance.', img: 'https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'orcl', name: 'Oracle Corp. (ORCL)', desc: 'High-performance AI cloud data centers for LLM training.', why: 'Massive enterprise database migration demand.', img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', status: 'Active' }
+        ],
+        'EV Cars': [
+          { id: 'byd', name: 'BYD Company Ltd.', desc: 'World leader in new energy vehicles and Blade battery technology.', why: 'Complete vertical supply chain cost advantage.', img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'tesla', name: 'Tesla, Inc. (TSLA)', desc: 'Pioneer of electric autonomous mobility and Megapack energy storage.', why: 'Unmatched global Supercharger network and FSD AI.', img: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'geely', name: 'Geely Automobile Holdings', desc: 'Global multi-brand EV manufacturer and premium smart mobility.', why: 'Synergies across Volvo, Polestar, and Zeekr.', img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'xiaomi', name: 'Xiaomi EV (SU7)', desc: 'Smart human-centric home and electric vehicle ecosystem.', why: 'Unrivaled consumer electronics and OS integration.', img: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=600&q=80', status: 'Active' },
+          { id: 'vw', name: 'Volkswagen AG', desc: 'Accelerating luxury and mass-market electric vehicle transition.', why: 'Massive manufacturing footprint in Europe and Americas.', img: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80', status: 'Coming Soon' }
+        ]
+      },
       news: [
-        { id: 1, headline: 'Green Asset Nodes Synced Successfully', text: 'Catalog updated with solar, EV charging, crypto mining, AI platforms, and EV car projects.', img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80' }
+        { id: 1, headline: 'Global Green Energy Summit 2026 Announced', text: 'Join international solar & EV leaders for the annual green investment keynote in Geneva.', img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80' }
       ],
       events: [
-        { id: 1, title: 'Global Green Energy Summit 2026', date: 'June 15, 2026 • 14:00 UTC', desc: 'Join international solar & EV leaders for the annual green investment keynote.', rsvp: null }
+        { id: 1, title: 'MIDONG Solar Farm Q2 Dividend Payout', date: 'June 20, 2026 • 15:00 UTC', desc: 'Live webinar reviewing regional clean energy yield distribution.', img: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80', rsvp: null }
       ],
       tasks: [
-        { id: 99, title: 'Verify Profile & Get $20 Bonus', reward: 20.0, icon: 'fa-id-card', link: '#profile', img: '', done: false, isKycTask: true },
-        { id: 1, title: 'Join GREENEARN Telegram Channel', reward: 5.0, icon: 'fa-telegram', link: 'https://t.me/GreenEarnOfficial', img: '', done: false, isKycTask: false },
-        { id: 2, title: 'Retweet Official Announcement', reward: 3.0, icon: 'fa-retweet', link: 'https://twitter.com', img: '', done: false, isKycTask: false }
+        { id: 1, title: 'Join Official Telegram Channel', reward: 5.0, icon: 'fa-telegram', link: 'https://t.me/GreenEarnOfficial', done: false },
+        { id: 2, title: 'Share Green Portfolio on Twitter', reward: 3.0, icon: 'fa-twitter', link: 'https://twitter.com', done: false }
       ]
     };
 
@@ -216,6 +249,187 @@
       showToast('Account created successfully! +$50 Welcome Bonus added.');
     }
 
+    function handleLogout() {
+      state.currentUser = null;
+      saveState();
+      document.getElementById('authGateContainer').classList.remove('hidden');
+      showToast('Logged out securely.');
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.remove('hidden');
+
+      document.querySelectorAll('.top-nav-btn, .nav-btn').forEach(btn => {
+        if (btn.dataset.tab === tabId) {
+          btn.classList.add('text-emerald-400');
+          btn.classList.remove('text-emerald-600/70');
+        } else {
+          btn.classList.remove('text-emerald-400');
+          btn.classList.add('text-emerald-600/70');
+        }
+      });
+    }
+
+    function claimDailyBonus() {
+      if (state.claimedToday) {
+        showToast('Daily bonus already claimed today!');
+        return;
+      }
+      state.balance += state.dailyBonusAmount;
+      state.claimedToday = true;
+      saveState();
+      renderApp();
+      showToast(`Daily Bonus Claimed! +$${state.dailyBonusAmount.toFixed(2)} added.`);
+      confetti({ particleCount: 60, spread: 60, origin: { y: 0.6 } });
+    }
+
+    function switchInvestCategory(cat) {
+      state.activeCategory = cat;
+      renderCatalog();
+    }
+
+    function renderCatalog() {
+      const container = document.getElementById('investCatalogList');
+      if (!container) return;
+      container.innerHTML = '';
+      
+      const items = state.companies[state.activeCategory] || [];
+      items.forEach(comp => {
+        container.innerHTML += `
+          <div class="glass-card animate-glow p-4 rounded-2xl space-y-2.5 border border-emerald-500/30">
+            <div class="flex items-center space-x-3">
+              <img src="${comp.img}" class="w-14 h-14 rounded-xl object-cover border border-emerald-500/40 shadow-lg">
+              <div class="flex-1">
+                <div class="flex justify-between items-start">
+                  <h3 class="text-xs font-bold text-emerald-100">${comp.name}</h3>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-bold ${comp.status === 'Active' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'}">${comp.status}</span>
+                </div>
+                <p class="text-[10px] text-emerald-300/80 mt-1">${comp.desc}</p>
+                <p class="text-[9px] text-amber-300 font-semibold mt-1">💡 Why Invest: ${comp.why}</p>
+              </div>
+            </div>
+            <button onclick="openInvestModal('${comp.name}')" class="w-full py-2 text-xs font-bold rounded-xl btn-emerald">Invest Now</button>
+          </div>
+        `;
+      });
+    }
+
+    function openInvestModal(compName) {
+      activeInvestCompId = compName;
+      document.getElementById('investModalTitle').innerText = 'Invest in ' + compName;
+      const selectPlan = document.getElementById('investPlanSelect');
+      selectPlan.innerHTML = '';
+      state.yieldPlans.forEach((p, idx) => {
+        selectPlan.innerHTML += `<option value="${idx}">${p.label} (${p.rate}% per day)</option>`;
+      });
+      calculateInvestReturn();
+      document.getElementById('investConfirmModal').classList.remove('hidden');
+    }
+
+    function closeInvestConfirmModal() {
+      document.getElementById('investConfirmModal').classList.add('hidden');
+    }
+
+    function calculateInvestReturn() {
+      const amt = parseFloat(document.getElementById('investInputAmount').value) || 100;
+      const planIdx = parseInt(document.getElementById('investPlanSelect').value) || 0;
+      const plan = state.yieldPlans[planIdx];
+      const estimatedDaily = amt * (plan.rate / 100);
+      document.getElementById('investEstimatedReturnDisplay').innerText = `Est. Daily Profit: +$${estimatedDaily.toFixed(2)} (${plan.rate}% / day)`;
+    }
+
+    function confirmAndLockInvestment() {
+      const amt = parseFloat(document.getElementById('investInputAmount').value) || 100;
+      const planIdx = parseInt(document.getElementById('investPlanSelect').value) || 0;
+      const plan = state.yieldPlans[planIdx];
+
+      if (amt > state.balance) {
+        showToast('Insufficient wallet balance!');
+        return;
+      }
+      state.balance -= amt;
+      state.activeInvestments.unshift({
+        id: Date.now(),
+        name: activeInvestCompId,
+        amount: amt,
+        plan: plan.label,
+        dailyRate: plan.rate,
+        profit: amt * (plan.rate / 100),
+        status: 'Active Yielding',
+        date: new Date().toISOString().slice(0, 10)
+      });
+      saveState();
+      renderApp();
+      closeInvestConfirmModal();
+      switchTab('wallet');
+      showToast('Investment locked successfully!');
+      confetti({ particleCount: 70, spread: 70, origin: { y: 0.7 } });
+    }
+
+    function switchWalletTab(sub) {
+      document.getElementById('walletDepositSection').classList.toggle('hidden', sub !== 'deposit');
+      document.getElementById('walletWithdrawSection').classList.toggle('hidden', sub !== 'withdraw');
+      document.getElementById('walletHistorySection').classList.toggle('hidden', sub !== 'history');
+    }
+
+    function handleDepositScreenshotUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('depositScreenshotPreview').src = e.target.result;
+          document.getElementById('depositScreenshotContainer').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function submitDepositRequest() {
+      const amt = parseFloat(document.getElementById('depositAmountInput').value) || 0;
+      const proofImg = document.getElementById('depositScreenshotPreview').src || '';
+      if (amt <= 0) {
+        showToast('Please enter valid deposit amount!');
+        return;
+      }
+      state.transactions.unshift({
+        id: Date.now(),
+        type: 'Deposit',
+        amount: amt,
+        status: 'Pending Admin Review',
+        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+        proof: proofImg
+      });
+      saveState();
+      renderApp();
+      showToast('Deposit request & screenshot submitted to admin.');
+      document.getElementById('depositAmountInput').value = '';
+    }
+
+    function submitWithdrawRequest() {
+      const amt = parseFloat(document.getElementById('withdrawAmountInput').value) || 0;
+      const methodText = document.getElementById('withdrawMethodInput').value.trim();
+      if (amt <= 0 || amt > state.balance || !methodText) {
+        showToast('Please enter valid amount and destination account address/details!');
+        return;
+      }
+      state.balance -= amt;
+      state.transactions.unshift({
+        id: Date.now(),
+        type: 'Withdrawal',
+        amount: amt,
+        status: 'Pending Admin Review',
+        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+        proof: methodText
+      });
+      saveState();
+      renderApp();
+      showToast('Withdrawal request submitted.');
+      document.getElementById('withdrawAmountInput').value = '';
+      document.getElementById('withdrawMethodInput').value = '';
+    }
+
     function handleKycImageUpload(event, slot) {
       const file = event.target.files[0];
       if (file) {
@@ -277,7 +491,6 @@
         u.kycStatus = 'Verified';
         if (state.currentUser && (state.currentUser.id === u.id || state.currentUser.email === u.email)) {
           state.currentUser.kycStatus = 'Verified';
-          state.balance += 20; // Automatically grant $20 bonus when verified
         }
         saveState();
         renderApp();
@@ -298,178 +511,38 @@
       }
     }
 
-    function handleLogout() {
-      state.currentUser = null;
-      saveState();
-      document.getElementById('authGateContainer').classList.remove('hidden');
-      showToast('Logged out securely.');
-    }
-
-    function switchTab(tabId) {
-      document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
-      const target = document.getElementById('tab-' + tabId);
-      if (target) target.classList.remove('hidden');
-
-      document.querySelectorAll('.top-nav-btn, .nav-btn').forEach(btn => {
-        if (btn.dataset.tab === tabId) {
-          btn.classList.add('text-emerald-400');
-          btn.classList.remove('text-emerald-600/70');
-        } else {
-          btn.classList.remove('text-emerald-400');
-          btn.classList.add('text-emerald-600/70');
+    function adminConfirmTransaction(txId) {
+      const tx = state.transactions.find(t => t.id === txId);
+      if (tx && tx.status.includes('Pending')) {
+        tx.status = 'Completed';
+        if (tx.type === 'Deposit') {
+          state.balance += tx.amount;
+          const targetUser = state.registeredUsers[0];
+          if (targetUser) targetUser.balance = state.balance;
         }
-      });
-    }
-
-    function filterCategory(cat) {
-      state.activeCategory = cat;
-      renderCatalog();
-    }
-
-    function renderCatalog() {
-      const container = document.getElementById('investCatalogList');
-      if (!container) return;
-      container.innerHTML = '';
-      const items = state.activeCategory === 'All' ? state.companies : state.companies.filter(c => c.category === state.activeCategory);
-
-      items.forEach(comp => {
-        container.innerHTML += `
-          <div class="glass-card animate-glow p-3.5 rounded-2xl flex items-center justify-between border border-emerald-500/30">
-            <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg border ${comp.colorBg} shadow-lg">
-                <i class="fa-solid ${comp.icon}"></i>
-              </div>
-              <div>
-                <h3 class="text-xs font-bold text-emerald-100">${comp.name}</h3>
-                <p class="text-[10px] text-emerald-400 font-medium">Rate: ${comp.rate} (${comp.days}d lock)</p>
-                <p class="text-[9px] text-amber-300 font-mono mt-0.5">${comp.yieldText}</p>
-              </div>
-            </div>
-            <div class="flex space-x-1.5">
-              <button onclick="openInvestModal('${comp.id}')" class="px-3.5 py-2 text-xs font-bold rounded-xl btn-emerald">Invest</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    function openInvestModal(id) {
-      activeInvestCompId = id;
-      document.getElementById('investConfirmModal').classList.remove('hidden');
-    }
-
-    function closeInvestConfirmModal() {
-      document.getElementById('investConfirmModal').classList.add('hidden');
-    }
-
-    function confirmAndLockInvestment() {
-      const amt = parseFloat(document.getElementById('investInputAmount').value) || 100;
-      if (amt > state.balance) {
-        showToast('Insufficient balance!');
-        return;
+        saveState();
+        renderApp();
+        showToast('Transaction confirmed & balanced updated.');
       }
-      state.balance -= amt;
-      state.activeInvestments.unshift({
-        id: Date.now(),
-        name: 'Green Asset Yield',
-        amount: amt,
-        daysLeft: 1,
-        payout: amt * 1.5,
-        icon: 'fa-sun'
-      });
-      saveState();
-      renderApp();
-      closeInvestConfirmModal();
-      switchTab('profile');
-      showToast('Investment locked successfully!');
-      confetti({ particleCount: 70, spread: 70, origin: { y: 0.7 } });
     }
 
-    function switchWalletTab(sub) {
-      document.getElementById('walletDepositSection').classList.toggle('hidden', sub !== 'deposit');
-      document.getElementById('walletWithdrawSection').classList.toggle('hidden', sub !== 'withdraw');
-    }
-
-    function submitDepositRequest() {
-      const txId = document.getElementById('depositTxIdInput').value.trim();
-      if (!txId) {
-        showToast('Please enter transaction hash!');
-        return;
+    function adminRejectTransaction(txId) {
+      const tx = state.transactions.find(t => t.id === txId);
+      if (tx) {
+        tx.status = 'Rejected';
+        if (tx.type === 'Withdrawal') {
+          state.balance += tx.amount; // refund withdrawal
+        }
+        saveState();
+        renderApp();
+        showToast('Transaction rejected.');
       }
-      state.transactions.unshift({
-        id: Date.now(),
-        type: 'Deposit',
-        amount: 100.00,
-        status: 'Pending Admin Review',
-        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-        proof: txId
-      });
-      saveState();
-      renderApp();
-      showToast('Deposit proof submitted for review.');
-      document.getElementById('depositTxIdInput').value = '';
-    }
-
-    function submitWithdrawRequest() {
-      const amt = parseFloat(document.getElementById('withdrawAmountInput').value) || 0;
-      if (amt <= 0 || amt > state.balance) {
-        showToast('Invalid withdrawal amount or insufficient balance!');
-        return;
-      }
-      state.balance -= amt;
-      state.transactions.unshift({
-        id: Date.now(),
-        type: 'Withdrawal',
-        amount: amt,
-        status: 'Pending Admin Review',
-        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-        proof: 'TRC20 Wallet'
-      });
-      saveState();
-      renderApp();
-      showToast('Withdrawal request submitted.');
-    }
-
-    function sendSupportMessage() {
-      const input = document.getElementById('userSupportInput');
-      if (!input || !input.value.trim()) return;
-      state.supportMessages.push({
-        id: Date.now(),
-        sender: state.currentUser ? state.currentUser.username : 'User',
-        text: input.value.trim(),
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      });
-      input.value = '';
-      saveState();
-      renderApp();
-      showToast('Support message sent!');
-    }
-
-    function adminReplySupport(id) {
-      const replyInput = document.getElementById('adminReplyInput_' + id);
-      if (!replyInput || !replyInput.value.trim()) return;
-      state.supportMessages.push({
-        id: Date.now(),
-        sender: 'admin',
-        text: 'Admin Reply: ' + replyInput.value.trim(),
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      });
-      saveState();
-      renderApp();
-      showToast('Reply sent!');
     }
 
     function startTaskVerification(id) {
       const t = state.tasks.find(x => x.id === id);
       if (!t || t.done) return;
-      if (t.isKycTask) {
-        switchTab('profile');
-        showToast('Please fill out your KYC form below to claim your $20 bonus!');
-        return;
-      }
-      if (t.link) {
-        window.open(t.link, '_blank');
-      }
+      if (t.link) window.open(t.link, '_blank');
       t.done = true;
       state.balance += t.reward;
       saveState();
@@ -505,6 +578,15 @@
       }
     }
 
+    function adminSaveDailyBonus() {
+      const val = parseFloat(document.getElementById('admDailyBonusInput').value);
+      if (!isNaN(val) && val > 0) {
+        state.dailyBonusAmount = val;
+        saveState();
+        showToast('Daily login bonus amount updated!');
+      }
+    }
+
     function adminPublishNews() {
       const headline = document.getElementById('admNewsHeadline').value.trim();
       const text = document.getElementById('admNewsText').value.trim();
@@ -525,37 +607,30 @@
     function adminCreateEvent() {
       const title = document.getElementById('admEventTitle').value.trim();
       const date = document.getElementById('admEventDate').value.trim();
+      const desc = document.getElementById('admEventDesc').value.trim();
+      const img = document.getElementById('admEventImgUrl').value.trim() || 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80';
       if (!title || !date) return;
-      state.events.unshift({ id: Date.now(), title, date, desc: 'Global renewable summit.', rsvp: null });
+      state.events.unshift({ id: Date.now(), title, date, desc: desc || 'Global green energy event.', img, rsvp: null });
       saveState();
       renderApp();
-      showToast('Event published!');
+      showToast('Event published successfully!');
       document.getElementById('admEventTitle').value = '';
       document.getElementById('admEventDate').value = '';
+      document.getElementById('admEventDesc').value = '';
+      document.getElementById('admEventImgUrl').value = '';
     }
 
-    function adminAddTask() {
-      const title = document.getElementById('admTaskTitle').value.trim();
-      const reward = parseFloat(document.getElementById('admTaskReward').value) || 5;
-      const link = document.getElementById('admTaskLink').value.trim();
-      if (!title) {
-        showToast('Please enter task title!');
-        return;
-      }
-      state.tasks.push({ id: Date.now(), title, reward, link, icon: 'fa-bullhorn', done: false, isKycTask: false });
+    function adminSaveYieldRates() {
+      state.yieldPlans[0].rate = parseFloat(document.getElementById('yieldRate1d').value) || 1.5;
+      state.yieldPlans[1].rate = parseFloat(document.getElementById('yieldRate15d').value) || 1.9;
+      state.yieldPlans[2].rate = parseFloat(document.getElementById('yieldRate1m').value) || 2.5;
+      state.yieldPlans[3].rate = parseFloat(document.getElementById('yieldRate6m').value) || 4.0;
+      state.yieldPlans[4].rate = parseFloat(document.getElementById('yieldRate1y').value) || 15.0;
+      state.yieldPlans[5].rate = parseFloat(document.getElementById('yieldRate5y').value) || 35.0;
+      state.yieldPlans[6].rate = parseFloat(document.getElementById('yieldRate10y').value) || 90.0;
       saveState();
       renderApp();
-      showToast('Task added successfully!');
-      document.getElementById('admTaskTitle').value = '';
-      document.getElementById('admTaskReward').value = '';
-      document.getElementById('admTaskLink').value = '';
-    }
-
-    function adminDeleteTask(id) {
-      state.tasks = state.tasks.filter(t => t.id !== id);
-      saveState();
-      renderApp();
-      showToast('Task deleted.');
+      showToast('Yield percentages updated successfully!');
     }
 
     function rsvpEvent(eventId, status) {
@@ -564,16 +639,15 @@
         ev.rsvp = status;
         saveState();
         renderApp();
-        showToast(`RSVP updated: ${status}`);
+        showToast(`Event RSVP: ${status}`);
       }
     }
 
-    function populateAdminUsers() {
+    function populateAdminPanel() {
       const sel = document.getElementById('admUserSelect');
       const listDiv = document.getElementById('adminUsersDetailList');
       const kycListDiv = document.getElementById('adminKycVerifyList');
-      const supportContainer = document.getElementById('adminSupportChatContainer');
-      const admTasksList = document.getElementById('adminTasksManagerList');
+      const txListDiv = document.getElementById('adminTransactionsList');
 
       if (!sel || !listDiv) return;
 
@@ -632,36 +706,20 @@
         });
       }
 
-      if (admTasksList) {
-        admTasksList.innerHTML = '';
-        state.tasks.forEach(t => {
-          admTasksList.innerHTML += `
-            <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 text-[11px] flex justify-between items-center">
-              <div>
-                <h4 class="font-bold text-purple-200">${t.title}</h4>
-                <p class="text-[10px] text-amber-300">Reward: $${t.reward.toFixed(2)} | Link: ${t.link || 'None'}</p>
-              </div>
-              ${!t.isKycTask ? `<button onclick="adminDeleteTask(${t.id})" class="px-2.5 py-1 text-[10px] font-bold bg-red-600 text-white rounded-lg">Delete</button>` : '<span class="text-[9px] text-emerald-400 font-bold">System Task</span>'}
-            </div>
-          `;
-        });
-      }
-
-      if (supportContainer) {
-        supportContainer.innerHTML = '';
-        state.supportMessages.forEach(msg => {
-          const isAdminReply = msg.sender === 'admin';
-          supportContainer.innerHTML += `
+      if (txListDiv) {
+        txListDiv.innerHTML = '';
+        state.transactions.forEach(tx => {
+          txListDiv.innerHTML += `
             <div class="p-2.5 rounded-xl bg-black/50 border border-purple-900/40 text-[11px] space-y-1.5">
-              <div class="flex justify-between items-center text-[10px] text-purple-300">
-                <span class="font-bold text-purple-200">${isAdminReply ? '👑 Admin Support' : '👤 ' + msg.sender}</span>
-                <span>${msg.time}</span>
+              <div class="flex justify-between items-center font-bold text-purple-200">
+                <span>${tx.type}: $${tx.amount.toFixed(2)}</span>
+                <span class="${tx.status === 'Completed' ? 'text-emerald-400' : 'text-amber-400'}">${tx.status}</span>
               </div>
-              <p class="text-emerald-100">${msg.text}</p>
-              ${!isAdminReply ? `
-                <div class="flex gap-1.5 pt-1">
-                  <input id="adminReplyInput_${msg.id}" type="text" placeholder="Reply..." class="w-full p-1 text-[10px] rounded">
-                  <button onclick="adminReplySupport(${msg.id})" class="px-2 py-1 text-[10px] font-bold bg-purple-700 text-white rounded">Reply</button>
+              <p class="text-[10px] text-purple-300">Date: ${tx.date} | Info/Proof: <span class="text-white">${tx.proof}</span></p>
+              ${tx.status.includes('Pending') ? `
+                <div class="flex gap-2 pt-1">
+                  <button onclick="adminConfirmTransaction(${tx.id})" class="px-3 py-1 text-[10px] font-bold bg-emerald-600 text-white rounded-lg">Confirm & Add Funds</button>
+                  <button onclick="adminRejectTransaction(${tx.id})" class="px-3 py-1 text-[10px] font-bold bg-red-600 text-white rounded-lg">Reject</button>
                 </div>
               ` : ''}
             </div>
@@ -674,8 +732,6 @@
       if (!state.currentUser) return;
 
       document.getElementById('homeDisplayBalance').innerText = '$' + state.balance.toFixed(2);
-      document.getElementById('homeDailyYieldDisplay').innerText = '$' + state.dailyYield.toFixed(2) + ' / day';
-      document.getElementById('homeTotalEarnDisplay').innerText = '$' + (state.balance * 1.5).toFixed(2);
       document.getElementById('profileUsernameDisplay').innerText = state.currentUser.username;
 
       const regMatch = state.registeredUsers.find(u => u.email === state.currentUser.email || u.id === state.currentUser.id);
@@ -688,37 +744,15 @@
         kycBadge.innerText = currentKycStatus.toUpperCase() + (isVer ? ' KYC ✓' : ' KYC');
       }
 
-      // Check if user task for KYC is completed
-      const kycTask = state.tasks.find(t => t.isKycTask);
-      if (kycTask) {
-        if (isVer) {
-          kycTask.done = true;
-        }
+      // Render Daily Bonus claim button state
+      const bonusBtn = document.getElementById('dailyBonusClaimBtn');
+      if (bonusBtn) {
+        bonusBtn.innerText = state.claimedToday ? 'Claimed Today ✓' : `Claim Daily $${state.dailyBonusAmount.toFixed(2)} Bonus`;
+        bonusBtn.disabled = state.claimedToday;
+        bonusBtn.className = state.claimedToday ? 'w-full py-2.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-400 border border-emerald-800 cursor-not-allowed' : 'w-full py-2.5 rounded-xl text-xs font-bold btn-emerald';
       }
 
-      const tasksListContainer = document.getElementById('tasksListContainer');
-      if (tasksListContainer) {
-        tasksListContainer.innerHTML = '';
-        state.tasks.forEach(t => {
-          tasksListContainer.innerHTML += `
-            <div class="glass-card p-3.5 rounded-2xl flex items-center justify-between border border-emerald-800/30 gap-2">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-300 text-sm">
-                  <i class="fa-solid ${t.icon || 'fa-bullhorn'}"></i>
-                </div>
-                <div>
-                  <h4 class="text-xs font-bold text-emerald-100">${t.title}</h4>
-                  <p class="text-[10px] font-bold text-amber-300">+$${t.reward.toFixed(2)} USD</p>
-                </div>
-              </div>
-              <button onclick="startTaskVerification(${t.id})" class="px-3 py-1.5 text-xs font-bold rounded-lg ${t.done ? 'bg-emerald-950 text-emerald-400 border border-emerald-800 cursor-not-allowed' : 'bg-amber-500 text-black'}" ${t.done ? 'disabled' : ''}>
-                ${t.done ? 'Claimed ✓' : (t.isKycTask ? 'Verify KYC' : 'Complete')}
-              </button>
-            </div>
-          `;
-        });
-      }
-
+      // Render News
       const newsContainer = document.getElementById('homeNewsContainer');
       if (newsContainer) {
         newsContainer.innerHTML = '';
@@ -733,12 +767,14 @@
         });
       }
 
+      // Render Events
       const eventsContainer = document.getElementById('homeEventsContainer');
       if (eventsContainer) {
         eventsContainer.innerHTML = '';
         state.events.forEach(ev => {
           eventsContainer.innerHTML += `
-            <div class="glass-card p-3.5 rounded-2xl border border-emerald-800/40 space-y-2">
+            <div class="glass-card rounded-2xl overflow-hidden border border-emerald-800/40 p-3 space-y-2">
+              <img src="${ev.img}" class="w-full h-32 object-cover rounded-xl">
               <div class="flex justify-between items-start">
                 <div>
                   <h4 class="text-xs font-bold text-emerald-100">${ev.title}</h4>
@@ -758,25 +794,61 @@
         });
       }
 
-      const profChatBox = document.getElementById('profileSupportChatBox');
-      if (profChatBox) {
-        profChatBox.innerHTML = '';
-        state.supportMessages.forEach(msg => {
-          const isUser = msg.sender !== 'admin';
-          profChatBox.innerHTML += `
-            <div class="p-2 rounded-xl text-[11px] ${isUser ? 'bg-emerald-950/40 border border-emerald-800/40 text-emerald-200 ml-4' : 'bg-purple-950/40 border border-purple-800/40 text-purple-200 mr-4'}">
-              <div class="flex justify-between items-center text-[9px] opacity-70 mb-0.5 font-bold">
-                <span>${msg.sender}</span>
-                <span>${msg.time}</span>
+      // Render Tasks
+      const tasksListContainer = document.getElementById('tasksListContainer');
+      if (tasksListContainer) {
+        tasksListContainer.innerHTML = '';
+        state.tasks.forEach(t => {
+          tasksListContainer.innerHTML += `
+            <div class="glass-card p-3.5 rounded-2xl flex items-center justify-between border border-emerald-800/30 gap-2">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-300 text-sm">
+                  <i class="fa-solid ${t.icon || 'fa-bullhorn'}"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-emerald-100">${t.title}</h4>
+                  <p class="text-[10px] font-bold text-amber-300">+$${t.reward.toFixed(2)} USD</p>
+                </div>
               </div>
-              <p>${msg.text}</p>
+              <button onclick="startTaskVerification(${t.id})" class="px-3 py-1.5 text-xs font-bold rounded-lg ${t.done ? 'bg-emerald-950 text-emerald-400 border border-emerald-800 cursor-not-allowed' : 'bg-amber-500 text-black'}" ${t.done ? 'disabled' : ''}>
+                ${t.done ? 'Claimed ✓' : 'Complete'}
+              </button>
+            </div>
+          `;
+        });
+      }
+
+      // Render Wallet Ledger & Investments
+      const historyContainer = document.getElementById('walletHistoryContainer');
+      if (historyContainer) {
+        historyContainer.innerHTML = '';
+        state.activeInvestments.forEach(inv => {
+          historyContainer.innerHTML += `
+            <div class="p-3 rounded-xl bg-black/60 border border-emerald-800/50 text-[11px] space-y-1">
+              <div class="flex justify-between font-bold text-emerald-200">
+                <span>📦 ${inv.name}</span>
+                <span class="text-amber-300 font-mono">$${inv.amount.toFixed(2)}</span>
+              </div>
+              <div class="text-[10px] text-emerald-400">Plan: ${inv.plan} | Daily Profit: +$${inv.profit.toFixed(2)}</div>
+              <div class="text-[9px] text-emerald-300/70">Status: <strong class="text-emerald-400">${inv.status}</strong> • Date: ${inv.date}</div>
+            </div>
+          `;
+        });
+        state.transactions.forEach(tx => {
+          historyContainer.innerHTML += `
+            <div class="p-3 rounded-xl bg-black/60 border border-emerald-800/50 text-[11px] space-y-1">
+              <div class="flex justify-between font-bold text-emerald-200">
+                <span>💳 ${tx.type}</span>
+                <span class="${tx.status === 'Completed' ? 'text-emerald-400' : 'text-amber-400'} font-mono">$${tx.amount.toFixed(2)}</span>
+              </div>
+              <div class="text-[10px] text-emerald-300/70">Status: <strong>${tx.status}</strong> | Date: ${tx.date}</div>
             </div>
           `;
         });
       }
 
       renderCatalog();
-      populateAdminUsers();
+      populateAdminPanel();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -857,58 +929,57 @@
 
     <main class="flex-1 p-3.5 space-y-4 overflow-y-auto">
 
-      <section id="tab-home" class="space-y-3.5">
+      <section id="tab-home" class="space-y-4">
         <div class="glass-card-glow rounded-2xl p-4 relative overflow-hidden space-y-3">
-          <div class="flex justify-between items-start">
+          <div class="flex justify-between items-center">
             <div>
-              <p class="text-[10px] uppercase tracking-wider text-emerald-400/80 font-semibold">Total Portfolio Balance</p>
+              <p class="text-[10px] uppercase tracking-wider text-emerald-400/80 font-semibold">Wallet Balance</p>
               <h2 id="homeDisplayBalance" class="text-2xl font-extrabold text-white mt-0.5">$1,250.00</h2>
             </div>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Active Protocol</span>
-          </div>
-          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-emerald-800/40">
-            <div>
-              <p class="text-[9px] text-emerald-400 font-bold uppercase">Daily Earning</p>
-              <p id="homeDailyYieldDisplay" class="text-sm font-extrabold text-emerald-200">$18.75 / day</p>
-            </div>
-            <div>
-              <p class="text-[9px] text-emerald-400 font-bold uppercase">Total Earning Projection</p>
-              <p id="homeTotalEarnDisplay" class="text-sm font-extrabold text-amber-300">$1,875.00</p>
-            </div>
+            <button onclick="claimDailyBonus()" id="dailyBonusClaimBtn" class="px-3.5 py-2 rounded-xl text-xs font-bold btn-emerald shadow-lg">Claim Daily Bonus</button>
           </div>
         </div>
 
         <div>
-          <h2 class="text-xs font-bold text-emerald-200 mb-2 uppercase tracking-wide">News & Bulletin Announcements</h2>
+          <h2 class="text-xs font-bold text-emerald-200 mb-2 uppercase tracking-wide">Daily News & Bulletin Announcements</h2>
           <div id="homeNewsContainer" class="space-y-3"></div>
         </div>
 
         <div class="pt-2">
-          <h2 class="text-xs font-bold text-emerald-200 mb-2 uppercase tracking-wide">Upcoming Company Events & RSVPs</h2>
+          <h2 class="text-xs font-bold text-emerald-200 mb-2 uppercase tracking-wide">Daily Events & RSVP Center</h2>
           <div id="homeEventsContainer" class="space-y-3"></div>
         </div>
       </section>
 
       <section id="tab-invest" class="space-y-3.5 hidden">
         <div>
-          <h2 class="text-sm font-bold text-emerald-100">Green Asset Catalog</h2>
-          <p class="text-[11px] text-emerald-400/70">Select project category & choose duration plan</p>
+          <h2 class="text-sm font-bold text-emerald-100">Green Asset Catalog & Coming Soon</h2>
+          <p class="text-[11px] text-emerald-400/70">Select industry category to inspect companies & invest</p>
         </div>
+
+        <div class="flex gap-1 overflow-x-auto no-scrollbar pb-1">
+          <button onclick="switchInvestCategory('Solar Power')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap">Solar Power</button>
+          <button onclick="switchInvestCategory('EV Charging')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap">EV Charging</button>
+          <button onclick="switchInvestCategory('Crypto Mining')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap">Crypto Mining</button>
+          <button onclick="switchInvestCategory('AI Platforms')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap">AI Platforms</button>
+          <button onclick="switchInvestCategory('EV Cars')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 whitespace-nowrap">EV Cars</button>
+        </div>
+
         <div id="investCatalogList" class="space-y-3"></div>
       </section>
 
-      <section id="tab-tasks" class="space-y-3 hidden">
+      <section id="tab-tasks" class="space-y-3.5 hidden">
         <div class="glass-card p-3.5 rounded-2xl bg-gradient-to-r from-emerald-950/60 to-emerald-900/30 border border-emerald-500/30">
-          <h2 class="text-sm font-bold text-amber-200">Daily Gift & Bonus Center</h2>
-          <p class="text-[10px] text-emerald-300/80">Verify your profile for a $20 bonus or complete social tasks!</p>
+          <h2 class="text-sm font-bold text-amber-200">Daily Earning Tasks</h2>
+          <p class="text-[10px] text-emerald-300/80">Complete social tasks below to instantly boost your wallet balance!</p>
         </div>
         <div id="tasksListContainer" class="space-y-2.5"></div>
       </section>
 
       <section id="tab-refer" class="space-y-3.5 hidden">
         <div class="glass-card p-4 rounded-2xl text-center space-y-2.5">
-          <h2 class="text-sm font-bold text-emerald-100">Bronze Investor (VIP 1)</h2>
-          <p class="text-[11px] text-emerald-300/80">Earn $1 per referral upon successful invite!</p>
+          <h2 class="text-sm font-bold text-emerald-100">Bronze Investor (VIP Level 1)</h2>
+          <p class="text-[11px] text-emerald-300/80">Invite friends and earn $1 per invite milestone bonus!</p>
           <div class="bg-black/50 p-2.5 rounded-xl border border-emerald-900/50 flex items-center justify-between">
             <span class="text-[10px] font-mono text-emerald-300 truncate mr-2">https://t.me/GreenEarnBot?start=ref9821</span>
             <button onclick="copyRefLink()" class="px-2.5 py-1 text-[11px] font-bold rounded btn-emerald">Copy</button>
@@ -918,23 +989,38 @@
 
       <section id="tab-wallet" class="space-y-3.5 hidden">
         <div class="glass-card p-4 rounded-2xl space-y-3">
-          <div class="flex gap-2">
+          <div class="flex gap-1.5">
             <button onclick="switchWalletTab('deposit')" class="flex-1 py-2 text-xs font-bold rounded-xl btn-emerald">Deposit</button>
             <button onclick="switchWalletTab('withdraw')" class="flex-1 py-2 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-900">Withdraw</button>
+            <button onclick="switchWalletTab('history')" class="flex-1 py-2 text-xs font-bold rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-900">History</button>
           </div>
 
           <div id="walletDepositSection" class="space-y-3">
-            <p class="text-xs text-emerald-300/80">Send USDT via TRC-20 network to your dedicated deposit address:</p>
-            <div class="bg-black/60 p-2.5 rounded-xl border border-emerald-900/50 flex items-center justify-between">
-              <span class="text-[10px] font-mono text-emerald-300 truncate mr-2">T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB</span>
+            <p class="text-xs text-emerald-300/80">Send USDT (TRC-20) or Bitcoin to our payment address:</p>
+            <div class="bg-black/60 p-2.5 rounded-xl border border-emerald-900/50">
+              <span class="text-[10px] font-mono text-emerald-300 block">USDT TRC20: T9zXp7KqM2L8vN4wE1rS3tY5uI6oP8aB</span>
+              <span class="text-[10px] font-mono text-amber-300 block mt-1">BTC: bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</span>
             </div>
-            <input id="depositTxIdInput" type="text" placeholder="Paste TRC-20 Transaction Hash (TxID)" class="w-full p-2.5 text-xs rounded-xl">
-            <button onclick="submitDepositRequest()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Submit Deposit Proof</button>
+            <input id="depositAmountInput" type="number" placeholder="Deposit Amount ($)" class="w-full p-2.5 text-xs rounded-xl">
+            <div class="space-y-1">
+              <label class="text-[10px] text-emerald-300 font-bold block">Upload Payment Screenshot</label>
+              <input type="file" accept="image/*" onchange="handleDepositScreenshotUpload(event)" class="w-full p-1 text-[10px] rounded file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500 file:text-black">
+              <div id="depositScreenshotContainer" class="hidden pt-1">
+                <img id="depositScreenshotPreview" src="" class="w-full h-24 object-cover rounded-lg border border-emerald-800">
+              </div>
+            </div>
+            <button onclick="submitDepositRequest()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Submit Deposit & Proof for Admin Confirmation</button>
           </div>
 
           <div id="walletWithdrawSection" class="space-y-3 hidden">
-            <input id="withdrawAmountInput" type="number" placeholder="Withdrawal Amount ($)" class="w-full p-2.5 text-xs rounded-xl">
+            <input id="withdrawAmountInput" type="number" placeholder="Withdrawal Amount ($)" class="w-full p-2.5 text-xs rounded-xl mb-2">
+            <input id="withdrawMethodInput" type="text" placeholder="Enter your Wallet Address or Bank Account info" class="w-full p-2.5 text-xs rounded-xl mb-2">
             <button onclick="submitWithdrawRequest()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Request Withdrawal</button>
+          </div>
+
+          <div id="walletHistorySection" class="space-y-2.5 hidden">
+            <h3 class="text-xs font-bold text-emerald-200">Investment & Transaction Ledger</h3>
+            <div id="walletHistoryContainer" class="space-y-2 max-h-72 overflow-y-auto no-scrollbar"></div>
           </div>
         </div>
       </section>
@@ -991,16 +1077,7 @@
               </div>
             </div>
 
-            <button onclick="submitKycProfileForm()" class="w-full py-2 text-xs font-bold btn-emerald mt-2">Submit KYC & Get $20 Bonus</button>
-          </div>
-
-          <div class="p-3 bg-black/50 rounded-xl border border-emerald-800/50 space-y-2.5">
-            <h4 class="text-[11px] font-bold text-emerald-200 flex items-center gap-1.5"><i class="fa-solid fa-headset text-emerald-400"></i> Support & Message Admin</h4>
-            <div id="profileSupportChatBox" class="space-y-2 max-h-36 overflow-y-auto no-scrollbar p-1"></div>
-            <div class="flex gap-2 pt-1">
-              <input id="userSupportInput" type="text" placeholder="Type message to admin..." class="w-full p-2 text-xs rounded-xl">
-              <button onclick="sendSupportMessage()" class="px-4 py-2 text-xs font-bold btn-emerald rounded-xl">Send</button>
-            </div>
+            <button onclick="submitKycProfileForm()" class="w-full py-2 text-xs font-bold btn-emerald mt-2">Submit KYC for Admin Verification</button>
           </div>
         </div>
       </section>
@@ -1010,12 +1087,12 @@
           <div class="flex justify-between items-center border-b border-purple-900/40 pb-2">
             <h2 class="text-xs font-extrabold text-purple-200 uppercase tracking-wide">Main Admin Control Center</h2>
           </div>
-          <div class="flex space-x-1 overflow-x-auto no-scrollbar pb-1 border-b border-purple-900/40">
-            <button onclick="switchAdminSubTab('users')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-purple-700 text-white whitespace-nowrap">Balances</button>
-            <button onclick="switchAdminSubTab('kyc')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">KYC Verify</button>
-            <button onclick="switchAdminSubTab('news')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">News & Events</button>
-            <button onclick="switchAdminSubTab('tasks')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">Tasks</button>
-            <button onclick="switchAdminSubTab('support')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg text-purple-300 whitespace-nowrap">Support Chat</button>
+          <div class="flex space-x-1 overflow-x-auto no-scrollbar pb-1 border-b border-purple-900/40 text-[11px]">
+            <button onclick="switchAdminSubTab('users')" class="px-2.5 py-1 font-bold rounded-lg bg-purple-700 text-white whitespace-nowrap">Balances</button>
+            <button onclick="switchAdminSubTab('kyc')" class="px-2.5 py-1 font-bold rounded-lg text-purple-300 whitespace-nowrap">KYC Verify</button>
+            <button onclick="switchAdminSubTab('finance')" class="px-2.5 py-1 font-bold rounded-lg text-purple-300 whitespace-nowrap">Finance & Pay</button>
+            <button onclick="switchAdminSubTab('yields')" class="px-2.5 py-1 font-bold rounded-lg text-purple-300 whitespace-nowrap">Yield Rates</button>
+            <button onclick="switchAdminSubTab('news')" class="px-2.5 py-1 font-bold rounded-lg text-purple-300 whitespace-nowrap">News & Events</button>
           </div>
 
           <div id="adm-sub-users" class="space-y-2.5 mt-2">
@@ -1032,29 +1109,41 @@
             <div id="adminKycVerifyList" class="space-y-2.5 max-h-72 overflow-y-auto no-scrollbar"></div>
           </div>
 
+          <div id="adm-sub-finance" class="space-y-2.5 mt-2 hidden">
+            <h3 class="text-xs font-bold text-purple-200">Deposit & Withdrawal Confirmations</h3>
+            <div id="adminTransactionsList" class="space-y-2.5 max-h-64 overflow-y-auto no-scrollbar"></div>
+            <div class="pt-2 border-t border-purple-900/40">
+              <label class="text-[10px] text-purple-300 font-bold block">Daily Login Bonus Amount ($)</label>
+              <input id="admDailyBonusInput" type="number" value="5" class="w-full p-2 text-xs rounded-lg mb-2">
+              <button onclick="adminSaveDailyBonus()" class="w-full py-1.5 text-xs font-bold btn-emerald">Update Bonus Amount</button>
+            </div>
+          </div>
+
+          <div id="adm-sub-yields" class="space-y-2.5 mt-2 hidden">
+            <h3 class="text-xs font-bold text-purple-200">Edit Plan Yield Percentages (% per day)</h3>
+            <div class="grid grid-cols-2 gap-2 text-[10px] text-purple-300">
+              <div>1 Day: <input id="yieldRate1d" type="number" value="1.5" class="w-full p-1 rounded"></div>
+              <div>15 Days: <input id="yieldRate15d" type="number" value="1.9" class="w-full p-1 rounded"></div>
+              <div>1 Month: <input id="yieldRate1m" type="number" value="2.5" class="w-full p-1 rounded"></div>
+              <div>6 Months: <input id="yieldRate6m" type="number" value="4.0" class="w-full p-1 rounded"></div>
+              <div>1 Year: <input id="yieldRate1y" type="number" value="15.0" class="w-full p-1 rounded"></div>
+              <div>5 Years: <input id="yieldRate5y" type="number" value="35.0" class="w-full p-1 rounded"></div>
+              <div>10 Years: <input id="yieldRate10y" type="number" value="90.0" class="w-full p-1 rounded"></div>
+            </div>
+            <button onclick="adminSaveYieldRates()" class="w-full py-2 text-xs font-bold btn-emerald mt-2">Save Yield Percentages</button>
+          </div>
+
           <div id="adm-sub-news" class="space-y-2.5 mt-2 hidden">
-            <h3 class="text-xs font-bold text-purple-200">Publish News & Events</h3>
+            <h3 class="text-xs font-bold text-purple-200">Publish News & Events with Images</h3>
             <input id="admNewsHeadline" type="text" placeholder="News Headline" class="w-full p-2 text-xs rounded-lg mb-2">
             <textarea id="admNewsText" rows="2" placeholder="News Content" class="w-full p-2 text-xs rounded-lg mb-2"></textarea>
-            <input id="admNewsImgUrl" type="text" placeholder="Banner Image URL (optional)" class="w-full p-2 text-xs rounded-lg mb-2">
+            <input id="admNewsImgUrl" type="text" placeholder="News Banner Image URL" class="w-full p-2 text-xs rounded-lg mb-2">
             <button onclick="adminPublishNews()" class="w-full py-2 text-xs font-bold btn-emerald mb-3">Publish News</button>
             <input id="admEventTitle" type="text" placeholder="Event Title" class="w-full p-2 text-xs rounded-lg mb-2">
             <input id="admEventDate" type="text" placeholder="Event Date" class="w-full p-2 text-xs rounded-lg mb-2">
+            <textarea id="admEventDesc" rows="2" placeholder="Event Description" class="w-full p-2 text-xs rounded-lg mb-2"></textarea>
+            <input id="admEventImgUrl" type="text" placeholder="Event Image URL" class="w-full p-2 text-xs rounded-lg mb-2">
             <button onclick="adminCreateEvent()" class="w-full py-2 text-xs font-bold btn-emerald">Publish Event</button>
-          </div>
-
-          <div id="adm-sub-tasks" class="space-y-2.5 mt-2 hidden">
-            <h3 class="text-xs font-bold text-purple-200">Add New Task</h3>
-            <input id="admTaskTitle" type="text" placeholder="Task Title" class="w-full p-2 text-xs rounded-lg mb-2">
-            <input id="admTaskReward" type="number" placeholder="Reward Amount ($)" class="w-full p-2 text-xs rounded-lg mb-2">
-            <input id="admTaskLink" type="text" placeholder="Redirect Link URL" class="w-full p-2 text-xs rounded-lg mb-2">
-            <button onclick="adminAddTask()" class="w-full py-2 text-xs font-bold btn-emerald mb-3">Add Task</button>
-            <div id="adminTasksManagerList" class="space-y-2 max-h-40 overflow-y-auto no-scrollbar"></div>
-          </div>
-
-          <div id="adm-sub-support" class="space-y-2.5 mt-2 hidden">
-            <h3 class="text-xs font-bold text-purple-200">User Support Messages</h3>
-            <div id="adminSupportChatContainer" class="space-y-2 max-h-56 overflow-y-auto no-scrollbar"></div>
           </div>
         </div>
       </section>
@@ -1064,8 +1153,16 @@
     <div id="investConfirmModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
       <div class="glass-card-glow w-full max-w-sm rounded-2xl p-4 space-y-3.5 relative">
         <button onclick="closeInvestConfirmModal()" class="absolute top-3 right-3 text-emerald-400 text-sm">✕</button>
-        <h3 class="text-sm font-bold text-emerald-100">Confirm Investment</h3>
-        <input id="investInputAmount" type="number" value="100" class="w-full p-2 text-xs font-bold rounded-lg">
+        <h3 id="investModalTitle" class="text-sm font-bold text-emerald-100">Invest in Asset</h3>
+        <div>
+          <label class="text-[10px] text-emerald-300 font-bold block mb-1">Select Investment Duration Plan</label>
+          <select id="investPlanSelect" onchange="calculateInvestReturn()" class="w-full p-2 text-xs rounded-lg mb-2"></select>
+        </div>
+        <div>
+          <label class="text-[10px] text-emerald-300 font-bold block mb-1">Investment Amount ($)</label>
+          <input id="investInputAmount" type="number" value="100" oninput="calculateInvestReturn()" class="w-full p-2 text-xs font-bold rounded-lg">
+        </div>
+        <p id="investEstimatedReturnDisplay" class="text-[11px] text-amber-300 font-bold"></p>
         <button onclick="confirmAndLockInvestment()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">CONFIRM & LOCK INVESTMENT</button>
       </div>
     </div>
