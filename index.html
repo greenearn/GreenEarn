@@ -143,7 +143,6 @@
       document.getElementById('authCardSignin').classList.toggle('hidden', mode !== 'signin');
       document.getElementById('authCardSignup').classList.toggle('hidden', mode !== 'signup');
       document.getElementById('authCardForgot').classList.toggle('hidden', mode !== 'forgot');
-      document.getElementById('authCardAdmin').classList.toggle('hidden', mode !== 'admin');
     }
 
     function handleSignIn() {
@@ -153,6 +152,19 @@
         showToast('Please enter email and password!');
         return;
       }
+      
+      // Check Admin login credentials
+      if (email === 'admin@gmail.com' && pass === 'admin123') {
+        state.currentUser = { id: 999, username: 'Main Administrator', email: 'admin@gmail.com', role: 'Admin', kycStatus: 'Verified' };
+        state.adminRole = 'main';
+        saveState();
+        document.getElementById('authGateContainer').classList.add('hidden');
+        renderApp();
+        switchTab('admin');
+        showToast('Main Admin access granted successfully!');
+        return;
+      }
+
       const found = state.registeredUsers.find(u => u.email === email && u.password === pass);
       if (found) {
         state.currentUser = found;
@@ -209,21 +221,6 @@
       }
       showToast('Password reset instructions sent to your email!');
       switchAuthTab('signin');
-    }
-
-    function handleAdminLogin() {
-      const pin = document.getElementById('adminPinInput').value.trim();
-      if (pin === state.adminPin) {
-        state.currentUser = { id: 999, username: 'Main Administrator', email: 'admin@greenearn.io', role: 'Admin', kycStatus: 'Verified' };
-        state.adminRole = 'main';
-        saveState();
-        document.getElementById('authGateContainer').classList.add('hidden');
-        renderApp();
-        switchTab('admin');
-        showToast('Main Admin access granted successfully!');
-      } else {
-        showToast('Incorrect Admin Passcode! (Default PIN: 7777)');
-      }
     }
 
     function handleLogout() {
@@ -922,7 +919,7 @@
 </head>
 <body class="flex justify-center bg-black min-h-screen">
 
-  <!-- AUTH GATE CONTAINER (Login / Signup / Forgot / Admin PIN) -->
+  <!-- AUTH GATE CONTAINER (Login / Signup / Forgot) -->
   <div id="authGateContainer" class="fixed inset-0 z-50 bg-[#040d08] flex items-center justify-center p-4 overflow-y-auto">
     <div class="glass-card-glow w-full max-w-sm rounded-3xl p-6 space-y-5 border border-emerald-500/40 shadow-2xl">
       <div class="text-center space-y-2">
@@ -936,16 +933,13 @@
       <!-- 1. SIGN IN CARD -->
       <div id="authCardSignin" class="space-y-3">
         <h2 class="text-xs font-bold text-emerald-200 uppercase tracking-wide">Sign In to Your Account</h2>
-        <input id="signinEmail" type="email" placeholder="Email Address" class="w-full p-2.5 rounded-xl text-xs">
-        <input id="signinPass" type="password" placeholder="Password" class="w-full p-2.5 rounded-xl text-xs">
+        <input id="signinEmail" type="email" placeholder="Email Address (Demo Admin: admin@gmail.com)" class="w-full p-2.5 rounded-xl text-xs">
+        <input id="signinPass" type="password" placeholder="Password (Demo Admin: admin123)" class="w-full p-2.5 rounded-xl text-xs">
         <button onclick="handleSignIn()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Sign In</button>
         <div class="flex justify-between text-[10px] pt-1">
           <button onclick="switchAuthTab('signup')" class="text-emerald-400 underline">Create Account</button>
           <button onclick="switchAuthTab('forgot')" class="text-emerald-400/80 underline">Forgot Password?</button>
         </div>
-        <button onclick="switchAuthTab('admin')" class="w-full py-2 text-[10px] font-bold rounded-lg bg-purple-900/40 text-purple-300 border border-purple-500/50 mt-2">
-          👑 Admin Panel Login (PIN: 7777)
-        </button>
       </div>
 
       <!-- 2. SIGN UP CARD -->
@@ -968,19 +962,6 @@
         <button onclick="handleForgotPassword()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-emerald">Send Reset Link</button>
         <div class="text-center pt-1">
           <button onclick="switchAuthTab('signin')" class="text-[10px] text-emerald-400 underline">Back to Sign In</button>
-        </div>
-      </div>
-
-      <!-- 4. ADMIN LOGIN PIN CARD -->
-      <div id="authCardAdmin" class="space-y-3 hidden">
-        <h2 class="text-xs font-bold text-purple-300 uppercase tracking-wide flex items-center gap-1">
-          <i class="fa-solid fa-crown text-amber-300"></i> Admin Security Gate
-        </h2>
-        <p class="text-[10px] text-purple-200/80">Enter secure admin passcode to access backend controls.</p>
-        <input id="adminPinInput" type="password" placeholder="Enter Admin PIN (Default: 7777)" class="w-full p-2.5 rounded-xl text-xs font-mono text-center tracking-widest">
-        <button onclick="handleAdminLogin()" class="w-full py-2.5 rounded-xl text-xs font-bold bg-purple-700 text-white hover:bg-purple-600">Access Admin Dashboard</button>
-        <div class="text-center pt-1">
-          <button onclick="switchAuthTab('signin')" class="text-[10px] text-purple-300 underline">Back to User Login</button>
         </div>
       </div>
     </div>
